@@ -8,3 +8,4 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.exe
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.pdb
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.Views.ViewDoc.resources
