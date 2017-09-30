@@ -1,0 +1,10 @@
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\GraduationHelper.exe.config
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\GraduationHelper.exe
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\GraduationHelper.pdb
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csprojResolveAssemblyReference.cache
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.MainForm.resources
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.Properties.Resources.resources
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csproj.GenerateResource.Cache
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.exe
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.pdb
