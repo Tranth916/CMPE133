@@ -51,10 +51,14 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
+			this.testButton = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.groupBox1.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -199,7 +203,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1905, 40);
+			this.menuStrip1.Size = new System.Drawing.Size(1905, 42);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -211,31 +215,33 @@
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
 			this.openToolStripMenuItem.Text = "Open";
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
 			this.saveToolStripMenuItem.Text = "Save";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSessionBtnClick);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
+			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSessionBtnClick);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.OnExitBtnClick);
 			// 
@@ -244,7 +250,7 @@
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(77, 36);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(77, 38);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
 			// aboutToolStripMenuItem
@@ -289,11 +295,43 @@
 			this.downloadFormsCheckList.Size = new System.Drawing.Size(503, 186);
 			this.downloadFormsCheckList.TabIndex = 0;
 			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(12, 850);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(182, 178);
+			this.testButton.TabIndex = 3;
+			this.testButton.Text = "TEST";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.webBrowser1);
+			this.panel1.Location = new System.Drawing.Point(632, 70);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(1245, 1120);
+			this.panel1.TabIndex = 4;
+			// 
+			// webBrowser1
+			// 
+			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webBrowser1.Name = "webBrowser1";
+			this.webBrowser1.Size = new System.Drawing.Size(1245, 1120);
+			this.webBrowser1.TabIndex = 0;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScroll = true;
+			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(1905, 1202);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.menuStrip1);
@@ -306,6 +344,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -336,6 +375,9 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
+		private System.Windows.Forms.Button testButton;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.WebBrowser webBrowser1;
 	}
 }
 

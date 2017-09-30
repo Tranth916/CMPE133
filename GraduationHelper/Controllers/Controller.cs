@@ -14,6 +14,10 @@ namespace GraduationHelper.Controllers
 		#region Private Members
 		private MainForm _mainForm;
 		private Student _student;
+		private String SessionFileLocation
+		{
+			set;get;
+		}
 		#endregion
 
 		#region Public Properties
@@ -70,6 +74,14 @@ namespace GraduationHelper.Controllers
 					_student.Major = fieldValue ?? "";
 					break;
 			}
+		}
+
+		public void SaveCurrentSession(string path = "")
+		{
+			if (_student == null)
+				return;
+
+			_student.SaveStudentXML(path);
 		}
 
 		private int ConvertTextToNumber(string str)

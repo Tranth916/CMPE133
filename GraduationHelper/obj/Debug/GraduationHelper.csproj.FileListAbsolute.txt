@@ -9,3 +9,10 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.exe
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.pdb
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.Views.ViewDoc.resources
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\itextsharp.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\itextsharp.xml
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\Interop.AcroPDFLib.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\AxInterop.AcroPDFLib.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\Interop.AcroPDFLib.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\AxInterop.AcroPDFLib.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csproj.ResolveComReference.cache

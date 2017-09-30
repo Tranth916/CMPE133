@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GraduationHelper.Controllers;
-using PdfSharp.Pdf.IO;
+using System.Diagnostics;
 
 namespace GraduationHelper
 {
@@ -26,7 +26,6 @@ namespace GraduationHelper
 		{
 			_controller = new Controller(this);
 		}
-
 
 		private void OnTextFieldValueChanged(object sender, EventArgs e)
 		{
@@ -59,6 +58,44 @@ namespace GraduationHelper
 			}
 			
 			_controller.DownloadForms(forms.ToArray());
+		}
+
+		private void OnSaveSessionBtnClick(object sender, EventArgs e)
+		{
+			if (_controller == null)
+				return;
+
+			string saveType = "";
+
+			if(sender is ToolStripMenuItem)
+				saveType = (sender as ToolStripMenuItem).Name;
+
+			SaveFileDialog sfd = new SaveFileDialog()
+			{
+				CheckPathExists = true,
+				Filter = ".xml | .XML",
+				DefaultExt = ".xml | .XML",
+			};
+			
+			if(saveType == "saveToolStripMenuItem")
+			{
+
+			}
+			else if(saveType == "saveAsToolStripMenuItem")
+			{
+				DialogResult dr = sfd.ShowDialog();
+
+				if(dr == DialogResult.OK && sfd.FileName != null)
+				{
+					_controller.SaveCurrentSession(sfd.FileName);
+				}
+			}
+		}
+
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			webBrowser1.Navigate($"C:\\Downloader\\test.pdf");
+			
 		}
 	}
 }
