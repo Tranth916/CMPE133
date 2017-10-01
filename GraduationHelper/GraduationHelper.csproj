@@ -58,6 +58,7 @@
     <Compile Include="Models\PDFDoc.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\WordDoc.cs" />
+    <Compile Include="Utils\PdfHelper.cs" />
     <Compile Include="Utils\XmlHelper.cs" />
     <Compile Include="Views\AboutForm.cs">
       <SubType>Form</SubType>

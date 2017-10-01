@@ -177,14 +177,14 @@ namespace GraduationHelper
 		{
 			try
 			{
-				PDFDoc pdf = new PDFDoc(Application.StartupPath + "\\grad_app.pdf");
-				
+				PDFDoc pdf = new PDFDoc(Application.StartupPath + "\\empty.pdf");
 
+				pdf.WriteAndSaveFirstName();
 
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-
+				MessageBox.Show(ex.Message);
 			}
 			
 		}
