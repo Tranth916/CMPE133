@@ -48,16 +48,16 @@
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.dlFormsGroupBox = new System.Windows.Forms.GroupBox();
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
 			this.testButton = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+			this.label6 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
+			this.dlFormsGroupBox.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -66,7 +66,8 @@
 			this.groupBox1.AutoSize = true;
 			this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox1.Controls.Add(this.userInfoTable);
-			this.groupBox1.Location = new System.Drawing.Point(12, 70);
+			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.groupBox1.Location = new System.Drawing.Point(17, 75);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(583, 340);
 			this.groupBox1.TabIndex = 0;
@@ -201,9 +202,9 @@
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Location = new System.Drawing.Point(5, 5);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1905, 42);
+			this.menuStrip1.Size = new System.Drawing.Size(1895, 40);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -215,33 +216,34 @@
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
 			this.openToolStripMenuItem.Text = "Open";
+			this.openToolStripMenuItem.Click += new System.EventHandler(this.OnOpenSessionBtnClick);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSessionBtnClick);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
 			this.saveAsToolStripMenuItem.Text = "Save As...";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.OnSaveSessionBtnClick);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.OnExitBtnClick);
 			// 
@@ -250,7 +252,7 @@
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(77, 38);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(77, 36);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
 			// aboutToolStripMenuItem
@@ -258,17 +260,19 @@
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
 			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(179, 38);
 			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutMenuItemClick);
 			// 
-			// groupBox2
+			// dlFormsGroupBox
 			// 
-			this.groupBox2.Controls.Add(this.downloadFormsBtn);
-			this.groupBox2.Controls.Add(this.downloadFormsCheckList);
-			this.groupBox2.Location = new System.Drawing.Point(12, 447);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(583, 348);
-			this.groupBox2.TabIndex = 2;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Download Forms";
+			this.dlFormsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.dlFormsGroupBox.Controls.Add(this.downloadFormsBtn);
+			this.dlFormsGroupBox.Controls.Add(this.downloadFormsCheckList);
+			this.dlFormsGroupBox.Location = new System.Drawing.Point(12, 447);
+			this.dlFormsGroupBox.Name = "dlFormsGroupBox";
+			this.dlFormsGroupBox.Size = new System.Drawing.Size(583, 351);
+			this.dlFormsGroupBox.TabIndex = 2;
+			this.dlFormsGroupBox.TabStop = false;
+			this.dlFormsGroupBox.Text = "Download Forms";
 			// 
 			// downloadFormsBtn
 			// 
@@ -292,12 +296,13 @@
             "Graduation Application"});
 			this.downloadFormsCheckList.Location = new System.Drawing.Point(20, 55);
 			this.downloadFormsCheckList.Name = "downloadFormsCheckList";
+			this.downloadFormsCheckList.ScrollAlwaysVisible = true;
 			this.downloadFormsCheckList.Size = new System.Drawing.Size(503, 186);
 			this.downloadFormsCheckList.TabIndex = 0;
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(12, 850);
+			this.testButton.Location = new System.Drawing.Point(413, 999);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(182, 178);
 			this.testButton.TabIndex = 3;
@@ -307,20 +312,24 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.webBrowser1);
-			this.panel1.Location = new System.Drawing.Point(632, 70);
+			this.panel1.AutoSize = true;
+			this.panel1.BackColor = System.Drawing.SystemColors.Window;
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel1.Controls.Add(this.label6);
+			this.panel1.Location = new System.Drawing.Point(637, 75);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(1245, 1120);
 			this.panel1.TabIndex = 4;
 			// 
-			// webBrowser1
+			// label6
 			// 
-			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(1245, 1120);
-			this.webBrowser1.TabIndex = 0;
+			this.label6.AutoSize = true;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.Location = new System.Drawing.Point(123, 40);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(954, 868);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "DISPLAY \r\nTHE \r\nPDF\r\nHERE!!!\r\n";
 			// 
 			// MainForm
 			// 
@@ -332,19 +341,23 @@
 			this.ClientSize = new System.Drawing.Size(1905, 1202);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.testButton);
-			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.dlFormsGroupBox);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
+			this.Padding = new System.Windows.Forms.Padding(5);
+			this.ShowIcon = false;
 			this.Text = "Graduation Helper";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.groupBox1.ResumeLayout(false);
 			this.userInfoTable.ResumeLayout(false);
 			this.userInfoTable.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
+			this.dlFormsGroupBox.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -372,12 +385,12 @@
 		private System.Windows.Forms.TextBox majorNameTxtBox;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox dlFormsGroupBox;
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
 		private System.Windows.Forms.Button testButton;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.WebBrowser webBrowser1;
+		private System.Windows.Forms.Label label6;
 	}
 }
 

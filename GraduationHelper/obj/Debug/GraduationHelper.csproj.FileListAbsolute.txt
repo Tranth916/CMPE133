@@ -16,3 +16,4 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\AxInterop.AcroPD
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\Interop.AcroPDFLib.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\AxInterop.AcroPDFLib.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.csproj.ResolveComReference.cache
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\Debug\GraduationHelper.Views.AboutForm.resources

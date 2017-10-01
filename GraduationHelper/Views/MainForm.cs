@@ -9,12 +9,30 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GraduationHelper.Controllers;
 using System.Diagnostics;
+using GraduationHelper.Views;
+using GraduationHelper.Utils;
+using GraduationHelper.Interfaces;
+using GraduationHelper.Models;
 
 namespace GraduationHelper
 {
-	public partial class MainForm : Form
+	public partial class MainForm : Form, IView
 	{
 		private Controller _controller;
+
+		#region Constants
+		public static readonly int FirstNameIndex = 0;
+		public static readonly int MiddleNameIndex = 1;
+		public static readonly int LastNameIndex = 2;
+		public static readonly int StudentIdIndex = 3;
+		public static readonly int MajorNameIndex = 4;
+		
+		public static readonly int NumberOfConfig = 5;
+		#endregion
+
+		#region IView Members
+		public string ViewTitle { set; get; }
+		#endregion
 
 		public MainForm()
 		{
@@ -25,6 +43,29 @@ namespace GraduationHelper
 		private void Init()
 		{
 			_controller = new Controller(this);
+
+			LoadConfigOnStartup();
+
+			this.FormClosing += (o, e) => 
+			{
+				//if(axAcroPDF1 != null)
+				//{
+				//	axAcroPDF1.Dispose();
+				//	axAcroPDF1 = null;
+				//}
+			};
+		}
+
+		public void UpdatePersonalInfoFields(string[] infos)
+		{
+			if (infos.Length < 5)
+				return;
+
+			firstNameTxtBox.Text = infos[FirstNameIndex];
+			middleNameTxtBox.Text = infos[MiddleNameIndex];
+			lastNameTxtBox.Text = infos[LastNameIndex];
+			stuIdTxtBox.Text = infos[StudentIdIndex];
+			majorNameTxtBox.Text = infos[MajorNameIndex];
 		}
 
 		private void OnTextFieldValueChanged(object sender, EventArgs e)
@@ -60,6 +101,27 @@ namespace GraduationHelper
 			_controller.DownloadForms(forms.ToArray());
 		}
 
+		private void OnOpenSessionBtnClick(object sender, EventArgs e)
+		{
+			if (_controller == null)
+				return;
+
+			OpenFileDialog ofd = new OpenFileDialog()
+			{
+				CheckFileExists = true,
+				Filter = "*.XML | *.xml",
+				Multiselect = false,
+			};
+
+			DialogResult dr = ofd.ShowDialog();
+			
+			if(dr == DialogResult.OK)
+			{
+				_controller.LoadSession(ofd.FileName);
+			}
+
+		}
+
 		private void OnSaveSessionBtnClick(object sender, EventArgs e)
 		{
 			if (_controller == null)
@@ -92,9 +154,38 @@ namespace GraduationHelper
 			}
 		}
 
+		private void OnAboutMenuItemClick(object sender, EventArgs e)
+		{
+			AboutForm af = new AboutForm();
+			af.ShowDialog();
+		}
+
+		private void LoadConfigOnStartup()
+		{
+			string startPath = Application.StartupPath + "\\Config.xml";
+
+			string[] data  = _controller.LoadConfiguration(startPath);
+
+			firstNameTxtBox.Text = data[FirstNameIndex];
+			middleNameTxtBox.Text = data[MiddleNameIndex];
+			lastNameTxtBox.Text = data[LastNameIndex];
+			stuIdTxtBox.Text = data[StudentIdIndex];
+			majorNameTxtBox.Text = data[MajorNameIndex];
+		}
+
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			webBrowser1.Navigate($"C:\\Downloader\\test.pdf");
+			try
+			{
+				PDFDoc pdf = new PDFDoc(Application.StartupPath + "\\grad_app.pdf");
+				
+
+
+			}
+			catch(Exception)
+			{
+
+			}
 			
 		}
 	}

@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using GraduationHelper;
 using GraduationHelper.Models;
+using System.Xml.Linq;
+using GraduationHelper.Utils;
 
 namespace GraduationHelper.Controllers
 {
@@ -14,7 +16,7 @@ namespace GraduationHelper.Controllers
 		#region Private Members
 		private MainForm _mainForm;
 		private Student _student;
-		private String SessionFileLocation
+		private string SessionFileLocation
 		{
 			set;get;
 		}
@@ -28,10 +30,14 @@ namespace GraduationHelper.Controllers
 		}
 		#endregion
 
+		#region Constructor
+
 		public Controller(MainForm mainForm)
-		{
-			_mainForm = mainForm;
-		}
+				{
+					_mainForm = mainForm;
+				}
+	
+		#endregion
 
 		public void DownloadForms(string[] forms)
 		{
@@ -54,33 +60,81 @@ namespace GraduationHelper.Controllers
 
 			string fieldName = tf.Tag as string ?? "";
 			string fieldValue = tf.Text;
-
+		
 			switch (fieldName)
 			{
 				case "FirstName":
 					_student.FirstName = fieldValue ?? "";
 					break;
+
 				case "LastName":
 					_student.LastName = fieldValue ?? "";
 					break;
+
 				case "MiddleName":
 					_student.MiddleName = fieldValue ?? "";
-					_student.MiddleInitial = $"{_student.MiddleName[0]}" ?? "";
+					if(_student.MiddleName.Length > 0)
+						_student.MiddleInitial = $"{_student.MiddleName[0]}";
 					break;
+
 				case "StudentID":
 					_student.StudentID = ConvertTextToNumber(fieldValue);
 					break;
+
 				case "Major":
 					_student.Major = fieldValue ?? "";
 					break;
 			}
 		}
 
-		public void SaveCurrentSession(string path = "")
+		public string[] LoadConfiguration(string filePath)
 		{
-			if (_student == null)
+			Dictionary<string, string> configs = XmlHelper.LoadXMLConfiguration(filePath);
+
+			string[] data = new string[]
+			{
+				configs["FirstName"] ?? "",
+				configs["MiddleName"] ?? "",
+				configs["LastName"] ?? "",
+				configs["StudentID"] ?? "",
+				configs["Major"] ?? "",
+			};
+			
+			return data;
+		}
+
+		public void LoadSession(string path)
+		{
+			if (path == null || path.Length == 0)
 				return;
 
+			if (_student == null)
+				_student = new Student();
+
+			bool result = _student.LoadStudentXml(XDocument.Load(path));
+
+			if (result)
+			{
+				string[] data = new string[] 
+				{
+					_student.FirstName,
+					_student.MiddleName,
+					_student.LastName,
+					_student.StudentID.ToString(),
+					_student.Major,
+				};
+
+				_mainForm.UpdatePersonalInfoFields(data);
+			}
+		}
+
+		public void SaveCurrentSession(string path = "")
+		{
+			if (_student == null || path.Length == 0)
+				return;
+
+			SessionFileLocation = path;
+			
 			_student.SaveStudentXML(path);
 		}
 

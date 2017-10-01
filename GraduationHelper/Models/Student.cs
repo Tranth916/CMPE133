@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using GraduationHelper.Utils;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace GraduationHelper.Models
 {
-	[Serializable]
 	public class Student
 	{
 		public Student()
@@ -42,6 +43,20 @@ namespace GraduationHelper.Models
 			set; get;
 		}
 		#endregion
+
+		public bool LoadStudentXml(XDocument doc)
+		{
+			if (doc == null)
+				return false;
+			
+			FirstName = XmlHelper.ReadXPathStrValue(doc, "Student/FirstName");
+			MiddleName = XmlHelper.ReadXPathStrValue(doc, "Student/MiddleName");
+			LastName = XmlHelper.ReadXPathStrValue(doc, "Student/LastName");
+			Major = XmlHelper.ReadXPathStrValue(doc, "Student/Major");
+			StudentID = XmlHelper.ReadXPathIntValue(doc, "Student/StudentID");
+			
+			return true;
+		}
 
 		public void SaveStudentXML(string path)
 		{
