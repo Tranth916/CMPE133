@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.personalInfoGroupBox = new System.Windows.Forms.GroupBox();
 			this.userInfoTable = new System.Windows.Forms.TableLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.firstNameTxtBox = new System.Windows.Forms.TextBox();
@@ -52,27 +52,31 @@
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
 			this.testButton = new System.Windows.Forms.Button();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.label6 = new System.Windows.Forms.Label();
-			this.groupBox1.SuspendLayout();
+			this.dataTabPage = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.dataPage = new System.Windows.Forms.TabPage();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.personalInfoGroupBox.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.dlFormsGroupBox.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.dataTabPage.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// groupBox1
+			// personalInfoGroupBox
 			// 
-			this.groupBox1.AutoSize = true;
-			this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox1.Controls.Add(this.userInfoTable);
-			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.groupBox1.Location = new System.Drawing.Point(17, 75);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(583, 340);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Personal Information";
+			this.personalInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.personalInfoGroupBox.Controls.Add(this.userInfoTable);
+			this.personalInfoGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.personalInfoGroupBox.Location = new System.Drawing.Point(17, 75);
+			this.personalInfoGroupBox.Name = "personalInfoGroupBox";
+			this.personalInfoGroupBox.Size = new System.Drawing.Size(583, 561);
+			this.personalInfoGroupBox.TabIndex = 0;
+			this.personalInfoGroupBox.TabStop = false;
+			this.personalInfoGroupBox.Text = "Personal Information";
 			// 
 			// userInfoTable
 			// 
@@ -103,7 +107,7 @@
 			this.userInfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.userInfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.userInfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-			this.userInfoTable.Size = new System.Drawing.Size(570, 266);
+			this.userInfoTable.Size = new System.Drawing.Size(570, 509);
 			this.userInfoTable.TabIndex = 0;
 			// 
 			// label1
@@ -204,7 +208,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(5, 5);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1895, 40);
+			this.menuStrip1.Size = new System.Drawing.Size(2084, 40);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -267,7 +271,7 @@
 			this.dlFormsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.dlFormsGroupBox.Controls.Add(this.downloadFormsBtn);
 			this.dlFormsGroupBox.Controls.Add(this.downloadFormsCheckList);
-			this.dlFormsGroupBox.Location = new System.Drawing.Point(12, 447);
+			this.dlFormsGroupBox.Location = new System.Drawing.Point(24, 884);
 			this.dlFormsGroupBox.Name = "dlFormsGroupBox";
 			this.dlFormsGroupBox.Size = new System.Drawing.Size(583, 351);
 			this.dlFormsGroupBox.TabIndex = 2;
@@ -302,34 +306,64 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(413, 999);
+			this.testButton.Location = new System.Drawing.Point(642, 30);
 			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(182, 178);
+			this.testButton.Size = new System.Drawing.Size(182, 39);
 			this.testButton.TabIndex = 3;
 			this.testButton.Text = "TEST";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
-			// panel1
-			// 
-			this.panel1.AutoSize = true;
-			this.panel1.BackColor = System.Drawing.SystemColors.Window;
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.label6);
-			this.panel1.Location = new System.Drawing.Point(637, 75);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(1245, 1120);
-			this.panel1.TabIndex = 4;
-			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(123, 40);
+			this.label6.Location = new System.Drawing.Point(254, 111);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(954, 868);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "DISPLAY \r\nTHE \r\nPDF\r\nHERE!!!\r\n";
+			// 
+			// dataTabPage
+			// 
+			this.dataTabPage.Controls.Add(this.tabPage1);
+			this.dataTabPage.Controls.Add(this.dataPage);
+			this.dataTabPage.Location = new System.Drawing.Point(22, 38);
+			this.dataTabPage.Name = "dataTabPage";
+			this.dataTabPage.SelectedIndex = 0;
+			this.dataTabPage.Size = new System.Drawing.Size(1393, 1077);
+			this.dataTabPage.TabIndex = 5;
+			this.dataTabPage.SelectedIndexChanged += new System.EventHandler(this.OnTabIndexChanged);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Controls.Add(this.label6);
+			this.tabPage1.Location = new System.Drawing.Point(8, 39);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(1377, 1030);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "PDF View";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// dataPage
+			// 
+			this.dataPage.Location = new System.Drawing.Point(8, 39);
+			this.dataPage.Name = "dataPage";
+			this.dataPage.Padding = new System.Windows.Forms.Padding(3);
+			this.dataPage.Size = new System.Drawing.Size(1377, 1030);
+			this.dataPage.TabIndex = 1;
+			this.dataPage.Text = "Data";
+			this.dataPage.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.dataTabPage);
+			this.groupBox1.Location = new System.Drawing.Point(642, 89);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(1433, 1146);
+			this.groupBox1.TabIndex = 6;
+			this.groupBox1.TabStop = false;
 			// 
 			// MainForm
 			// 
@@ -338,26 +372,27 @@
 			this.AutoScroll = true;
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(1905, 1202);
-			this.Controls.Add(this.panel1);
+			this.ClientSize = new System.Drawing.Size(2094, 1264);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.dlFormsGroupBox);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.personalInfoGroupBox);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Padding = new System.Windows.Forms.Padding(5);
 			this.ShowIcon = false;
 			this.Text = "Graduation Helper";
-			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			this.groupBox1.ResumeLayout(false);
+			this.personalInfoGroupBox.ResumeLayout(false);
 			this.userInfoTable.ResumeLayout(false);
 			this.userInfoTable.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.dlFormsGroupBox.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			this.dataTabPage.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -365,7 +400,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox personalInfoGroupBox;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -389,8 +424,11 @@
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
 		private System.Windows.Forms.Button testButton;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.TabControl dataTabPage;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage dataPage;
+		private System.Windows.Forms.GroupBox groupBox1;
 	}
 }
 

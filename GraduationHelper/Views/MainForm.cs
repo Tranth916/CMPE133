@@ -19,7 +19,7 @@ namespace GraduationHelper
 	public partial class MainForm : Form, IView
 	{
 		private Controller _controller;
-
+		private InfoForm _infoForm;
 		#region Constants
 		public static readonly int FirstNameIndex = 0;
 		public static readonly int MiddleNameIndex = 1;
@@ -158,6 +158,15 @@ namespace GraduationHelper
 		{
 			AboutForm af = new AboutForm();
 			af.ShowDialog();
+		}
+
+		private void OnTabIndexChanged(object sender, EventArgs e)
+		{
+			if (_infoForm == null)
+			{
+				_infoForm = new InfoForm();
+				dataPage.Controls.Add(_infoForm.GetTable());
+			}
 		}
 
 		private void LoadConfigOnStartup()
