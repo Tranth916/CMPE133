@@ -13,13 +13,26 @@ using GraduationHelper.Views;
 using GraduationHelper.Utils;
 using GraduationHelper.Interfaces;
 using GraduationHelper.Models;
+using PdfiumViewer;
+using System.Linq;
+
 
 namespace GraduationHelper
 {
+	public enum Indexes
+	{
+		FirstName = 0,
+		MiddleName = 1,
+		LastName = 2,
+		StudentId = 3,
+		MajorName = 4,
+	}
+
 	public partial class MainForm : Form, IView
 	{
 		private Controller _controller;
-		private InfoForm _infoForm;
+		private TableLayoutPanel _dataPageTable;
+
 		#region Constants
 		public static readonly int FirstNameIndex = 0;
 		public static readonly int MiddleNameIndex = 1;
@@ -46,13 +59,24 @@ namespace GraduationHelper
 
 			LoadConfigOnStartup();
 
-			this.FormClosing += (o, e) => 
+			this.SizeChanged += (o, e) => 
 			{
-				//if(axAcroPDF1 != null)
-				//{
-				//	axAcroPDF1.Dispose();
-				//	axAcroPDF1 = null;
-				//}
+				if (dataTabPages != null && displayGroupBox != null)
+				{
+					displayGroupBox.Width = (int)(.75 * this.Width);
+					displayGroupBox.Height = (int)(.90 * this.Height);
+
+					dataTabPages.Height = displayGroupBox.Height - 50;
+					dataTabPages.Width = displayGroupBox.Width - 70;
+				}
+				if(tabPage1 != null && tabPage1.HasChildren)
+				{
+					foreach(Control c in tabPage1.Controls)
+					{
+						if (c.Name == "pdfView")
+							c.Size = dataTabPages.Size;
+					}
+				}
 			};
 		}
 
@@ -162,13 +186,21 @@ namespace GraduationHelper
 
 		private void OnTabIndexChanged(object sender, EventArgs e)
 		{
-			if (_infoForm == null)
+			if(_dataPageTable == null)
 			{
-				_infoForm = new InfoForm();
-				dataPage.Controls.Add(_infoForm.GetTable());
+				string[] dataRows = new string[]
+				{
+
+				};
+
+				_dataPageTable = ViewHelper.BuildTablePanel( dataRows , dataPage.Width >> 1, dataPage.Height);
+
+				_dataPageTable.Name = "DataPageTable";
+
+				dataPage.Controls.Add(_dataPageTable);
 			}
 		}
-
+		
 		private void LoadConfigOnStartup()
 		{
 			string startPath = Application.StartupPath + "\\Config.xml";
@@ -182,20 +214,36 @@ namespace GraduationHelper
 			majorNameTxtBox.Text = data[MajorNameIndex];
 		}
 
+		private void OnDownloadShowFolder(object sender, EventArgs e)
+		{
+			if (_controller == null)
+				return;
+
+			_controller.ShowDownloadFolder();
+		}
+		
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				PDFDoc pdf = new PDFDoc(Application.StartupPath + "\\empty.pdf");
+			tabPage1.Controls.Clear();
 
-				pdf.WriteAndSaveFirstName();
+			PdfViewer v = _controller.GetPdfView();
 
-			}
-			catch(Exception ex)
+			if(v != null)
 			{
-				MessageBox.Show(ex.Message);
+				tabPage1.Controls.Clear();
+
+				tabPage1.Controls.Add(v);
+				v.Name = "pdfView";
+				v.Size = tabPage1.Size;
 			}
-			
+		}
+
+		private void OnClickImportBtn(object sender, EventArgs e)
+		{
+			if (_controller == null)
+				return;
+
+			_controller.ImportFiles();
 		}
 	}
 }

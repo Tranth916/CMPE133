@@ -8,6 +8,9 @@ using GraduationHelper;
 using GraduationHelper.Models;
 using System.Xml.Linq;
 using GraduationHelper.Utils;
+using System.IO;
+using System.Diagnostics;
+using PdfiumViewer;
 
 namespace GraduationHelper.Controllers
 {
@@ -28,6 +31,11 @@ namespace GraduationHelper.Controllers
 			set { _mainForm = value; }
 			get { return _mainForm; }
 		}
+		public XDocument ConfigFile
+		{
+			private set;
+			get;
+		}
 		#endregion
 
 		#region Constructor
@@ -45,7 +53,51 @@ namespace GraduationHelper.Controllers
 				return;
 
 			Downloader d = new Downloader(this);
-			d.GetFile();
+			d.GetFile(forms);
+		}
+
+		public void ImportFiles()
+		{
+			OpenFileDialog ofd = new OpenFileDialog()
+			{
+				Multiselect = true,
+				CheckFileExists = true,
+				InitialDirectory = Application.StartupPath,
+				Filter = "*.pdf | *.PDF | *.doc | *.DOC",
+			};
+
+			var result = ofd.ShowDialog();
+
+			if (result == DialogResult.Cancel)
+				return;
+
+			string[] files = ofd.FileNames;
+
+			foreach(var f in files)
+			{
+				Debug.WriteLine(f);
+			}
+
+
+		}
+
+		public void ShowDownloadFolder()
+		{
+			try
+			{
+				string currentDirectory = Application.StartupPath + "\\Download";
+
+				if (!Directory.Exists(currentDirectory))
+				{
+					Directory.CreateDirectory(currentDirectory);
+				}
+				Process.Start("explorer.exe", currentDirectory);
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine(" Exception Thrown " + ex);
+			}
+		
 		}
 
 		public void TextFieldsDataChanged(object sender)
@@ -86,9 +138,12 @@ namespace GraduationHelper.Controllers
 					break;
 			}
 		}
-
+		
 		public string[] LoadConfiguration(string filePath)
 		{
+			if (File.Exists(filePath))
+				ConfigFile = XDocument.Load(filePath);
+
 			Dictionary<string, string> configs = XmlHelper.LoadXMLConfiguration(filePath);
 
 			string[] data = new string[]
@@ -111,7 +166,9 @@ namespace GraduationHelper.Controllers
 			if (_student == null)
 				_student = new Student();
 
-			bool result = _student.LoadStudentXml(XDocument.Load(path));
+			ConfigFile = XDocument.Load(path);
+
+			bool result = _student.LoadStudentXml(ConfigFile);
 
 			if (result)
 			{
@@ -145,6 +202,36 @@ namespace GraduationHelper.Controllers
 			int.TryParse(str, out retValue);
 
 			return retValue;
+		}
+
+		public PdfViewer GetPdfView()
+		{
+			try
+			{
+				string[] urls = new string[]
+				{
+				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\stupid.pdf",
+				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test1.pdf",
+				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test2.pdf",
+				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test3.pdf",
+				};
+
+				PdfDocument fdoc = PdfDocument.Load(urls[0]);
+
+				PdfViewer viewer = new PdfViewer()
+				{
+					Document = fdoc,
+					ZoomMode = PdfViewerZoomMode.FitWidth,
+					ShowToolbar = true,
+				};
+
+				return viewer;
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine("Error");
+			}
+			return null;
 		}
 	}
 }

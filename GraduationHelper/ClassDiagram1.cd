@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GraduationHelper.Controllers.Controller" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAQQAAAAABAgCQAAAgAAhAAAQgAAAAAAAA=</HashCode>
+      <FileName>Controllers\Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Controllers.Downloader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAEAAAAAAAAACBAAAAAAAQGAEAIAAA=</HashCode>
+      <FileName>Controllers\Downloader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GraduationHelper.Models.Configuration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Configuration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GraduationHelper.Models.PDFDoc" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAIAAAAAAAAAAAAAAAAAAAAAAAQABAAAA=</HashCode>
+      <FileName>Models\PDFDoc.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GraduationHelper.Models.Student" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAEAAAAAAAAAAQAAEAAAAAAAAAAAAgABACAAg=</HashCode>
+      <FileName>Models\Student.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Models.WordDoc" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAA=</HashCode>
+      <FileName>Models\WordDoc.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GraduationHelper.Program" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.MainForm" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>F9CIAiwEECAEADAYQBiKgAACSAAIWAAEAiECAEABEhA=</HashCode>
+      <FileName>Views\MainForm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GraduationHelper.Properties.Resources" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Properties.Settings" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Utils.PdfHelper" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\PdfHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Utils.ViewHelper" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Utils\ViewHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Utils.XmlHelper" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\XmlHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Views.AboutForm" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIAAAAgAACAACAUAAACAAAADAAAAEAAAAAAAAABAAAA=</HashCode>
+      <FileName>Views\AboutForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Views.InfoForm" Collapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>8EAAAAAAACAAABAAAACAAAACAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Views\InfoForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraduationHelper.Views.ViewDoc" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAgAAAAABCAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ViewDoc.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="GraduationHelper.Interfaces.IConfig" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IConfig.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraduationHelper.Interfaces.IDoc" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAA=</HashCode>
+      <FileName>Interfaces\IDoc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraduationHelper.Interfaces.IFileHandler" Collapsed="true">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IFileHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraduationHelper.Interfaces.IView" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="GraduationHelper.Indexes" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAgAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAACAAg=</HashCode>
+      <FileName>Views\MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
