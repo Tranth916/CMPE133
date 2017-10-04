@@ -53,7 +53,6 @@
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
 			this.testButton = new System.Windows.Forms.Button();
-			this.label6 = new System.Windows.Forms.Label();
 			this.dataTabPages = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.dataPage = new System.Windows.Forms.TabPage();
@@ -62,12 +61,12 @@
 			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.displayGroupBox = new System.Windows.Forms.GroupBox();
 			this.importBtn = new System.Windows.Forms.Button();
+			this.logTextBox = new System.Windows.Forms.RichTextBox();
 			this.personalInfoGroupBox.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.dlFormsGroupBox.SuspendLayout();
 			this.dataTabPages.SuspendLayout();
-			this.tabPage1.SuspendLayout();
 			this.webBrowserTab.SuspendLayout();
 			this.displayGroupBox.SuspendLayout();
 			this.SuspendLayout();
@@ -79,7 +78,7 @@
 			this.personalInfoGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.personalInfoGroupBox.Location = new System.Drawing.Point(17, 75);
 			this.personalInfoGroupBox.Name = "personalInfoGroupBox";
-			this.personalInfoGroupBox.Size = new System.Drawing.Size(583, 561);
+			this.personalInfoGroupBox.Size = new System.Drawing.Size(583, 316);
 			this.personalInfoGroupBox.TabIndex = 0;
 			this.personalInfoGroupBox.TabStop = false;
 			this.personalInfoGroupBox.Text = "Personal Information";
@@ -323,23 +322,13 @@
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(642, 30);
+			this.testButton.Location = new System.Drawing.Point(1893, 48);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(182, 39);
 			this.testButton.TabIndex = 3;
 			this.testButton.Text = "TEST";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(254, 111);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(954, 217);
-			this.label6.TabIndex = 0;
-			this.label6.Text = "DISPLAY \r";
 			// 
 			// dataTabPages
 			// 
@@ -357,7 +346,6 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.label6);
 			this.tabPage1.Location = new System.Drawing.Point(8, 39);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -418,13 +406,21 @@
 			// 
 			// importBtn
 			// 
-			this.importBtn.Location = new System.Drawing.Point(37, 663);
+			this.importBtn.Location = new System.Drawing.Point(642, 33);
 			this.importBtn.Name = "importBtn";
-			this.importBtn.Size = new System.Drawing.Size(323, 123);
+			this.importBtn.Size = new System.Drawing.Size(183, 50);
 			this.importBtn.TabIndex = 7;
 			this.importBtn.Text = "Import Files";
 			this.importBtn.UseVisualStyleBackColor = true;
 			this.importBtn.Click += new System.EventHandler(this.OnClickImportBtn);
+			// 
+			// logTextBox
+			// 
+			this.logTextBox.Location = new System.Drawing.Point(24, 440);
+			this.logTextBox.Name = "logTextBox";
+			this.logTextBox.Size = new System.Drawing.Size(583, 428);
+			this.logTextBox.TabIndex = 8;
+			this.logTextBox.Text = "";
 			// 
 			// MainForm
 			// 
@@ -434,6 +430,7 @@
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(2094, 1264);
+			this.Controls.Add(this.logTextBox);
 			this.Controls.Add(this.importBtn);
 			this.Controls.Add(this.displayGroupBox);
 			this.Controls.Add(this.testButton);
@@ -452,8 +449,6 @@
 			this.menuStrip1.PerformLayout();
 			this.dlFormsGroupBox.ResumeLayout(false);
 			this.dataTabPages.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			this.webBrowserTab.ResumeLayout(false);
 			this.displayGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -487,7 +482,6 @@
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
 		private System.Windows.Forms.Button testButton;
-		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TabControl dataTabPages;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage dataPage;
@@ -497,6 +491,7 @@
 		private System.Windows.Forms.TabPage webBrowserTab;
 		private System.Windows.Forms.WebBrowser webBrowser1;
 		private System.Windows.Forms.Button importBtn;
+		private System.Windows.Forms.RichTextBox logTextBox;
 	}
 }
 

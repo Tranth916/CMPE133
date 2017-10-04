@@ -31,7 +31,45 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gnostice.Core, Version=17.4.0.0, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Gnostice.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.Free.Documents, Version=17.4.0.0, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Gnostice.Free.Documents.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.Free.Documents.Controls.WinForms, Version=17.4.0.0, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Gnostice.Free.Documents.Controls.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.XtremeFontEngine.4.0, Version=1.0.1921.420, Culture=neutral, PublicKeyToken=461de9da64be3a84, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Gnostice.XtremeFontEngine.4.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Gnostice.XtremeImageEngine, Version=12.0.1608.131, Culture=neutral, PublicKeyToken=67e9a3a7c22f1690, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Gnostice.XtremeImageEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\XtremeDocumentStudio.NETFree.17.4.0\lib\net40\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
     <Reference Include="itext.barcodes, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itext7.7.0.4\lib\net40\itext.barcodes.dll</HintPath>
     </Reference>
@@ -85,6 +123,7 @@
     <Compile Include="Utils\PdfHelper.cs" />
     <Compile Include="Utils\ViewHelper.cs" />
     <Compile Include="Utils\XmlHelper.cs" />
+    <Compile Include="Utils\XtremeDocHelper.cs" />
     <Compile Include="Views\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

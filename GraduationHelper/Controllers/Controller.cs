@@ -17,6 +17,14 @@ namespace GraduationHelper.Controllers
 	public class Controller
 	{
 		#region Private Members
+		private const string PdfLibName = "pdfium.dll";
+		private const string x64LibPath = "\\libs\\x64\\pdfium.dll";
+		private const string x86LibPath = "\\libs\\x86\\pdfium.dll";
+		private const string TestPdfDir = "C:\\testpdfs\\";
+
+		private Dictionary<string, PdfDocument> _importedPdfs;
+		private Dictionary<string, PdfDocument> _pdfs;
+
 		private MainForm _mainForm;
 		private Student _student;
 		private string SessionFileLocation
@@ -36,15 +44,65 @@ namespace GraduationHelper.Controllers
 			private set;
 			get;
 		}
+		public Dictionary<string, PdfDocument> ImportedPdfs
+		{
+			get { return _importedPdfs; }
+		}
 		#endregion
 
 		#region Constructor
 
 		public Controller(MainForm mainForm)
+		{
+			_mainForm = mainForm;
+
+			Init();
+		}
+		
+		private void Init()
+		{
+			CheckDependency();	
+		}
+
+		private void CheckDependency()
+		{
+			try
+			{
+				// Ensure pdfium.dll is inside this working directory.
+				var dllFile = Directory.GetFiles(Application.StartupPath)
+					.Where(f => Path.GetFileName(f).ToLower().Equals(PdfLibName));
+				
+				if (dllFile == null || dllFile.Count() == 0)
 				{
-					_mainForm = mainForm;
+					string src = "";
+
+					if (IntPtr.Size == 4)
+					{
+						src = $"{Application.StartupPath}{x86LibPath}";
+					}
+					else if (IntPtr.Size == 8)
+					{
+						src = $"{Application.StartupPath}{x64LibPath}";
+					}
+
+					if(!File.Exists(src))
+					{
+						MessageBox.Show("","Missing x64 & x86 lib folders. Exiting.",MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+						_mainForm.Close();				
+					}
+
+					string dest = $"{Application.StartupPath}\\{PdfLibName}";
+
+					File.Copy(src, dest, true);
 				}
-	
+			}
+			catch (Exception)
+			{
+
+			}
+
+		}
 		#endregion
 
 		public void DownloadForms(string[] forms)
@@ -55,30 +113,56 @@ namespace GraduationHelper.Controllers
 			Downloader d = new Downloader(this);
 			d.GetFile(forms);
 		}
-
-		public void ImportFiles()
+		
+		/// <summary>
+		/// Import pdf files and build a dictionary of PdfDocuments.
+		/// </summary>
+		public bool ImportFiles()
 		{
+			bool ret = false;
 			OpenFileDialog ofd = new OpenFileDialog()
 			{
 				Multiselect = true,
 				CheckFileExists = true,
 				InitialDirectory = Application.StartupPath,
-				Filter = "*.pdf | *.PDF | *.doc | *.DOC",
 			};
 
 			var result = ofd.ShowDialog();
 
 			if (result == DialogResult.Cancel)
-				return;
+				return ret;
 
 			string[] files = ofd.FileNames;
 
-			foreach(var f in files)
+			if (_importedPdfs == null)
+				_importedPdfs = new Dictionary<string, PdfDocument>();
+			else
+				_importedPdfs.Clear();
+
+			string name = "";
+			PdfDocument doc = null;
+
+			foreach(var file in ofd.FileNames)
 			{
-				Debug.WriteLine(f);
+				if (!File.Exists(file))
+					continue;
+
+				name = Path.GetFileNameWithoutExtension(file);
+
+				if (_importedPdfs.ContainsKey(name))
+					continue;
+				
+				doc = PdfDocument.Load(file);
+
+				_mainForm.Log($"Loaded {name} pdf");
+
+				_importedPdfs.Add(name, doc);	
 			}
 
+			if (_importedPdfs.Count > 0)
+				ret = true;
 
+			return ret;
 		}
 
 		public void ShowDownloadFolder()
@@ -203,29 +287,67 @@ namespace GraduationHelper.Controllers
 
 			return retValue;
 		}
+		
+		public Dictionary<string, PdfDocument> GetPdfDictionary()
+		{
+			_pdfs = new Dictionary<string, PdfDocument>();
 
-		public PdfViewer GetPdfView()
+			string[] files = Directory.GetFiles(TestPdfDir);
+
+			string name = "";
+			PdfDocument loaded;
+
+			foreach(var file in files)
+			{
+				name = Path.GetFileName(file).Replace(".pdf","");
+
+				loaded = PdfDocument.Load(file);	
+
+				if(loaded != null && !_pdfs.ContainsKey(name))
+				{
+					_pdfs.Add(name, loaded);
+				}
+			}
+			
+			return _pdfs;
+		}
+
+		public PdfDocument GetPdfDoc()
+		{
+			string url = @"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\stupid.pdf";
+			PdfDocument doc = PdfDocument.Load(url);
+
+
+
+
+
+
+
+			return doc;
+		}
+
+		public PdfViewer GetPdfView(string pdfName = null)
 		{
 			try
 			{
-				string[] urls = new string[]
+				if(pdfName == null)
+					pdfName = "stupid";
+
+				if (_pdfs == null)
+					GetPdfDictionary();
+
+				if (_pdfs.ContainsKey(pdfName))
 				{
-				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\stupid.pdf",
-				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test1.pdf",
-				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test2.pdf",
-				@"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\test3.pdf",
-				};
+					PdfViewer viewer = new PdfViewer()
+					{
+						Document = _pdfs[pdfName],
+						ZoomMode = PdfViewerZoomMode.FitWidth,
+						ShowToolbar = true,
+					};
 
-				PdfDocument fdoc = PdfDocument.Load(urls[0]);
-
-				PdfViewer viewer = new PdfViewer()
-				{
-					Document = fdoc,
-					ZoomMode = PdfViewerZoomMode.FitWidth,
-					ShowToolbar = true,
-				};
-
-				return viewer;
+					return viewer;
+				}
+				
 			}
 			catch(Exception ex)
 			{
@@ -233,5 +355,7 @@ namespace GraduationHelper.Controllers
 			}
 			return null;
 		}
+
+
 	}
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Student>
+  <FirstName>Thao</FirstName>
+  <MiddleName>Hoang</MiddleName>
+  <LastName>Tran</LastName>
+  <StudentID>10836020</StudentID>
+  <Major>Software</Major>
+  <Forms>
+  	<CheckListForm>https://cmpe.sjsu.edu/files/public/media/resources/studentforms/graduationpacket-checklist-se1_0.pdf</CheckListForm>
+  	<MajorForm year="2016">https://cmpe.sjsu.edu/files/public/media/resources/studentforms/se-majorform-fall2016.doc</MajorForm>
+  	<GradAppForm>http://www.sjsu.edu/registrar/docs/grad_app.pdf</GradAppForm>
+  	<EquivalencyForm>need link</EquivalencyForm>
+  	<SubstitutionForm>need link</SubstitutionForm>
+  </Forms>
+
+</Student>

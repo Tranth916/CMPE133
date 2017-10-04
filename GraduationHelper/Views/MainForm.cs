@@ -15,7 +15,7 @@ using GraduationHelper.Interfaces;
 using GraduationHelper.Models;
 using PdfiumViewer;
 using System.Linq;
-
+//using Gnostice.Documents.PDF;
 
 namespace GraduationHelper
 {
@@ -32,6 +32,8 @@ namespace GraduationHelper
 	{
 		private Controller _controller;
 		private TableLayoutPanel _dataPageTable;
+		private Dictionary<string, PdfDocument> _pdfs;
+		private string _currentPdfShown;
 
 		#region Constants
 		public static readonly int FirstNameIndex = 0;
@@ -77,6 +79,14 @@ namespace GraduationHelper
 							c.Size = dataTabPages.Size;
 					}
 				}
+
+				tabPage1.SizeChanged += (oo, x) =>
+				{
+					foreach (Control c in tabPage1.Controls)
+					{
+						c.Size = tabPage1.Size;
+					}
+				};
 			};
 		}
 
@@ -221,29 +231,76 @@ namespace GraduationHelper
 
 			_controller.ShowDownloadFolder();
 		}
-		
+
+		#region Test Stuff
+		int ptr = 0;
+		string[] pdfNames = new string[] 
+		{
+			"grad_app","test1","stupid","test2"
+		};
+		PdfViewer v;
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			tabPage1.Controls.Clear();
-
-			PdfViewer v = _controller.GetPdfView();
-
-			if(v != null)
+			if (_pdfs == null)
+				_pdfs = _controller.GetPdfDictionary();
+			
+			if(_currentPdfShown == null || _currentPdfShown.Length == 0)
 			{
-				tabPage1.Controls.Clear();
-
-				tabPage1.Controls.Add(v);
-				v.Name = "pdfView";
-				v.Size = tabPage1.Size;
+				_currentPdfShown = _pdfs.Keys.FirstOrDefault();
 			}
+			
+				v = _controller.GetPdfView(pdfNames[ptr++]);
+
+				if (ptr == pdfNames.Length)
+					ptr = 0;
+
+			tabPage1.Controls.Clear();
+			tabPage1.Controls.Add(v);
+			
+			v.Size = tabPage1.Size;
 		}
+		#endregion
 
 		private void OnClickImportBtn(object sender, EventArgs e)
 		{
 			if (_controller == null)
 				return;
 
-			_controller.ImportFiles();
+			bool hasImports = _controller.ImportFiles();
+
+			if (!hasImports)
+				return;
+
+			foreach(var entry in _controller.ImportedPdfs)
+			{
+				PdfViewer vi = new PdfViewer()
+				{
+					Document = entry.Value,
+					Name = entry.Key,
+					ZoomMode = PdfViewerZoomMode.FitWidth,
+				};
+
+				TabPage tp = new TabPage(entry.Key);
+				tp.Controls.Add(vi);
+				dataTabPages.TabPages.Add(tp);
+				vi.Size = tp.Size;
+
+				tp.SizeChanged += (o, x) => 
+				{
+					vi.Size = tp.Size;
+				};
+				dataTabPages.SelectedIndex = dataTabPages.TabCount - 1;
+			}
 		}
+
+		#region Logger
+		public void Log(string str)
+		{
+			if(logTextBox != null)
+			{
+				logTextBox.AppendText(str + Environment.NewLine);
+			}
+		}
+		#endregion
 	}
 }
