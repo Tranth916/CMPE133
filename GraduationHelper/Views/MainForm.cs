@@ -63,30 +63,21 @@ namespace GraduationHelper
 
 			this.SizeChanged += (o, e) => 
 			{
-				if (dataTabPages != null && displayGroupBox != null)
+				if (tabPages != null && displayGroupBox != null)
 				{
 					displayGroupBox.Width = (int)(.75 * this.Width);
 					displayGroupBox.Height = (int)(.90 * this.Height);
-
-					dataTabPages.Height = displayGroupBox.Height - 50;
-					dataTabPages.Width = displayGroupBox.Width - 70;
-				}
-				if(tabPage1 != null && tabPage1.HasChildren)
-				{
-					foreach(Control c in tabPage1.Controls)
-					{
-						if (c.Name == "pdfView")
-							c.Size = dataTabPages.Size;
-					}
+					tabPages.Height = displayGroupBox.Height - 50;
+					tabPages.Width = displayGroupBox.Width - 70;
 				}
 
-				tabPage1.SizeChanged += (oo, x) =>
+				if(tabPages != null && tabPages.HasChildren)
 				{
-					foreach (Control c in tabPage1.Controls)
+					foreach(Control c in tabPages.Controls)
 					{
-						c.Size = tabPage1.Size;
+						c.Size = tabPages.Size;
 					}
-				};
+				}
 			};
 		}
 
@@ -253,11 +244,6 @@ namespace GraduationHelper
 
 				if (ptr == pdfNames.Length)
 					ptr = 0;
-
-			tabPage1.Controls.Clear();
-			tabPage1.Controls.Add(v);
-			
-			v.Size = tabPage1.Size;
 		}
 		#endregion
 
@@ -281,15 +267,16 @@ namespace GraduationHelper
 				};
 
 				TabPage tp = new TabPage(entry.Key);
+
 				tp.Controls.Add(vi);
-				dataTabPages.TabPages.Add(tp);
+				tabPages.TabPages.Add(tp);
 				vi.Size = tp.Size;
 
 				tp.SizeChanged += (o, x) => 
 				{
 					vi.Size = tp.Size;
 				};
-				dataTabPages.SelectedIndex = dataTabPages.TabCount - 1;
+				tabPages.SelectedIndex = tabPages.TabCount - 1;
 			}
 		}
 

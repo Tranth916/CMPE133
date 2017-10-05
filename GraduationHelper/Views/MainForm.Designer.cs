@@ -53,12 +53,8 @@
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
 			this.testButton = new System.Windows.Forms.Button();
-			this.dataTabPages = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPages = new System.Windows.Forms.TabControl();
 			this.dataPage = new System.Windows.Forms.TabPage();
-			this.gradFormsPage = new System.Windows.Forms.TabPage();
-			this.webBrowserTab = new System.Windows.Forms.TabPage();
-			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.displayGroupBox = new System.Windows.Forms.GroupBox();
 			this.importBtn = new System.Windows.Forms.Button();
 			this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -66,8 +62,7 @@
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.dlFormsGroupBox.SuspendLayout();
-			this.dataTabPages.SuspendLayout();
-			this.webBrowserTab.SuspendLayout();
+			this.tabPages.SuspendLayout();
 			this.displayGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -330,29 +325,16 @@
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
-			// dataTabPages
+			// tabPages
 			// 
-			this.dataTabPages.Controls.Add(this.tabPage1);
-			this.dataTabPages.Controls.Add(this.dataPage);
-			this.dataTabPages.Controls.Add(this.gradFormsPage);
-			this.dataTabPages.Controls.Add(this.webBrowserTab);
-			this.dataTabPages.Location = new System.Drawing.Point(22, 38);
-			this.dataTabPages.Name = "dataTabPages";
-			this.dataTabPages.RightToLeftLayout = true;
-			this.dataTabPages.SelectedIndex = 0;
-			this.dataTabPages.Size = new System.Drawing.Size(1393, 1077);
-			this.dataTabPages.TabIndex = 5;
-			this.dataTabPages.SelectedIndexChanged += new System.EventHandler(this.OnTabIndexChanged);
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.Location = new System.Drawing.Point(8, 39);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(1377, 1030);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "PDF View";
-			this.tabPage1.UseVisualStyleBackColor = true;
+			this.tabPages.Controls.Add(this.dataPage);
+			this.tabPages.Location = new System.Drawing.Point(22, 38);
+			this.tabPages.Name = "tabPages";
+			this.tabPages.RightToLeftLayout = true;
+			this.tabPages.SelectedIndex = 0;
+			this.tabPages.Size = new System.Drawing.Size(1393, 1077);
+			this.tabPages.TabIndex = 5;
+			this.tabPages.SelectedIndexChanged += new System.EventHandler(this.OnTabIndexChanged);
 			// 
 			// dataPage
 			// 
@@ -364,40 +346,10 @@
 			this.dataPage.Text = "Data";
 			this.dataPage.UseVisualStyleBackColor = true;
 			// 
-			// gradFormsPage
-			// 
-			this.gradFormsPage.Location = new System.Drawing.Point(8, 39);
-			this.gradFormsPage.Name = "gradFormsPage";
-			this.gradFormsPage.Padding = new System.Windows.Forms.Padding(3);
-			this.gradFormsPage.Size = new System.Drawing.Size(1377, 1030);
-			this.gradFormsPage.TabIndex = 2;
-			this.gradFormsPage.Text = "Graduation Forms";
-			this.gradFormsPage.UseVisualStyleBackColor = true;
-			// 
-			// webBrowserTab
-			// 
-			this.webBrowserTab.Controls.Add(this.webBrowser1);
-			this.webBrowserTab.Location = new System.Drawing.Point(8, 39);
-			this.webBrowserTab.Name = "webBrowserTab";
-			this.webBrowserTab.Padding = new System.Windows.Forms.Padding(3);
-			this.webBrowserTab.Size = new System.Drawing.Size(1377, 1030);
-			this.webBrowserTab.TabIndex = 3;
-			this.webBrowserTab.Text = "Web Browser";
-			this.webBrowserTab.UseVisualStyleBackColor = true;
-			// 
-			// webBrowser1
-			// 
-			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.webBrowser1.Location = new System.Drawing.Point(3, 3);
-			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(1371, 1024);
-			this.webBrowser1.TabIndex = 0;
-			// 
 			// displayGroupBox
 			// 
 			this.displayGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.displayGroupBox.Controls.Add(this.dataTabPages);
+			this.displayGroupBox.Controls.Add(this.tabPages);
 			this.displayGroupBox.Location = new System.Drawing.Point(642, 89);
 			this.displayGroupBox.Name = "displayGroupBox";
 			this.displayGroupBox.Size = new System.Drawing.Size(1433, 1146);
@@ -448,8 +400,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.dlFormsGroupBox.ResumeLayout(false);
-			this.dataTabPages.ResumeLayout(false);
-			this.webBrowserTab.ResumeLayout(false);
+			this.tabPages.ResumeLayout(false);
 			this.displayGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -482,14 +433,10 @@
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
 		private System.Windows.Forms.Button testButton;
-		private System.Windows.Forms.TabControl dataTabPages;
-		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabControl tabPages;
 		private System.Windows.Forms.TabPage dataPage;
 		private System.Windows.Forms.GroupBox displayGroupBox;
-		private System.Windows.Forms.TabPage gradFormsPage;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.TabPage webBrowserTab;
-		private System.Windows.Forms.WebBrowser webBrowser1;
 		private System.Windows.Forms.Button importBtn;
 		private System.Windows.Forms.RichTextBox logTextBox;
 	}
