@@ -55,14 +55,50 @@
 			this.testButton = new System.Windows.Forms.Button();
 			this.tabPages = new System.Windows.Forms.TabControl();
 			this.dataPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.majorImportLbl = new System.Windows.Forms.Label();
+			this.programYearLbl = new System.Windows.Forms.Label();
+			this.areaLbl_A1 = new System.Windows.Forms.Label();
+			this.areaLbl_A2 = new System.Windows.Forms.Label();
+			this.areaLbl_A3 = new System.Windows.Forms.Label();
+			this.areaLbl_B1 = new System.Windows.Forms.Label();
+			this.areaLbl_B2 = new System.Windows.Forms.Label();
+			this.areaLbl_B3 = new System.Windows.Forms.Label();
+			this.areaLbl_B4 = new System.Windows.Forms.Label();
+			this.majorTBox = new System.Windows.Forms.TextBox();
+			this.programYearTB = new System.Windows.Forms.TextBox();
+			this.areaTB_A1 = new System.Windows.Forms.TextBox();
 			this.displayGroupBox = new System.Windows.Forms.GroupBox();
 			this.importBtn = new System.Windows.Forms.Button();
 			this.logTextBox = new System.Windows.Forms.RichTextBox();
+			this.importTranscriptBtn = new System.Windows.Forms.Button();
+			this.areaLbl_C1 = new System.Windows.Forms.Label();
+			this.areaLbl_C2 = new System.Windows.Forms.Label();
+			this.areaLbl_C3 = new System.Windows.Forms.Label();
+			this.areaLbl_D1 = new System.Windows.Forms.Label();
+			this.areaLbl_D2 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.areaLbl_E1 = new System.Windows.Forms.Label();
+			this.areaTB_A2 = new System.Windows.Forms.TextBox();
+			this.areaTB_A3 = new System.Windows.Forms.TextBox();
+			this.areaTB_B1 = new System.Windows.Forms.TextBox();
+			this.areaTB_B2 = new System.Windows.Forms.TextBox();
+			this.areaTB_B3 = new System.Windows.Forms.TextBox();
+			this.areaTB_B4 = new System.Windows.Forms.TextBox();
+			this.areaTB_C1 = new System.Windows.Forms.TextBox();
+			this.areaTB_C2 = new System.Windows.Forms.TextBox();
+			this.areaTB_C3 = new System.Windows.Forms.TextBox();
+			this.areaTB_D1 = new System.Windows.Forms.TextBox();
+			this.areaTB_D2 = new System.Windows.Forms.TextBox();
+			this.areaTB_D3 = new System.Windows.Forms.TextBox();
+			this.areaTB_E1 = new System.Windows.Forms.TextBox();
 			this.personalInfoGroupBox.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.dlFormsGroupBox.SuspendLayout();
 			this.tabPages.SuspendLayout();
+			this.dataPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
 			this.displayGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -338,6 +374,7 @@
 			// 
 			// dataPage
 			// 
+			this.dataPage.Controls.Add(this.tableLayoutPanel1);
 			this.dataPage.Location = new System.Drawing.Point(8, 39);
 			this.dataPage.Name = "dataPage";
 			this.dataPage.Padding = new System.Windows.Forms.Padding(3);
@@ -345,6 +382,170 @@
 			this.dataPage.TabIndex = 1;
 			this.dataPage.Text = "Data";
 			this.dataPage.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.71687F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.28313F));
+			this.tableLayoutPanel1.Controls.Add(this.majorImportLbl, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.programYearLbl, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_A1, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_A2, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_A3, 0, 4);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_B1, 0, 5);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_B2, 0, 6);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_B3, 0, 7);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_B4, 0, 8);
+			this.tableLayoutPanel1.Controls.Add(this.majorTBox, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.programYearTB, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_A1, 1, 2);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_C1, 0, 9);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_C2, 0, 10);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_C3, 0, 11);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_D1, 0, 12);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_D2, 0, 13);
+			this.tableLayoutPanel1.Controls.Add(this.label11, 0, 14);
+			this.tableLayoutPanel1.Controls.Add(this.areaLbl_E1, 0, 15);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_A2, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_A3, 1, 4);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_B1, 1, 5);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_B2, 1, 6);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_B3, 1, 7);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_B4, 1, 8);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_C1, 1, 9);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_C2, 1, 10);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_C3, 1, 11);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_D1, 1, 12);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_D2, 1, 13);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_D3, 1, 14);
+			this.tableLayoutPanel1.Controls.Add(this.areaTB_E1, 1, 15);
+			this.tableLayoutPanel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(17, 26);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 18;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1328, 973);
+			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// majorImportLbl
+			// 
+			this.majorImportLbl.AutoSize = true;
+			this.majorImportLbl.Location = new System.Drawing.Point(3, 0);
+			this.majorImportLbl.Name = "majorImportLbl";
+			this.majorImportLbl.Size = new System.Drawing.Size(97, 37);
+			this.majorImportLbl.TabIndex = 0;
+			this.majorImportLbl.Text = "Major";
+			// 
+			// programYearLbl
+			// 
+			this.programYearLbl.AutoSize = true;
+			this.programYearLbl.Location = new System.Drawing.Point(3, 50);
+			this.programYearLbl.Name = "programYearLbl";
+			this.programYearLbl.Size = new System.Drawing.Size(218, 37);
+			this.programYearLbl.TabIndex = 1;
+			this.programYearLbl.Text = "Program Year";
+			// 
+			// areaLbl_A1
+			// 
+			this.areaLbl_A1.AutoSize = true;
+			this.areaLbl_A1.Location = new System.Drawing.Point(3, 100);
+			this.areaLbl_A1.Name = "areaLbl_A1";
+			this.areaLbl_A1.Size = new System.Drawing.Size(470, 37);
+			this.areaLbl_A1.TabIndex = 2;
+			this.areaLbl_A1.Text = "Area A1 - Oral Communications";
+			// 
+			// areaLbl_A2
+			// 
+			this.areaLbl_A2.AutoSize = true;
+			this.areaLbl_A2.Location = new System.Drawing.Point(3, 150);
+			this.areaLbl_A2.Name = "areaLbl_A2";
+			this.areaLbl_A2.Size = new System.Drawing.Size(506, 37);
+			this.areaLbl_A2.TabIndex = 3;
+			this.areaLbl_A2.Text = "Area A2 - Written Communcations";
+			// 
+			// areaLbl_A3
+			// 
+			this.areaLbl_A3.AutoSize = true;
+			this.areaLbl_A3.Location = new System.Drawing.Point(3, 200);
+			this.areaLbl_A3.Name = "areaLbl_A3";
+			this.areaLbl_A3.Size = new System.Drawing.Size(391, 37);
+			this.areaLbl_A3.TabIndex = 4;
+			this.areaLbl_A3.Text = "Area A3 - Critical Thinking";
+			// 
+			// areaLbl_B1
+			// 
+			this.areaLbl_B1.AutoSize = true;
+			this.areaLbl_B1.Location = new System.Drawing.Point(3, 250);
+			this.areaLbl_B1.Name = "areaLbl_B1";
+			this.areaLbl_B1.Size = new System.Drawing.Size(398, 37);
+			this.areaLbl_B1.TabIndex = 5;
+			this.areaLbl_B1.Text = "Area B1 - Physical Science";
+			// 
+			// areaLbl_B2
+			// 
+			this.areaLbl_B2.AutoSize = true;
+			this.areaLbl_B2.Location = new System.Drawing.Point(3, 300);
+			this.areaLbl_B2.Name = "areaLbl_B2";
+			this.areaLbl_B2.Size = new System.Drawing.Size(333, 37);
+			this.areaLbl_B2.TabIndex = 6;
+			this.areaLbl_B2.Text = "Area B2 - Life Science";
+			// 
+			// areaLbl_B3
+			// 
+			this.areaLbl_B3.AutoSize = true;
+			this.areaLbl_B3.Location = new System.Drawing.Point(3, 350);
+			this.areaLbl_B3.Name = "areaLbl_B3";
+			this.areaLbl_B3.Size = new System.Drawing.Size(436, 37);
+			this.areaLbl_B3.TabIndex = 7;
+			this.areaLbl_B3.Text = "Area B3 - Laboratory Science";
+			// 
+			// areaLbl_B4
+			// 
+			this.areaLbl_B4.AutoSize = true;
+			this.areaLbl_B4.Location = new System.Drawing.Point(3, 400);
+			this.areaLbl_B4.Name = "areaLbl_B4";
+			this.areaLbl_B4.Size = new System.Drawing.Size(495, 37);
+			this.areaLbl_B4.TabIndex = 8;
+			this.areaLbl_B4.Text = "Area B4 - Mathematical Concepts";
+			// 
+			// majorTBox
+			// 
+			this.majorTBox.Location = new System.Drawing.Point(557, 3);
+			this.majorTBox.Name = "majorTBox";
+			this.majorTBox.Size = new System.Drawing.Size(631, 44);
+			this.majorTBox.TabIndex = 9;
+			// 
+			// programYearTB
+			// 
+			this.programYearTB.Location = new System.Drawing.Point(557, 53);
+			this.programYearTB.Name = "programYearTB";
+			this.programYearTB.Size = new System.Drawing.Size(631, 44);
+			this.programYearTB.TabIndex = 10;
+			// 
+			// areaTB_A1
+			// 
+			this.areaTB_A1.Location = new System.Drawing.Point(557, 103);
+			this.areaTB_A1.Name = "areaTB_A1";
+			this.areaTB_A1.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_A1.TabIndex = 11;
 			// 
 			// displayGroupBox
 			// 
@@ -374,6 +575,169 @@
 			this.logTextBox.TabIndex = 8;
 			this.logTextBox.Text = "";
 			// 
+			// importTranscriptBtn
+			// 
+			this.importTranscriptBtn.Location = new System.Drawing.Point(1325, 48);
+			this.importTranscriptBtn.Name = "importTranscriptBtn";
+			this.importTranscriptBtn.Size = new System.Drawing.Size(358, 48);
+			this.importTranscriptBtn.TabIndex = 9;
+			this.importTranscriptBtn.Text = "Import Transcript Test";
+			this.importTranscriptBtn.UseVisualStyleBackColor = true;
+			// 
+			// areaLbl_C1
+			// 
+			this.areaLbl_C1.AutoSize = true;
+			this.areaLbl_C1.Location = new System.Drawing.Point(3, 450);
+			this.areaLbl_C1.Name = "areaLbl_C1";
+			this.areaLbl_C1.Size = new System.Drawing.Size(397, 37);
+			this.areaLbl_C1.TabIndex = 12;
+			this.areaLbl_C1.Text = "Area C1 - Humanities & Arts";
+			// 
+			// areaLbl_C2
+			// 
+			this.areaLbl_C2.AutoSize = true;
+			this.areaLbl_C2.Location = new System.Drawing.Point(3, 500);
+			this.areaLbl_C2.Name = "areaLbl_C2";
+			this.areaLbl_C2.Size = new System.Drawing.Size(260, 37);
+			this.areaLbl_C2.TabIndex = 13;
+			this.areaLbl_C2.Text = "Area C2 - Letters";
+			// 
+			// areaLbl_C3
+			// 
+			this.areaLbl_C3.AutoSize = true;
+			this.areaLbl_C3.Location = new System.Drawing.Point(3, 550);
+			this.areaLbl_C3.Name = "areaLbl_C3";
+			this.areaLbl_C3.Size = new System.Drawing.Size(314, 37);
+			this.areaLbl_C3.TabIndex = 14;
+			this.areaLbl_C3.Text = "Area C3 - Additional ";
+			// 
+			// areaLbl_D1
+			// 
+			this.areaLbl_D1.AutoSize = true;
+			this.areaLbl_D1.Location = new System.Drawing.Point(3, 600);
+			this.areaLbl_D1.Name = "areaLbl_D1";
+			this.areaLbl_D1.Size = new System.Drawing.Size(399, 37);
+			this.areaLbl_D1.TabIndex = 15;
+			this.areaLbl_D1.Text = "Area D1 - Human Behavior";
+			// 
+			// areaLbl_D2
+			// 
+			this.areaLbl_D2.AutoSize = true;
+			this.areaLbl_D2.Location = new System.Drawing.Point(3, 650);
+			this.areaLbl_D2.Name = "areaLbl_D2";
+			this.areaLbl_D2.Size = new System.Drawing.Size(474, 37);
+			this.areaLbl_D2.TabIndex = 16;
+			this.areaLbl_D2.Text = "Area D2 - Comparative Systems";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(3, 700);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(350, 37);
+			this.label11.TabIndex = 17;
+			this.label11.Text = "Area D3 - Social Issues";
+			// 
+			// areaLbl_E1
+			// 
+			this.areaLbl_E1.AutoSize = true;
+			this.areaLbl_E1.Location = new System.Drawing.Point(3, 750);
+			this.areaLbl_E1.Name = "areaLbl_E1";
+			this.areaLbl_E1.Size = new System.Drawing.Size(458, 37);
+			this.areaLbl_E1.TabIndex = 18;
+			this.areaLbl_E1.Text = "Area E1 - Human Development";
+			// 
+			// areaTB_A2
+			// 
+			this.areaTB_A2.Location = new System.Drawing.Point(557, 153);
+			this.areaTB_A2.Name = "areaTB_A2";
+			this.areaTB_A2.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_A2.TabIndex = 19;
+			// 
+			// areaTB_A3
+			// 
+			this.areaTB_A3.Location = new System.Drawing.Point(557, 203);
+			this.areaTB_A3.Name = "areaTB_A3";
+			this.areaTB_A3.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_A3.TabIndex = 20;
+			// 
+			// areaTB_B1
+			// 
+			this.areaTB_B1.Location = new System.Drawing.Point(557, 253);
+			this.areaTB_B1.Name = "areaTB_B1";
+			this.areaTB_B1.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_B1.TabIndex = 21;
+			// 
+			// areaTB_B2
+			// 
+			this.areaTB_B2.Location = new System.Drawing.Point(557, 303);
+			this.areaTB_B2.Name = "areaTB_B2";
+			this.areaTB_B2.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_B2.TabIndex = 22;
+			// 
+			// areaTB_B3
+			// 
+			this.areaTB_B3.Location = new System.Drawing.Point(557, 353);
+			this.areaTB_B3.Name = "areaTB_B3";
+			this.areaTB_B3.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_B3.TabIndex = 23;
+			// 
+			// areaTB_B4
+			// 
+			this.areaTB_B4.Location = new System.Drawing.Point(557, 403);
+			this.areaTB_B4.Name = "areaTB_B4";
+			this.areaTB_B4.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_B4.TabIndex = 24;
+			// 
+			// areaTB_C1
+			// 
+			this.areaTB_C1.Location = new System.Drawing.Point(557, 453);
+			this.areaTB_C1.Name = "areaTB_C1";
+			this.areaTB_C1.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_C1.TabIndex = 25;
+			// 
+			// areaTB_C2
+			// 
+			this.areaTB_C2.Location = new System.Drawing.Point(557, 503);
+			this.areaTB_C2.Name = "areaTB_C2";
+			this.areaTB_C2.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_C2.TabIndex = 26;
+			// 
+			// areaTB_C3
+			// 
+			this.areaTB_C3.Location = new System.Drawing.Point(557, 553);
+			this.areaTB_C3.Name = "areaTB_C3";
+			this.areaTB_C3.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_C3.TabIndex = 27;
+			// 
+			// areaTB_D1
+			// 
+			this.areaTB_D1.Location = new System.Drawing.Point(557, 603);
+			this.areaTB_D1.Name = "areaTB_D1";
+			this.areaTB_D1.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_D1.TabIndex = 28;
+			// 
+			// areaTB_D2
+			// 
+			this.areaTB_D2.Location = new System.Drawing.Point(557, 653);
+			this.areaTB_D2.Name = "areaTB_D2";
+			this.areaTB_D2.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_D2.TabIndex = 29;
+			// 
+			// areaTB_D3
+			// 
+			this.areaTB_D3.Location = new System.Drawing.Point(557, 703);
+			this.areaTB_D3.Name = "areaTB_D3";
+			this.areaTB_D3.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_D3.TabIndex = 30;
+			// 
+			// areaTB_E1
+			// 
+			this.areaTB_E1.Location = new System.Drawing.Point(557, 753);
+			this.areaTB_E1.Name = "areaTB_E1";
+			this.areaTB_E1.Size = new System.Drawing.Size(631, 44);
+			this.areaTB_E1.TabIndex = 31;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -382,6 +746,7 @@
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(2094, 1264);
+			this.Controls.Add(this.importTranscriptBtn);
 			this.Controls.Add(this.logTextBox);
 			this.Controls.Add(this.importBtn);
 			this.Controls.Add(this.displayGroupBox);
@@ -401,6 +766,9 @@
 			this.menuStrip1.PerformLayout();
 			this.dlFormsGroupBox.ResumeLayout(false);
 			this.tabPages.ResumeLayout(false);
+			this.dataPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.displayGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -439,6 +807,40 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button importBtn;
 		private System.Windows.Forms.RichTextBox logTextBox;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.Label majorImportLbl;
+		private System.Windows.Forms.Label programYearLbl;
+		private System.Windows.Forms.Label areaLbl_A1;
+		private System.Windows.Forms.Label areaLbl_A2;
+		private System.Windows.Forms.Label areaLbl_A3;
+		private System.Windows.Forms.Label areaLbl_B1;
+		private System.Windows.Forms.Label areaLbl_B2;
+		private System.Windows.Forms.Label areaLbl_B3;
+		private System.Windows.Forms.Label areaLbl_B4;
+		private System.Windows.Forms.Button importTranscriptBtn;
+		private System.Windows.Forms.TextBox majorTBox;
+		private System.Windows.Forms.TextBox programYearTB;
+		private System.Windows.Forms.TextBox areaTB_A1;
+		private System.Windows.Forms.Label areaLbl_C1;
+		private System.Windows.Forms.Label areaLbl_C2;
+		private System.Windows.Forms.Label areaLbl_C3;
+		private System.Windows.Forms.Label areaLbl_D1;
+		private System.Windows.Forms.Label areaLbl_D2;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label areaLbl_E1;
+		private System.Windows.Forms.TextBox areaTB_A2;
+		private System.Windows.Forms.TextBox areaTB_A3;
+		private System.Windows.Forms.TextBox areaTB_B1;
+		private System.Windows.Forms.TextBox areaTB_B2;
+		private System.Windows.Forms.TextBox areaTB_B3;
+		private System.Windows.Forms.TextBox areaTB_B4;
+		private System.Windows.Forms.TextBox areaTB_C1;
+		private System.Windows.Forms.TextBox areaTB_C2;
+		private System.Windows.Forms.TextBox areaTB_C3;
+		private System.Windows.Forms.TextBox areaTB_D1;
+		private System.Windows.Forms.TextBox areaTB_D2;
+		private System.Windows.Forms.TextBox areaTB_D3;
+		private System.Windows.Forms.TextBox areaTB_E1;
 	}
 }
 

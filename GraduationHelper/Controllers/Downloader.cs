@@ -24,7 +24,7 @@ namespace GraduationHelper.Controllers
 
 		private Controller _controller;
 		private Dictionary<string, string> _fileUrls;
-
+	
 		public Downloader(Controller controller)
 		{
 			_controller = controller;

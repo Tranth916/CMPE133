@@ -31,7 +31,6 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHe
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.Properties.Resources.resources
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.Views.ViewDoc.resources
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.GenerateResource.Cache
-C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.exe
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.pdb
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.csprojResolveAssemblyReference.cache
@@ -41,3 +40,4 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Gnostice.Fre
 C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Gnostice.XtremeFontEngine.4.0.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Gnostice.XtremeImageEngine.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Ionic.Zip.Reduced.dll
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.CoreCompileInputs.cache

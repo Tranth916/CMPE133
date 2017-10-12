@@ -117,6 +117,7 @@
     <Compile Include="Interfaces\IFileHandler.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\Course.cs" />
     <Compile Include="Models\PDFDoc.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\WordDoc.cs" />
@@ -204,5 +205,6 @@
     <Content Include="x64\pdfium.dll" />
     <Content Include="x86\pdfium.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

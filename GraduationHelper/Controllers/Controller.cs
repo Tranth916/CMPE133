@@ -11,6 +11,7 @@ using GraduationHelper.Utils;
 using System.IO;
 using System.Diagnostics;
 using PdfiumViewer;
+using System.Text.RegularExpressions;
 
 namespace GraduationHelper.Controllers
 {
@@ -117,22 +118,21 @@ namespace GraduationHelper.Controllers
 		/// <summary>
 		/// Import pdf files and build a dictionary of PdfDocuments.
 		/// </summary>
-		public bool ImportFiles()
+		public bool ImportFiles(string[] files)
 		{
 			bool ret = false;
-			OpenFileDialog ofd = new OpenFileDialog()
-			{
-				Multiselect = true,
-				CheckFileExists = true,
-				InitialDirectory = Application.StartupPath,
-			};
-
-			var result = ofd.ShowDialog();
-
-			if (result == DialogResult.Cancel)
-				return ret;
-
-			string[] files = ofd.FileNames;
+			
+			//OpenFileDialog ofd = new OpenFileDialog()
+			//{
+			//	Multiselect = true,
+			//	CheckFileExists = true,
+			//	InitialDirectory = Application.StartupPath + "\\Docs",
+			//	Filter = "*.pdf | *.PDF",
+			//};
+			//var result = ofd.ShowDialog();
+			//if (result == DialogResult.Cancel)
+			//	return ret;
+			//string[] files = ofd.FileNames;
 
 			if (_importedPdfs == null)
 				_importedPdfs = new Dictionary<string, PdfDocument>();
@@ -140,31 +140,183 @@ namespace GraduationHelper.Controllers
 				_importedPdfs.Clear();
 
 			string name = "";
-			PdfDocument doc = null;
 
-			foreach(var file in ofd.FileNames)
+			PdfDocument doc = null;
+			PDFDoc myDoc = null;
+
+			foreach(var file in files)
 			{
 				if (!File.Exists(file))
 					continue;
 
 				name = Path.GetFileNameWithoutExtension(file);
 
-				if (_importedPdfs.ContainsKey(name))
-					continue;
+				myDoc = new PDFDoc(file);
+
 				
-				doc = PdfDocument.Load(file);
 
-				_mainForm.Log($"Loaded {name} pdf");
-
-				_importedPdfs.Add(name, doc);	
 			}
 
 			if (_importedPdfs.Count > 0)
 				ret = true;
+			
+			return ret;
+		}
+
+
+		public void PopulateTextFields()
+		{
+			if (_importedPdfs == null)
+				return;
+
+			string name;
+			string pdfText;
+			int startIndex, endIndex;
+			int startIndex2, endIndex2;
+
+			PdfDocument doc;
+
+			foreach (var entry in _importedPdfs)
+			{
+				try
+				{
+					name = entry.Key;
+					doc = entry.Value;
+
+					pdfText = doc.GetPdfText(3);
+
+					//start region:
+					startIndex = pdfText.IndexOf("Designation");
+					startIndex2 = pdfText.IndexOf("Status");
+					endIndex = pdfText.IndexOf("\r\n", startIndex2);
+					
+					string subStr = pdfText.Substring(startIndex, endIndex);
+					
+					int semStartIndex = subStr.IndexOf("Fall 2016");
+					int nextCarriage = subStr.IndexOf("\n");
+
+					string grade = subStr.Substring(semStartIndex, nextCarriage);
+					
+					Debug.WriteLine(GetGradeAndCourse(pdfText));
+				}
+				catch(Exception)
+				{
+
+				}
+			}
+		}
+
+		Dictionary<string, Course> _transcriptInfo = new Dictionary<string, Course>();
+		private string semTokenFall = "Fall 2016";
+		private string semTokenSpring = "Spring 2016";
+		private string unitsToken3 = "3.00";
+		private string unitsToken2 = "2.00";
+		private string unitsToken1 = "1.00";
+		private string digitRegex = @"^\d+$";
+		private const int MaxGradeStrLength = 2;
+
+		public string GetGradeAndCourse(string str)
+		{
+			string[] lines = str.Split('\n');
+			string[] spaces;
+
+			int courseNameIndex = 0, 
+				courseNumberIndex = 0,
+				yearIndex = 0,
+				semesterIndex = 0,
+				gradeIndex = 0,
+				unitsIndex = 0;
+
+			string ret = "",
+				   word ="",
+				   courseName = "";
+
+
+			bool isNumber, isNumFloat;
+
+			foreach (var line in lines)
+			{
+				if (line.Contains(semTokenFall) || line.Contains(semTokenSpring))
+				{
+					// BIOL 10 The Living World 3.00 Fall 2016 A GE B2: Life Science
+
+
+
+					// split the line by spaces.
+					spaces = line.Split(' ');
+					
+					for(int i = 0; i < spaces.Length; i++)
+					{
+						// index of the year, the grade should be + 1.
+						isNumber = Regex.IsMatch(spaces[i], digitRegex);
+
+						if (isNumber)
+						{
+							//case 1 the course #, then the i - 1 is the course name.
+							if (i - 1 == 0)
+							{
+								courseNameIndex = i - 1;
+								courseNumberIndex = i;
+							}
+	
+							//case 2 the year followed by the grade maximum length of grade is 2.
+							else if ( i + 1 < spaces.Length && spaces[i+1].Length <= 2)
+							{
+								semesterIndex = i - 1;
+								yearIndex = i;
+								gradeIndex = i + 1;
+							}
+						}
+
+						isNumFloat = CheckCourseUnits(spaces[i]);
+						
+						// Got position of course units then build the course name
+						if(isNumFloat)
+						{
+							unitsIndex = i;
+							courseName = BuildCourseName(spaces, courseNumberIndex, unitsIndex);
+						}
+						
+					}
+				}
+			}
 
 			return ret;
 		}
 
+		StringBuilder _stringB = new StringBuilder();
+
+		public string BuildCourseName(string[] arr, int start, int end)
+		{
+			try
+			{
+				_stringB.Clear();
+				string toAdd;
+
+				// start : the course #
+				// end : the units
+				// start + 1 <----> end
+				for (int i = start + 1; i < end; i++)
+				{
+					toAdd = arr[i].Replace("\r", "");
+					_stringB.Append(toAdd + " ");
+				}
+
+				if(_stringB.Length > 0)
+					return _stringB.ToString();
+
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+			return "";
+		}
+		public bool CheckCourseUnits(string str)
+		{	
+			return str.Equals(unitsToken3) || str.Equals(unitsToken2) || str.Equals(unitsToken1);
+		}
+		
 		public void ShowDownloadFolder()
 		{
 			try
@@ -316,13 +468,7 @@ namespace GraduationHelper.Controllers
 		{
 			string url = @"C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\Debug\stupid.pdf";
 			PdfDocument doc = PdfDocument.Load(url);
-
-
-
-
-
-
-
+			
 			return doc;
 		}
 

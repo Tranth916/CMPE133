@@ -48,14 +48,16 @@
 			this.tableLayoutPanel.Controls.Add(this.okButton, 0, 6);
 			this.tableLayoutPanel.Controls.Add(this.pictureBox1, 0, 0);
 			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tableLayoutPanel.Location = new System.Drawing.Point(18, 17);
 			this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(6);
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
+			this.tableLayoutPanel.Padding = new System.Windows.Forms.Padding(5);
 			this.tableLayoutPanel.RowCount = 7;
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.692914F));
-			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.692914F));
-			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.692914F));
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.165226F));
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.091259F));
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 1.248799F));
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.52065F));
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.692914F));
@@ -65,11 +67,11 @@
 			// labelProductName
 			// 
 			this.labelProductName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelProductName.Location = new System.Drawing.Point(12, 347);
+			this.labelProductName.Location = new System.Drawing.Point(17, 349);
 			this.labelProductName.Margin = new System.Windows.Forms.Padding(12, 0, 6, 0);
 			this.labelProductName.MaximumSize = new System.Drawing.Size(0, 33);
 			this.labelProductName.Name = "labelProductName";
-			this.labelProductName.Size = new System.Drawing.Size(1716, 33);
+			this.labelProductName.Size = new System.Drawing.Size(1706, 33);
 			this.labelProductName.TabIndex = 19;
 			this.labelProductName.Text = "Graduation Helper";
 			this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -77,11 +79,11 @@
 			// labelVersion
 			// 
 			this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelVersion.Location = new System.Drawing.Point(12, 416);
+			this.labelVersion.Location = new System.Drawing.Point(17, 418);
 			this.labelVersion.Margin = new System.Windows.Forms.Padding(12, 0, 6, 0);
 			this.labelVersion.MaximumSize = new System.Drawing.Size(0, 33);
 			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(1716, 33);
+			this.labelVersion.Size = new System.Drawing.Size(1706, 33);
 			this.labelVersion.TabIndex = 0;
 			this.labelVersion.Text = "Author: Thao Tran";
 			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -89,13 +91,13 @@
 			// textBoxDescription
 			// 
 			this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxDescription.Location = new System.Drawing.Point(12, 573);
+			this.textBoxDescription.Location = new System.Drawing.Point(17, 572);
 			this.textBoxDescription.Margin = new System.Windows.Forms.Padding(12, 6, 6, 6);
 			this.textBoxDescription.Multiline = true;
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.ReadOnly = true;
 			this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxDescription.Size = new System.Drawing.Size(1716, 389);
+			this.textBoxDescription.Size = new System.Drawing.Size(1706, 386);
 			this.textBoxDescription.TabIndex = 23;
 			this.textBoxDescription.TabStop = false;
 			this.textBoxDescription.Text = "Description\r\n\r\nCMPE133 - SOFTWARE ENGINEERING II\r\nFALL 2017\r\n\r\nINSTRUCTOR: PROFES" +
@@ -105,7 +107,7 @@
 			// 
 			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.okButton.Location = new System.Drawing.Point(1578, 991);
+			this.okButton.Location = new System.Drawing.Point(1573, 986);
 			this.okButton.Margin = new System.Windows.Forms.Padding(6);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(150, 44);
@@ -115,9 +117,9 @@
 			// pictureBox1
 			// 
 			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-			this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+			this.pictureBox1.Location = new System.Drawing.Point(8, 8);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(1728, 341);
+			this.pictureBox1.Size = new System.Drawing.Size(1718, 338);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 25;
 			this.pictureBox1.TabStop = false;

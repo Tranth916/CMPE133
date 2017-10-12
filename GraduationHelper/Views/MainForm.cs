@@ -33,8 +33,42 @@ namespace GraduationHelper
 		private Controller _controller;
 		private TableLayoutPanel _dataPageTable;
 		private Dictionary<string, PdfDocument> _pdfs;
-		private string _currentPdfShown;
+		private Dictionary<string, TextBox> _generalEdTextBoxes;
 
+		public Dictionary<string, TextBox> GeneralEdTextBoxes
+		{
+			set
+			{
+				_generalEdTextBoxes = value;
+			}
+			get
+			{
+				if(_generalEdTextBoxes == null)
+				{
+					_generalEdTextBoxes = new Dictionary<string, TextBox>()
+					{
+						{ majorImportLbl.Name, majorTBox },
+						{ programYearLbl.Name, programYearTB },
+						{ areaLbl_A1.Name, areaTB_A1 },
+						{ areaLbl_A2.Name, areaTB_A2 },
+						{ areaLbl_A3.Name, areaTB_A3 },
+						{ areaLbl_B1.Name, areaTB_B1 },
+						{ areaLbl_B2.Name, areaTB_B2 },
+						{ areaLbl_B3.Name, areaTB_B3 },
+						{ areaLbl_B4.Name, areaTB_B4 },
+						{ areaLbl_C1.Name, areaTB_C1 },
+						{ areaLbl_C2.Name, areaTB_C2 },
+						{ areaLbl_C3.Name, areaTB_C3 },
+						{ areaLbl_D1.Name, areaTB_D1 },
+						{ areaLbl_D2.Name, areaTB_D2 },
+						{ areaLbl_E1.Name, areaTB_E1 },
+					};
+				}
+				
+				return _generalEdTextBoxes;
+			}
+		}
+		
 		#region Constants
 		public static readonly int FirstNameIndex = 0;
 		public static readonly int MiddleNameIndex = 1;
@@ -79,7 +113,19 @@ namespace GraduationHelper
 					}
 				}
 			};
+
+			this.AllowDrop = true;
+			dataPage.AllowDrop = true;
+			tabPages.AllowDrop = true;
+			
+			
+			dataPage.DragDrop += (o, e) =>
+			{
+				
+
+			};
 		}
+
 
 		public void UpdatePersonalInfoFields(string[] infos)
 		{
@@ -224,26 +270,42 @@ namespace GraduationHelper
 		}
 
 		#region Test Stuff
-		int ptr = 0;
-		string[] pdfNames = new string[] 
-		{
-			"grad_app","test1","stupid","test2"
-		};
-		PdfViewer v;
+		int testCount = 0;
+		PDFDoc pdf;
+		string _oldFile;
+
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			if (_pdfs == null)
-				_pdfs = _controller.GetPdfDictionary();
-			
-			if(_currentPdfShown == null || _currentPdfShown.Length == 0)
+			if(sender is Button)
 			{
-				_currentPdfShown = _pdfs.Keys.FirstOrDefault();
+				(sender as Button).DoDragDrop(sender, DragDropEffects.All);
 			}
-			
-				v = _controller.GetPdfView(pdfNames[ptr++]);
 
-				if (ptr == pdfNames.Length)
-					ptr = 0;
+
+			//if(testCount == 2)
+			//{
+			//	pdf.Dispose();
+			//	pdf = null;
+			//	_oldFile = null;
+			//}
+			//else if(pdf != null && _oldFile == null)
+			//{
+			//	dataPage.Controls.Clear();
+			//	dataPage.Controls.Add(pdf.View);
+			//	pdf.View.Size = dataPage.Size;
+			//	pdf.ParsePdf();
+			//	return;
+			//}
+			//string path = Application.StartupPath +"\\Docs\\stupid_copy.pdf";
+
+			//pdf = new PDFDoc(path);
+			
+			//dataPage.Controls.Add(pdf.View);
+			//pdf.View.Size = dataPage.Size;
+			//_oldFile = pdf.FileLocation;
+			//testCount++;
+
+			//pdf.WriteText();
 		}
 		#endregion
 
@@ -252,32 +314,47 @@ namespace GraduationHelper
 			if (_controller == null)
 				return;
 
-			bool hasImports = _controller.ImportFiles();
+			OpenFileDialog ofd = new OpenFileDialog()
+			{
+				Multiselect = true,
+				CheckFileExists = true,
+				InitialDirectory = Application.StartupPath + "\\Docs",
+				Filter = "*.pdf | *.PDF",
+			};
 
-			if (!hasImports)
+			if ((ofd.ShowDialog() == DialogResult.OK))
+			{
+				_controller.ImportFiles(ofd.FileNames);
+			}
+			else
 				return;
 
-			foreach(var entry in _controller.ImportedPdfs)
-			{
-				PdfViewer vi = new PdfViewer()
-				{
-					Document = entry.Value,
-					Name = entry.Key,
-					ZoomMode = PdfViewerZoomMode.FitWidth,
-				};
+			//foreach(var entry in _controller.ImportedPdfs)
+			//{
+			//	PdfViewer vi = new PdfViewer()
+			//	{
+			//		Document = entry.Value,
+			//		Name = entry.Key,
+			//		ZoomMode = PdfViewerZoomMode.FitWidth,
+			//	};
 
-				TabPage tp = new TabPage(entry.Key);
+			//	TabPage tp = new TabPage(entry.Key);
 
-				tp.Controls.Add(vi);
-				tabPages.TabPages.Add(tp);
-				vi.Size = tp.Size;
+			//	tp.Controls.Add(vi);
+			//	tabPages.TabPages.Add(tp);
+			//	vi.Size = tp.Size;
 
-				tp.SizeChanged += (o, x) => 
-				{
-					vi.Size = tp.Size;
-				};
-				tabPages.SelectedIndex = tabPages.TabCount - 1;
-			}
+			//	tp.SizeChanged += (o, x) => 
+			//	{
+			//		vi.Size = tp.Size;
+			//	};
+			//	tabPages.SelectedIndex = tabPages.TabCount - 1;
+			//}
+		}
+		
+		public void RenderImportedPdfs(Dictionary<string,PDFDoc> pdfs)
+		{
+
 		}
 
 		#region Logger
