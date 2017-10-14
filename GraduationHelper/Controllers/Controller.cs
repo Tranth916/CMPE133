@@ -49,6 +49,10 @@ namespace GraduationHelper.Controllers
 		{
 			get { return _importedPdfs; }
 		}
+		public Dictionary<string, PDFDoc> ParsedPDFS
+		{
+			set;get;
+		}
 		#endregion
 
 		#region Constructor
@@ -122,29 +126,19 @@ namespace GraduationHelper.Controllers
 		{
 			bool ret = false;
 			
-			//OpenFileDialog ofd = new OpenFileDialog()
-			//{
-			//	Multiselect = true,
-			//	CheckFileExists = true,
-			//	InitialDirectory = Application.StartupPath + "\\Docs",
-			//	Filter = "*.pdf | *.PDF",
-			//};
-			//var result = ofd.ShowDialog();
-			//if (result == DialogResult.Cancel)
-			//	return ret;
-			//string[] files = ofd.FileNames;
-
 			if (_importedPdfs == null)
 				_importedPdfs = new Dictionary<string, PdfDocument>();
 			else
 				_importedPdfs.Clear();
 
+			if (ParsedPDFS == null)
+				ParsedPDFS = new Dictionary<string, PDFDoc>();
+
 			string name = "";
 
-			PdfDocument doc = null;
 			PDFDoc myDoc = null;
 
-			foreach(var file in files)
+			foreach (var file in files)
 			{
 				if (!File.Exists(file))
 					continue;
@@ -153,57 +147,46 @@ namespace GraduationHelper.Controllers
 
 				myDoc = new PDFDoc(file);
 
+				ParsedPDFS.Add(name, myDoc);
 				
+			}
+
+			if (ParsedPDFS.Count > 0)
+				ret = true;
+
+			try
+			{
+				List<string> strs = new List<string>();
+
+				foreach (var val in ParsedPDFS.Values)
+				{
+					var courses = val.CourseDictionary.Values;
+
+					foreach (var course in courses)
+					{
+						if (course.IsGeneralEd && _mainForm.GeneralEdTextBoxes.ContainsKey(course.GEDesignation))
+						{
+							// Test
+							_mainForm.GeneralEdTextBoxes[course.GEDesignation].Text = course.ToString();
+						}
+					}
+				}
+			}
+			catch (Exception)
+			{
 
 			}
 
-			if (_importedPdfs.Count > 0)
-				ret = true;
-			
 			return ret;
 		}
 
 
 		public void PopulateTextFields()
 		{
-			if (_importedPdfs == null)
+			if (ParsedPDFS == null)
 				return;
 
-			string name;
-			string pdfText;
-			int startIndex, endIndex;
-			int startIndex2, endIndex2;
 
-			PdfDocument doc;
-
-			foreach (var entry in _importedPdfs)
-			{
-				try
-				{
-					name = entry.Key;
-					doc = entry.Value;
-
-					pdfText = doc.GetPdfText(3);
-
-					//start region:
-					startIndex = pdfText.IndexOf("Designation");
-					startIndex2 = pdfText.IndexOf("Status");
-					endIndex = pdfText.IndexOf("\r\n", startIndex2);
-					
-					string subStr = pdfText.Substring(startIndex, endIndex);
-					
-					int semStartIndex = subStr.IndexOf("Fall 2016");
-					int nextCarriage = subStr.IndexOf("\n");
-
-					string grade = subStr.Substring(semStartIndex, nextCarriage);
-					
-					Debug.WriteLine(GetGradeAndCourse(pdfText));
-				}
-				catch(Exception)
-				{
-
-				}
-			}
 		}
 
 		Dictionary<string, Course> _transcriptInfo = new Dictionary<string, Course>();
@@ -312,6 +295,7 @@ namespace GraduationHelper.Controllers
 			}
 			return "";
 		}
+
 		public bool CheckCourseUnits(string str)
 		{	
 			return str.Equals(unitsToken3) || str.Equals(unitsToken2) || str.Equals(unitsToken1);
@@ -501,7 +485,6 @@ namespace GraduationHelper.Controllers
 			}
 			return null;
 		}
-
 
 	}
 }

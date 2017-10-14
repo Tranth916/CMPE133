@@ -68,10 +68,6 @@
 			this.majorTBox = new System.Windows.Forms.TextBox();
 			this.programYearTB = new System.Windows.Forms.TextBox();
 			this.areaTB_A1 = new System.Windows.Forms.TextBox();
-			this.displayGroupBox = new System.Windows.Forms.GroupBox();
-			this.importBtn = new System.Windows.Forms.Button();
-			this.logTextBox = new System.Windows.Forms.RichTextBox();
-			this.importTranscriptBtn = new System.Windows.Forms.Button();
 			this.areaLbl_C1 = new System.Windows.Forms.Label();
 			this.areaLbl_C2 = new System.Windows.Forms.Label();
 			this.areaLbl_C3 = new System.Windows.Forms.Label();
@@ -92,6 +88,9 @@
 			this.areaTB_D2 = new System.Windows.Forms.TextBox();
 			this.areaTB_D3 = new System.Windows.Forms.TextBox();
 			this.areaTB_E1 = new System.Windows.Forms.TextBox();
+			this.displayGroupBox = new System.Windows.Forms.GroupBox();
+			this.importBtn = new System.Windows.Forms.Button();
+			this.logTextBox = new System.Windows.Forms.RichTextBox();
 			this.personalInfoGroupBox.SuspendLayout();
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -547,43 +546,6 @@
 			this.areaTB_A1.Size = new System.Drawing.Size(631, 44);
 			this.areaTB_A1.TabIndex = 11;
 			// 
-			// displayGroupBox
-			// 
-			this.displayGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.displayGroupBox.Controls.Add(this.tabPages);
-			this.displayGroupBox.Location = new System.Drawing.Point(642, 89);
-			this.displayGroupBox.Name = "displayGroupBox";
-			this.displayGroupBox.Size = new System.Drawing.Size(1433, 1146);
-			this.displayGroupBox.TabIndex = 6;
-			this.displayGroupBox.TabStop = false;
-			// 
-			// importBtn
-			// 
-			this.importBtn.Location = new System.Drawing.Point(642, 33);
-			this.importBtn.Name = "importBtn";
-			this.importBtn.Size = new System.Drawing.Size(183, 50);
-			this.importBtn.TabIndex = 7;
-			this.importBtn.Text = "Import Files";
-			this.importBtn.UseVisualStyleBackColor = true;
-			this.importBtn.Click += new System.EventHandler(this.OnClickImportBtn);
-			// 
-			// logTextBox
-			// 
-			this.logTextBox.Location = new System.Drawing.Point(24, 440);
-			this.logTextBox.Name = "logTextBox";
-			this.logTextBox.Size = new System.Drawing.Size(583, 428);
-			this.logTextBox.TabIndex = 8;
-			this.logTextBox.Text = "";
-			// 
-			// importTranscriptBtn
-			// 
-			this.importTranscriptBtn.Location = new System.Drawing.Point(1325, 48);
-			this.importTranscriptBtn.Name = "importTranscriptBtn";
-			this.importTranscriptBtn.Size = new System.Drawing.Size(358, 48);
-			this.importTranscriptBtn.TabIndex = 9;
-			this.importTranscriptBtn.Text = "Import Transcript Test";
-			this.importTranscriptBtn.UseVisualStyleBackColor = true;
-			// 
 			// areaLbl_C1
 			// 
 			this.areaLbl_C1.AutoSize = true;
@@ -738,6 +700,34 @@
 			this.areaTB_E1.Size = new System.Drawing.Size(631, 44);
 			this.areaTB_E1.TabIndex = 31;
 			// 
+			// displayGroupBox
+			// 
+			this.displayGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.displayGroupBox.Controls.Add(this.tabPages);
+			this.displayGroupBox.Location = new System.Drawing.Point(642, 89);
+			this.displayGroupBox.Name = "displayGroupBox";
+			this.displayGroupBox.Size = new System.Drawing.Size(1433, 1146);
+			this.displayGroupBox.TabIndex = 6;
+			this.displayGroupBox.TabStop = false;
+			// 
+			// importBtn
+			// 
+			this.importBtn.Location = new System.Drawing.Point(642, 33);
+			this.importBtn.Name = "importBtn";
+			this.importBtn.Size = new System.Drawing.Size(183, 50);
+			this.importBtn.TabIndex = 7;
+			this.importBtn.Text = "Import Files";
+			this.importBtn.UseVisualStyleBackColor = true;
+			this.importBtn.Click += new System.EventHandler(this.OnClickImportBtn);
+			// 
+			// logTextBox
+			// 
+			this.logTextBox.Location = new System.Drawing.Point(24, 440);
+			this.logTextBox.Name = "logTextBox";
+			this.logTextBox.Size = new System.Drawing.Size(583, 428);
+			this.logTextBox.TabIndex = 8;
+			this.logTextBox.Text = "";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -746,7 +736,6 @@
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(2094, 1264);
-			this.Controls.Add(this.importTranscriptBtn);
 			this.Controls.Add(this.logTextBox);
 			this.Controls.Add(this.importBtn);
 			this.Controls.Add(this.displayGroupBox);
@@ -817,7 +806,6 @@
 		private System.Windows.Forms.Label areaLbl_B2;
 		private System.Windows.Forms.Label areaLbl_B3;
 		private System.Windows.Forms.Label areaLbl_B4;
-		private System.Windows.Forms.Button importTranscriptBtn;
 		private System.Windows.Forms.TextBox majorTBox;
 		private System.Windows.Forms.TextBox programYearTB;
 		private System.Windows.Forms.TextBox areaTB_A1;

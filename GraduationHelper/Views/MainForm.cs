@@ -49,19 +49,19 @@ namespace GraduationHelper
 					{
 						{ majorImportLbl.Name, majorTBox },
 						{ programYearLbl.Name, programYearTB },
-						{ areaLbl_A1.Name, areaTB_A1 },
-						{ areaLbl_A2.Name, areaTB_A2 },
-						{ areaLbl_A3.Name, areaTB_A3 },
-						{ areaLbl_B1.Name, areaTB_B1 },
-						{ areaLbl_B2.Name, areaTB_B2 },
-						{ areaLbl_B3.Name, areaTB_B3 },
-						{ areaLbl_B4.Name, areaTB_B4 },
-						{ areaLbl_C1.Name, areaTB_C1 },
-						{ areaLbl_C2.Name, areaTB_C2 },
-						{ areaLbl_C3.Name, areaTB_C3 },
-						{ areaLbl_D1.Name, areaTB_D1 },
-						{ areaLbl_D2.Name, areaTB_D2 },
-						{ areaLbl_E1.Name, areaTB_E1 },
+						{ areaTB_A1.Name, areaTB_A1 },
+						{ areaTB_A2.Name, areaTB_A2 },
+						{ areaTB_A3.Name, areaTB_A3 },
+						{ areaTB_B1.Name, areaTB_B1 },
+						{ areaTB_B2.Name, areaTB_B2 },
+						{ areaTB_B3.Name, areaTB_B3 },
+						{ areaTB_B4.Name, areaTB_B4 },
+						{ areaTB_C1.Name, areaTB_C1 },
+						{ areaTB_C2.Name, areaTB_C2 },
+						{ areaTB_C3.Name, areaTB_C3 },
+						{ areaTB_D1.Name, areaTB_D1 },
+						{ areaTB_D2.Name, areaTB_D2 },
+						{ areaTB_E1.Name, areaTB_E1 },
 					};
 				}
 				
@@ -92,9 +92,7 @@ namespace GraduationHelper
 		private void Init()
 		{
 			_controller = new Controller(this);
-
 			LoadConfigOnStartup();
-
 			this.SizeChanged += (o, e) => 
 			{
 				if (tabPages != null && displayGroupBox != null)
@@ -113,7 +111,6 @@ namespace GraduationHelper
 					}
 				}
 			};
-
 			this.AllowDrop = true;
 			dataPage.AllowDrop = true;
 			tabPages.AllowDrop = true;
@@ -324,34 +321,22 @@ namespace GraduationHelper
 
 			if ((ofd.ShowDialog() == DialogResult.OK))
 			{
-				_controller.ImportFiles(ofd.FileNames);
+				bool gotData = _controller.ImportFiles(ofd.FileNames);
+
+				if (gotData)
+					_controller.PopulateTextFields();
+
 			}
 			else
 				return;
-
-			//foreach(var entry in _controller.ImportedPdfs)
-			//{
-			//	PdfViewer vi = new PdfViewer()
-			//	{
-			//		Document = entry.Value,
-			//		Name = entry.Key,
-			//		ZoomMode = PdfViewerZoomMode.FitWidth,
-			//	};
-
-			//	TabPage tp = new TabPage(entry.Key);
-
-			//	tp.Controls.Add(vi);
-			//	tabPages.TabPages.Add(tp);
-			//	vi.Size = tp.Size;
-
-			//	tp.SizeChanged += (o, x) => 
-			//	{
-			//		vi.Size = tp.Size;
-			//	};
-			//	tabPages.SelectedIndex = tabPages.TabCount - 1;
-			//}
 		}
 		
+
+		public void UpdateGeneralEdTextBoxes()
+		{
+
+		}
+
 		public void RenderImportedPdfs(Dictionary<string,PDFDoc> pdfs)
 		{
 
@@ -365,6 +350,6 @@ namespace GraduationHelper
 				logTextBox.AppendText(str + Environment.NewLine);
 			}
 		}
-		#endregion
+		#endregion	
 	}
 }

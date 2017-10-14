@@ -9,6 +9,7 @@ using GraduationHelper.Interfaces;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PdfiumViewer;
+using GraduationHelper.Utils;
 
 namespace GraduationHelper.Models
 {
@@ -20,21 +21,20 @@ namespace GraduationHelper.Models
 		public string FileVersion { get; set; }
 		#endregion
 
+		#region Private Members
 		private const PdfViewerZoomMode FitWidth = PdfViewerZoomMode.FitWidth;
-
 		private Rectangle _rect;
 		private string _copiedFileName;
-
 		private float StartingX { get { return Reader.GetPageSize(1).Left; } }
 		private float StartingY { get { return Reader.GetPageSize(1).Bottom; } }
 		private float EndingX { get { return Reader.GetPageSize(1).Right; } }
 		private float EndingY { get { return Reader.GetPageSize(1).Top; } }
+#endregion
 
 		#region Public Members
 		public Dictionary<string, string> GeneralEdDictionary;
 		public bool IsMyAcademicRequirement { set; get; }
 		public bool IsTranscript { set; get; }
-
 		public PdfReader Reader
 		{
 			private set;
@@ -55,8 +55,13 @@ namespace GraduationHelper.Models
 			private set;
 			get;
 		}
+		public Dictionary<string, Course> CourseDictionary
+			{
+				private set;
+				get;
+			}
 		#endregion
-
+		
 		/// <summary>
 		/// Extends iTextSharp...PdfReader and uses PdfiumViewer
 		/// </summary>
@@ -87,7 +92,7 @@ namespace GraduationHelper.Models
 					ShowToolbar = true,
 				};
 
-				ParsePdf();
+				ParsePdf2();
 			}
 			catch (Exception ex)
 			{
@@ -102,8 +107,28 @@ namespace GraduationHelper.Models
 
 
 		}
-		const string dateMMDDYEARREGEX = "((?:[0]?[1-9]|[1][012])[-:\\/.](?:(?:[0-2]?\\d{1})|(?:[3][01]{1}))[-:\\/.](?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3})))(?![\\d])";
-		const string floatUnitRegex = "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])";
+		
+		public void ParsePdf2()
+		{
+			StringBuilder sb = new StringBuilder();
+
+			for(int i = 1; i < PdfiumDoc.PageCount; i++)
+			{
+				try
+				{
+					sb.Append(PdfiumDoc.GetPdfText(i).Replace(PdfHelper.SplitPatternCarriage, ""));
+				}
+				catch(Exception e)
+				{
+					Debug.WriteLine("Exception throw while reading pdf files." + e.Message);
+				}
+			}
+
+			PdfHelper.ParsePDF(ImportedPDF.MyProgressTranscript, sb);
+		}
+
+
+
 
 		public void ParsePdf()
 		{
@@ -112,14 +137,8 @@ namespace GraduationHelper.Models
 
 			string textFromPage;
 			StringBuilder sb = new StringBuilder();
-			StringBuilder cleanedString = new StringBuilder();
-
 			char[] splitNewLine = new char[] { '\n' };
-			
-			//testing- remove this
-			string filePath = $"C:\\Users\\Thao Tran\\Desktop\\FUCKTHISFILTER.TXT";
-			StreamWriter sw = new StreamWriter(filePath);
-			
+
 			//First Pass
 			for (int i = 1; i < PdfiumDoc.PageCount; i++)
 			{
@@ -152,7 +171,7 @@ namespace GraduationHelper.Models
 						if (s.StartsWith("|"))
 							sb.Append(Environment.NewLine);
 
-						if (PassFilter(s))
+						if (!s.StartsWith("https:"))
 							sb.Append($"{s.Trim()} ");
 
 						if (s.StartsWith("|"))
@@ -189,6 +208,15 @@ namespace GraduationHelper.Models
 			string dateRemoval;
 			string[] thirdPass = sb.ToString().Split('\r');
 
+			/* At this line it looks like:
+			 * GE courses
+			 * ENGL 1A First Year Writing 3.00 Fall 2016 A GE A2: Written Comm 1A
+			 * 
+			 * SE major courses
+			 * 
+			 * SE 187 Soft Quality Engr 3.00 Spring 2017 A
+			 * 
+			 */
 			sb.Clear();
 			for (int i = 0; i < thirdPass.Length; i++)
 			{
@@ -201,7 +229,7 @@ namespace GraduationHelper.Models
 				if (!current.Contains("1 of 1") && next.Contains("1 of 1"))
 				{
 					current = current.Replace("  ", " ");
-					dateRemoval = current.Split(' ').FirstOrDefault(f => Regex.IsMatch(f, dateMMDDYEARREGEX));					
+					dateRemoval = current.Split(' ').FirstOrDefault(f => Regex.IsMatch(f, PdfHelper.RegexPatternMMDDYEAR));					
 
 					if (dateRemoval != null)
 						current = current.Replace(dateRemoval, "").Trim();
@@ -215,24 +243,108 @@ namespace GraduationHelper.Models
 				}
 			}
 			
-			sw.Write(sb.ToString());
-			sw.Close();
-		}
+			// Pull out all GE courses
+			string[] fourthPass = sb.ToString().Split(splitNewLine, StringSplitOptions.RemoveEmptyEntries);
+			List<string> innerSplit;
 
-		public bool PassFilter(string s)
+			Dictionary<string, Course> courses = new Dictionary<string, Course>();
+			Course courseToBuild;
+			for (int i = 0; i < fourthPass.Length; i++)
+			{
+				try
+				{
+					innerSplit = fourthPass[i].Replace("\r","").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+					courseToBuild = new Course(innerSplit);
+
+					// Get the index of the season.
+					var season = innerSplit.Where
+											  (
+													ss =>
+													ss.StartsWith("Fall", StringComparison.CurrentCultureIgnoreCase) ||
+													ss.StartsWith("Summer", StringComparison.CurrentCultureIgnoreCase) ||
+													ss.StartsWith("Spring", StringComparison.CurrentCultureIgnoreCase)
+											   ).Select(sss => innerSplit.IndexOf(sss)).FirstOrDefault();
+
+					// Get the single index of the course unit.
+					var courseUnitIndex = innerSplit.Where(cui => Regex.IsMatch(cui, PdfHelper.RegexPatternClassUnitFloat))
+													.Select(cui => innerSplit.IndexOf(cui))
+													.FirstOrDefault();
+
+					var yearIndex = innerSplit.Where(yy => Regex.IsMatch(yy, PdfHelper.RegexPatternYEAR) &&
+															innerSplit.IndexOf(yy) > courseUnitIndex)
+												.Select(yy => innerSplit.IndexOf(yy))
+												.FirstOrDefault();
+
+					var courseAbbreviation = innerSplit.Where(ca => ca.ToUpper() == ca &&
+															Char.IsLetter(ca[0]) &&
+															Char.IsLetter(ca[ca.Length - 1])
+														).Select(ca => innerSplit.IndexOf(ca))
+														.FirstOrDefault();
+
+					var courseNumerical = innerSplit.Where(cn => cn.ToUpper() == cn &&
+													     innerSplit.IndexOf(cn) > courseAbbreviation)
+														.Select(cn => innerSplit.IndexOf(cn))
+														.FirstOrDefault();
+
+					courseNumerical = courseNumerical != 0 ? courseNumerical : (courseAbbreviation + 1);
+
+					// Pull out all indexes of where the Class title is.
+					var names = innerSplit.Where
+											(nn =>
+											  !Char.IsDigit(nn[0]) &&
+											  nn[0].ToString().ToUpper() == nn[0].ToString() &&
+											  nn.Substring(1).ToLower() == nn.Substring(1) &&
+											  !Regex.IsMatch(nn, PdfHelper.RegexPatternClassUnitFloat) &&
+											  innerSplit.IndexOf(nn) < season &&
+											  innerSplit.IndexOf(nn) > courseAbbreviation
+											).Select(nnn => innerSplit.IndexOf(nnn));
+
+					var grade = innerSplit.Where(
+											gg => gg.Length <= 2 &&
+												  gg.ToUpper() == gg &&
+												  IsGradeString(gg) &&
+												  innerSplit.IndexOf(gg) > yearIndex
+										  )
+										  .Select(gg => innerSplit.IndexOf(gg))
+										  .FirstOrDefault();
+
+					if (grade > 0)
+					{
+						courseToBuild.BuildCourseFromArray("Season", null, season);
+						courseToBuild.BuildCourseFromArray("Course Abbreviation", null, courseAbbreviation);
+						courseToBuild.BuildCourseFromArray("Course Number", null, courseNumerical);
+						courseToBuild.BuildCourseFromArray("Units", null, courseUnitIndex);
+						courseToBuild.BuildCourseFromArray("Grade", null, grade);
+						courseToBuild.BuildCourseFromArray("Year", null, yearIndex);
+						courseToBuild.BuildCourseFromArray("Course Title", names.ToArray());
+
+						if (!courses.ContainsKey(courseToBuild.ToString()))
+							courses.Add(courseToBuild.ToString(), courseToBuild);
+					}
+
+				}
+				catch(Exception ex)
+				{
+					Debug.WriteLine(ex);
+				}
+			}
+			
+			CourseDictionary = courses;
+		}
+		
+		public bool IsGradeString(string gg)
 		{
-			if (s.Contains("https:"))
+			if (gg.Length > 2)
 				return false;
 
-
-
-
-
-
-
-
-
-			return true;
+			else if (gg.Length == 2 && !(gg.EndsWith("+") || gg.EndsWith("-")))
+				return false;
+			
+			if ((gg[0] == 'A' || gg[0] == 'B' || gg[0] == 'C' || gg[0] == 'D' || gg[0] == 'F'))
+				return true;
+			else
+				return false;
 		}
 
 		public void ParseAcademicReqs(ref List<string> uncleaned, ref List<string> cleaned)
