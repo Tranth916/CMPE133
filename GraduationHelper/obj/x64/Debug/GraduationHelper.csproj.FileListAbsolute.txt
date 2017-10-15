@@ -41,3 +41,46 @@ C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Gnostice.Xtr
 C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Gnostice.XtremeImageEngine.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\bin\x64\Debug\Ionic.Zip.Reduced.dll
 C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\GraduationHelper.exe.config
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\GraduationHelper.exe
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\GraduationHelper.pdb
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Gnostice.Core.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Gnostice.Free.Documents.Controls.WinForms.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Gnostice.Free.Documents.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Gnostice.XtremeFontEngine.4.0.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Gnostice.XtremeImageEngine.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Ionic.Zip.Reduced.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.barcodes.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.forms.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.io.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.kernel.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.layout.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.pdfa.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.sign.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itextsharp.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\PdfiumViewer.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.barcodes.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.forms.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.io.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.kernel.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.layout.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.pdfa.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itext.sign.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\itextsharp.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\PdfiumViewer.xml
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\nl\PdfiumViewer.resources.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\Interop.AcroPDFLib.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\bin\x64\Debug\AxInterop.AcroPDFLib.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.csprojResolveAssemblyReference.cache
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\Interop.AcroPDFLib.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\AxInterop.AcroPDFLib.dll
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.ResolveComReference.cache
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.Views.AboutForm.resources
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.Views.InfoForm.resources
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.MainForm.resources
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.Properties.Resources.resources
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.Views.ViewDoc.resources
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.GenerateResource.Cache
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.exe
+C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.pdb
