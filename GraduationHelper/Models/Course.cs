@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using GraduationHelper.Utils;
 namespace GraduationHelper.Models
 {
 	public class Course
@@ -60,12 +60,24 @@ namespace GraduationHelper.Models
 		{
 			set; get;
 		}
+		public string YearStr { set; get; }
 		public string GEDesignation
 		{
 			private set; get;
 		}
+		public string CourseUnits { set; get; }
+		public string ETC { set; get; }
+		public string EntryKey
+		{
+			get { return CourseAbbreviation + CourseNumber + CourseTitle; }
+		}
 		#endregion
 
+		public Course(Dictionary<string,string> info)
+		{
+			if(info != null)
+				SetCourseInfo(info);
+		}
 		public Course(List<string> strs)
 		{
 			OriginalString = strs;
@@ -75,6 +87,18 @@ namespace GraduationHelper.Models
 				IsGeneralEd = true;
 				SetGEDesignation();
 			}
+		}
+
+		private void SetCourseInfo(Dictionary<string, string> info)
+		{
+			CourseAbbreviation = info[CourseDictionaryContent.CourseAbbreviation.ToString()];
+			CourseNumber = info[CourseDictionaryContent.CourseNumber.ToString()];
+			Semester = info[CourseDictionaryContent.Season.ToString()];
+			YearStr = info[CourseDictionaryContent.Year.ToString()];
+			Grade = info[CourseDictionaryContent.Grade.ToString()];
+			CourseUnits = info[CourseDictionaryContent.Unit.ToString()];
+			CourseTitle = info[CourseDictionaryContent.CourseTitle.ToString()];
+			ETC = info[CourseDictionaryContent.ETC.ToString()];
 		}
 
 		private void SetGEDesignation()
@@ -107,85 +131,14 @@ namespace GraduationHelper.Models
 				GEDesignation = "areaTB_E1";
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="prop">
-		/// Season
-		/// CourseAbbreviation
-		/// Year
-		/// Units
-		/// Course Title
-		/// </param>
-		/// <param name="indexes"></param>
-		/// <param name="ii"></param>
-		/// <returns></returns>
-		public string BuildCourseFromArray(string prop, int[] indexes, int ii = -1)
+		public string GetDictionaryStr()
 		{
-			StringBuilder sb = new StringBuilder();
-			string ret = "";
-			try
-			{
-
-				switch (prop)
-				{
-					case "Season":
-						if (ii > 0)
-							Semester = OriginalString[ii];
-						ret = Semester;
-						break;
-
-					case "Course Abbreviation":
-						if (ii > -1)
-							CourseAbbreviation = OriginalString[ii];
-						ret = CourseAbbreviation;
-						break;
-
-					case "Year":
-						if (ii > -1)
-							Year = int.Parse(OriginalString[ii]);
-						ret = Year.ToString();
-						break;
-
-					case "Units":
-						if (ii > -1)
-							Units = float.Parse(OriginalString[ii]);
-						ret = Units.ToString();
-						break;
-
-					case "Course Title":
-						for (int i = 0; i < indexes.Length; i++)
-						{
-							sb.Append(OriginalString[indexes[i]] + " ");
-						}
-						CourseTitle = sb.ToString() ?? "";
-						ret = CourseTitle;
-						break;
-
-					case "Course Number":
-						if (ii > -1)
-							CourseNumber = OriginalString[ii];
-						ret = CourseNumber;
-						break;
-
-					case "Grade":
-						if (ii > -1)
-							Grade = OriginalString[ii];
-						ret = Grade;
-						break;
-
-				}
-			}
-			catch (Exception ex)
-			{
-			}
-
-			return ret;
+			return CourseAbbreviation ?? "" + CourseNumber ?? "";
 		}
 		
 		public override string ToString()
 		{
-			return CourseAbbreviation + CourseNumber;	
+			return CourseAbbreviation + CourseNumber + " " + CourseTitle + " " + Semester + " " + YearStr;
 		}
 	}
 }

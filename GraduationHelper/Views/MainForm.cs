@@ -95,25 +95,25 @@ namespace GraduationHelper
 			LoadConfigOnStartup();
 			this.SizeChanged += (o, e) => 
 			{
-				if (tabPages != null && displayGroupBox != null)
+				if (geCoursesTab != null && displayGroupBox != null)
 				{
 					displayGroupBox.Width = (int)(.75 * this.Width);
 					displayGroupBox.Height = (int)(.90 * this.Height);
-					tabPages.Height = displayGroupBox.Height - 50;
-					tabPages.Width = displayGroupBox.Width - 70;
+					geCoursesTab.Height = displayGroupBox.Height - 50;
+					geCoursesTab.Width = displayGroupBox.Width - 70;
 				}
 
-				if(tabPages != null && tabPages.HasChildren)
+				if(geCoursesTab != null && geCoursesTab.HasChildren)
 				{
-					foreach(Control c in tabPages.Controls)
+					foreach(Control c in geCoursesTab.Controls)
 					{
-						c.Size = tabPages.Size;
+						c.Size = geCoursesTab.Size;
 					}
 				}
 			};
 			this.AllowDrop = true;
 			dataPage.AllowDrop = true;
-			tabPages.AllowDrop = true;
+			geCoursesTab.AllowDrop = true;
 			
 			
 			dataPage.DragDrop += (o, e) =>

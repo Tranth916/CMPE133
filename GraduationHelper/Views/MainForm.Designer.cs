@@ -53,7 +53,7 @@
 			this.downloadFormsBtn = new System.Windows.Forms.Button();
 			this.downloadFormsCheckList = new System.Windows.Forms.CheckedListBox();
 			this.testButton = new System.Windows.Forms.Button();
-			this.tabPages = new System.Windows.Forms.TabControl();
+			this.geCoursesTab = new System.Windows.Forms.TabControl();
 			this.dataPage = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.majorImportLbl = new System.Windows.Forms.Label();
@@ -88,6 +88,7 @@
 			this.areaTB_D2 = new System.Windows.Forms.TextBox();
 			this.areaTB_D3 = new System.Windows.Forms.TextBox();
 			this.areaTB_E1 = new System.Windows.Forms.TextBox();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.displayGroupBox = new System.Windows.Forms.GroupBox();
 			this.importBtn = new System.Windows.Forms.Button();
 			this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -95,7 +96,7 @@
 			this.userInfoTable.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.dlFormsGroupBox.SuspendLayout();
-			this.tabPages.SuspendLayout();
+			this.geCoursesTab.SuspendLayout();
 			this.dataPage.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.displayGroupBox.SuspendLayout();
@@ -360,16 +361,17 @@
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
-			// tabPages
+			// geCoursesTab
 			// 
-			this.tabPages.Controls.Add(this.dataPage);
-			this.tabPages.Location = new System.Drawing.Point(22, 38);
-			this.tabPages.Name = "tabPages";
-			this.tabPages.RightToLeftLayout = true;
-			this.tabPages.SelectedIndex = 0;
-			this.tabPages.Size = new System.Drawing.Size(1393, 1077);
-			this.tabPages.TabIndex = 5;
-			this.tabPages.SelectedIndexChanged += new System.EventHandler(this.OnTabIndexChanged);
+			this.geCoursesTab.Controls.Add(this.dataPage);
+			this.geCoursesTab.Controls.Add(this.tabPage1);
+			this.geCoursesTab.Location = new System.Drawing.Point(22, 38);
+			this.geCoursesTab.Name = "geCoursesTab";
+			this.geCoursesTab.RightToLeftLayout = true;
+			this.geCoursesTab.SelectedIndex = 0;
+			this.geCoursesTab.Size = new System.Drawing.Size(1393, 1077);
+			this.geCoursesTab.TabIndex = 5;
+			this.geCoursesTab.SelectedIndexChanged += new System.EventHandler(this.OnTabIndexChanged);
 			// 
 			// dataPage
 			// 
@@ -700,10 +702,20 @@
 			this.areaTB_E1.Size = new System.Drawing.Size(631, 44);
 			this.areaTB_E1.TabIndex = 31;
 			// 
+			// tabPage1
+			// 
+			this.tabPage1.Location = new System.Drawing.Point(8, 39);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(1377, 1030);
+			this.tabPage1.TabIndex = 2;
+			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
 			// displayGroupBox
 			// 
 			this.displayGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.displayGroupBox.Controls.Add(this.tabPages);
+			this.displayGroupBox.Controls.Add(this.geCoursesTab);
 			this.displayGroupBox.Location = new System.Drawing.Point(642, 89);
 			this.displayGroupBox.Name = "displayGroupBox";
 			this.displayGroupBox.Size = new System.Drawing.Size(1433, 1146);
@@ -754,7 +766,7 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.dlFormsGroupBox.ResumeLayout(false);
-			this.tabPages.ResumeLayout(false);
+			this.geCoursesTab.ResumeLayout(false);
 			this.dataPage.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
@@ -790,7 +802,7 @@
 		private System.Windows.Forms.Button downloadFormsBtn;
 		private System.Windows.Forms.CheckedListBox downloadFormsCheckList;
 		private System.Windows.Forms.Button testButton;
-		private System.Windows.Forms.TabControl tabPages;
+		private System.Windows.Forms.TabControl geCoursesTab;
 		private System.Windows.Forms.TabPage dataPage;
 		private System.Windows.Forms.GroupBox displayGroupBox;
 		private System.Windows.Forms.Button button1;
@@ -829,6 +841,7 @@
 		private System.Windows.Forms.TextBox areaTB_D2;
 		private System.Windows.Forms.TextBox areaTB_D3;
 		private System.Windows.Forms.TextBox areaTB_E1;
+		private System.Windows.Forms.TabPage tabPage1;
 	}
 }
 

@@ -36,6 +36,7 @@
 			this.label11 = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -51,6 +52,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.label11, 0, 4);
 			this.tableLayoutPanel1.Controls.Add(this.label12, 0, 5);
 			this.tableLayoutPanel1.Controls.Add(this.label13, 0, 6);
+			this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 1);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 28);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 11;
@@ -131,6 +133,13 @@
 			this.label13.TabIndex = 6;
 			this.label13.Text = "label13";
 			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(235, 53);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(427, 31);
+			this.textBox1.TabIndex = 7;
+			// 
 			// InfoForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -155,5 +164,6 @@
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.TextBox textBox1;
 	}
 }

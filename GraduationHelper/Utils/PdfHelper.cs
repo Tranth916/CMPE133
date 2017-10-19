@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
+using GraduationHelper.Models;
 namespace GraduationHelper.Utils
 {
 	public enum ImportedPDF
@@ -16,9 +17,39 @@ namespace GraduationHelper.Utils
 		UnofficalTranscript = 2,
 		MissionCollegeTranscript = 3,
 	};
+	public enum CourseDictionaryContent
+	{
+		CourseAbbreviation,
+		CourseNumber,
+		CourseTitle,
+		Season,
+		Unit,
+		Year,
+		Grade,
+		ETC,
+	}
+	public class PdfHelper
+	{
+		private static PdfHelper _instance;
+		public static PdfHelper Instance
+		{
+			private set
+			{
+				_instance = value;
+			}
+			get
+			{
+				if (_instance == null)
+					_instance = new PdfHelper();
 
-    public static class PdfHelper
-    {
+				return _instance;
+			}
+		}
+		private PdfHelper()
+		{
+
+		}
+		
         public static readonly char[] SplitPatternVertBar = new char[] { '|' };
         public static readonly char[] SplitPatternRCarriage = new char[] { '\r' };
         public static readonly char[] SplitPatternNewLine = new char[] { '\n' };
@@ -30,7 +61,15 @@ namespace GraduationHelper.Utils
         public static readonly string RegexPatternClassUnitFloat = "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])";
         public static readonly string RegexPatternDigits = "";
         public static readonly string BeginFilterHttp = "https:";
-        public static readonly List<string> FiltersMyProgressTranscript = new List<string>()
+		public static readonly string SplitDesignationStatus = "Designation Status";
+		public static readonly string SplitVertBarCourseComplete = "| First 1 of 1 Last";
+		public static readonly List<string> LetterGradesList = new List<string>()
+		{
+			"A", "B", "C", "D", "F",
+			"P", "NP",
+			"W"
+		};
+		public static readonly List<string> FiltersMyProgressTranscript = new List<string>()
         {
             "My Academic Requirements",
             "Course Descr iption Units When Grade Requi rement",
@@ -45,16 +84,17 @@ namespace GraduationHelper.Utils
             "   ",
             "  ",
         };
-        public static readonly string SplitDesignationStatus = "Designation Status";
-        public static readonly string SplitVertBarCourseComplete = "| First 1 of 1 Last";
-        public static void ParsePDF(ImportedPDF file, StringBuilder data)
+
+		public static object ParsePDF(ImportedPDF file, StringBuilder data)
         {
+			Dictionary<string, Course> retDictionary = new Dictionary<string, Course>();
+
             switch (file)
             {
                 case ImportedPDF.MyProgressTranscript:
-                    ParseProgressTranscript(data);
-                    break;
-
+					ParseProgressTranscript(data, ref retDictionary);
+					return retDictionary;
+                  
                 case ImportedPDF.CourseHistoryTranscript:
 
                     break;
@@ -67,9 +107,9 @@ namespace GraduationHelper.Utils
 
                     break;
             }
+			return null;
         }
-
-        public static void ParseProgressTranscript(StringBuilder textData)
+        public static void ParseProgressTranscript(StringBuilder textData, ref Dictionary<string,Course> dict)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -136,48 +176,78 @@ namespace GraduationHelper.Utils
             var geCoursesCompleted = StringBetweenLines(ref lines, "Designation Status", "| First");
             var majorCoursesCompleted = StringBeforeLine(ref lines, "| First 1 of");
 
+			Course cc;
             foreach (string s in geCoursesCompleted)
             {
-                ExtractCourseInfoAndGrade(s);
+				try
+				{
+					cc = ExtractCourseInfoAndGrade(s);
+
+					if (!dict.ContainsKey(cc.EntryKey))
+						dict.Add(cc.EntryKey, cc);
+				}
+				catch(Exception ex)
+				{
+					Console.WriteLine(ex.StackTrace);
+				}
             }
-
             foreach (string t in majorCoursesCompleted)
-                Debug.WriteLine(t);
+			{
+				try
+				{
+					cc = ExtractCourseInfoAndGrade(t);
 
-
-       
+					if(!dict.ContainsKey(cc.EntryKey))
+						dict.Add(cc.EntryKey, cc);
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e.StackTrace);
+				}
+			}
+			
         }
-
-        private static bool ExtractCourseInfoAndGrade(string str)
+        private static Course ExtractCourseInfoAndGrade(string strr)
         {
-            //COMM 20 Public Speaking 3.00 Fall 2016 B GE A1: Oral Communication
-            List<string> innerSplit = str.Split(' ').ToList();
+			string str = "";
+
+			if (strr.Contains("Complete") && strr.Contains("(") && strr.Contains(")"))
+				str = strr.Substring(strr.LastIndexOf(")") + 1).Trim();
+			else
+				str = strr;
+
+			str = str.Replace("SFTE ", "");
+			
+			List<string> innerSplit = str.Split(' ').ToList();
+
             innerSplit.Add("#");
 
-            int placeHolder = innerSplit.Count - 1;
-            int seasonIndex, yearIndex, courseAbbrIndex, courseTitleIndex, gradeIndex,
+            int placeHolder = innerSplit.Count - 1,
+				seasonIndex, yearIndex, 
+				courseAbbrIndex, gradeIndex,
                 courseNumIndex, unitIndex;
 
-            Dictionary<string, string> courses = new Dictionary<string, string>()
+            Dictionary<string, string> courseInformation = new Dictionary<string, string>()
             {
-                { "CourseAbbreviation", "" },
-                { "CourseNumber", "" },
-                { "Season", "" },
-                { "Year", "" },
-                { "Grade", "" },
-                { "Unit", "" },
-                {"CourseTitle","" }
-                
+                { CourseDictionaryContent.CourseAbbreviation.ToString(), "" },
+                { CourseDictionaryContent.CourseNumber.ToString(), "" },        
+				{ CourseDictionaryContent.CourseTitle.ToString(), "" },
+				{ CourseDictionaryContent.Season.ToString(), "" },
+				{ CourseDictionaryContent.Year.ToString(), "" },
+                { CourseDictionaryContent.Grade.ToString(), "" },
+                { CourseDictionaryContent.Unit.ToString(), "" },
+				{ CourseDictionaryContent.ETC.ToString(), "" }
             };
 
-            var iSeason = from s in innerSplit
-                          where s.Length > 0 && HasSemesterSeason(s)
-                          let season = innerSplit.IndexOf(s)
-                          select season;
+            var iSeason = from s in innerSplit						  
+						  where s.Length > 0 && HasSemesterSeason(s)
+                          select innerSplit.IndexOf(s);
+			
+            seasonIndex = (iSeason != null && iSeason.Count() > 0) ? iSeason.First() : placeHolder;
 
-            seasonIndex = iSeason != null ? iSeason.FirstOrDefault() : placeHolder;
-            courses["Season"] = innerSplit[seasonIndex];
-            innerSplit[seasonIndex] = "";
+			courseInformation[CourseDictionaryContent.Season.ToString()] = innerSplit[seasonIndex];
+            innerSplit[seasonIndex] = seasonIndex < placeHolder ? 
+									  "" : courseInformation[CourseDictionaryContent.Season.ToString()];
 
             var iYear = from y in innerSplit
                         where y.Length > 0 && HasYear(y)
@@ -185,44 +255,46 @@ namespace GraduationHelper.Utils
                         where year > seasonIndex
                         select year;
 
-            yearIndex = iYear != null ? iYear.First() : placeHolder;
-            courses["Year"] = innerSplit[yearIndex];
-            innerSplit[yearIndex] = "";
+            yearIndex = (iYear != null && iYear.Count() > 0) ? iYear.First() : placeHolder;
+            courseInformation[CourseDictionaryContent.Year.ToString()] = innerSplit[yearIndex];
+            innerSplit[yearIndex] = yearIndex < placeHolder ? 
+									"" : courseInformation[CourseDictionaryContent.Year.ToString()];
             
             var iGrade = from g in innerSplit
-                         where g.Length > 0 && HasGrade(g)
-                         let grade = innerSplit.IndexOf(g)
-                         where grade > yearIndex
+						 let grade = innerSplit.IndexOf(g)
+						 where grade > yearIndex && g.Length > 0 && HasGrade(g)
                          select grade;
 
-            gradeIndex = iGrade != null ? iGrade.FirstOrDefault() : placeHolder;
-            courses["Grade"] = innerSplit[gradeIndex];
-            innerSplit[gradeIndex] = "";
+            gradeIndex = (iGrade != null && iGrade.Count() > 0) ? iGrade.First() : placeHolder;
+            courseInformation[CourseDictionaryContent.Grade.ToString()] = innerSplit[gradeIndex];
+            innerSplit[gradeIndex] = gradeIndex < placeHolder ? 
+									 "" : courseInformation[CourseDictionaryContent.Grade.ToString()];
 
             var iCourseAbbrv = from ca in innerSplit
-                               where ca.Length > 0
-                               let caIndex = innerSplit.IndexOf(ca)
-                               let caWord = ca.ToUpper()
-                               where caIndex < seasonIndex && 
-                                               caWord == ca && 
-                                               Char.IsLetter(ca[0]) &&
-                                               Char.IsLetter(ca[ca.Length - 1])
+							   let caIndex = innerSplit.IndexOf(ca)
+							   let caWord = ca.ToUpper()
+                               where  ca.Length > 0 &&
+									  caIndex < seasonIndex && 
+                                      caWord == ca && 
+                                      Char.IsLetter(ca[0]) &&
+                                      Char.IsLetter(ca[ca.Length - 1])
                                select caIndex;
 
-            courseAbbrIndex = iCourseAbbrv != null ? iCourseAbbrv.FirstOrDefault() : placeHolder;
-            courses["CourseAbbreviation"] = innerSplit[courseAbbrIndex];
-            innerSplit[courseAbbrIndex] = "";
-
-
+            courseAbbrIndex = (iCourseAbbrv != null && iCourseAbbrv.Count() > 0) ? iCourseAbbrv.First() : placeHolder;
+            courseInformation[CourseDictionaryContent.CourseAbbreviation.ToString()] = innerSplit[courseAbbrIndex];
+            innerSplit[courseAbbrIndex] = courseAbbrIndex < placeHolder ? 
+										  "" : courseInformation[CourseDictionaryContent.CourseAbbreviation.ToString()];
+			
             var iCourseUnit = from cn in innerSplit
                              where cn.Length > 0 && Regex.IsMatch(cn, RegexPatternClassUnitFloat)
                              let num = innerSplit.IndexOf(cn)
                              where num > courseAbbrIndex
                              select num;
 
-            unitIndex = iCourseUnit != null ? iCourseUnit.FirstOrDefault() : placeHolder;
-            courses["Unit"] = innerSplit[unitIndex];
-            innerSplit[unitIndex] = "";
+            unitIndex = (iCourseUnit != null && iCourseUnit.Count() > 0) ? iCourseUnit.First() : placeHolder;
+            courseInformation[CourseDictionaryContent.Unit.ToString()] = innerSplit[unitIndex];
+            innerSplit[unitIndex] = unitIndex < placeHolder ?
+									"" : courseInformation[CourseDictionaryContent.Unit.ToString()];
 
             var iCourseNumber = from cn in innerSplit
                                where cn.Length > 0
@@ -231,9 +303,10 @@ namespace GraduationHelper.Utils
                                where cn == cap && HasCourseNumber(cn)
                                select cnIndex;
 
-            courseNumIndex = iCourseNumber != null ? iCourseNumber.FirstOrDefault() : placeHolder;
-            courses["CourseNumber"] = innerSplit[courseNumIndex];
-            innerSplit[courseNumIndex] = "";
+            courseNumIndex = (iCourseNumber != null && iCourseNumber.Count() > 0) ? iCourseNumber.First() : placeHolder;
+            courseInformation[CourseDictionaryContent.CourseNumber.ToString()] = innerSplit[courseNumIndex];
+            innerSplit[courseNumIndex] = courseNumIndex < placeHolder ? 
+										"" : courseInformation[CourseDictionaryContent.CourseNumber.ToString()];
 
             string possibleTitle = "";
             for(int i = courseNumIndex; i < unitIndex; i++)
@@ -245,15 +318,24 @@ namespace GraduationHelper.Utils
                     {
                         innerSplit[i] = "";
                         possibleTitle = $"{possibleTitle} {word}";
-                        courses["CourseTitle"] = possibleTitle;
+                        courseInformation[CourseDictionaryContent.CourseTitle.ToString()] = possibleTitle;
                     }
                 }
                 catch (Exception) { }
             }
 
-            return true;
-        }
-        
+			// Append the rest of the lines to the ETC
+			for(int i = 0; i < innerSplit.Count; i++)
+			{
+				if(innerSplit[i] != "")
+				{
+					courseInformation["ETC"] = innerSplit[i] + " ";
+					innerSplit[i] = "";
+				}
+			}
+			
+			return new Course(courseInformation);
+        } 		
         private static List<string> StringBeforeLine(ref List<string> lines, string after)
         {
             List<string> list = new List<string>();
@@ -290,7 +372,7 @@ namespace GraduationHelper.Utils
                     {
                         if (lines[stopIndex].Length > maxLength)
                         {
-                            
+                            //TODO handle when line is too long.
                         }
                         else if (!lines[stopIndex].Trim().StartsWith(after))
                         {
@@ -313,7 +395,6 @@ namespace GraduationHelper.Utils
 
             return betweens;
         }
-
         private static bool SpltByDesignationStatus(string str, ref StringBuilder sb)
         {
             if (str == null || str.Length == 0)
@@ -411,7 +492,6 @@ namespace GraduationHelper.Utils
 
             return false;
         }
-
         public static string GetCourseTitle(string str)
         {
             string ret = str;
@@ -428,6 +508,7 @@ namespace GraduationHelper.Utils
                 return true;
 
             bool firstLetterCap = str[0].ToString().ToUpper() == str[0].ToString();
+
             bool lastLetterLowercase = str[str.Length - 1].ToString().ToLower() == str[str.Length - 1].ToString();
             
             return firstLetterCap && lastLetterLowercase;
@@ -475,13 +556,15 @@ namespace GraduationHelper.Utils
 			if (gg.Length == 2 && !(gg.EndsWith("+") || gg.EndsWith("-")))
 				return false;
 
-            if ((gg[0] == 'A' || gg[0] == 'B' || gg[0] == 'C' || gg[0] == 'D' || gg[0] == 'F'))
-                return true;
-            // some grades are given as units
-            else if (int.TryParse(gg, out var i))
-                return true;
-            else
-                return false;
+			string grade = String.Format(gg[0].ToString()).ToUpper();
+
+			if (Char.IsLetter(gg[0]) && LetterGradesList.Contains(grade))
+				return true;
+			// some grades are given as units
+			else if (int.TryParse(gg, out var i))
+				return true;
+			else
+				return false;
 		}
         private static bool HasCourseUnit(string cu)
         {

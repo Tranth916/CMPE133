@@ -149,6 +149,10 @@ namespace GraduationHelper.Controllers
 
 				ParsedPDFS.Add(name, myDoc);
 				
+				if(myDoc.CourseDictionary != null)
+				{
+
+				}
 			}
 
 			if (ParsedPDFS.Count > 0)
@@ -178,6 +182,34 @@ namespace GraduationHelper.Controllers
 			}
 
 			return ret;
+		}
+
+		public TableLayoutPanel BuildTablePanel(Dictionary<string,string> info, Control parent)
+		{
+			TableLayoutPanel tlp = new TableLayoutPanel();
+			tlp.Size = parent.Size;
+			
+
+
+
+
+
+
+
+
+
+
+
+
+			return null;
+		}
+
+		public List<TextBox> BuildTextBox()
+		{
+
+
+
+			return new List<TextBox>();
 		}
 
 

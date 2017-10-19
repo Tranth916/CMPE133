@@ -17,9 +17,45 @@ namespace GraduationHelper.Views
 			InitializeComponent();
 		}
 
+		public List<Label> LabelsList
+		{
+			get
+			{
+				return new List<Label>()
+				{
+					this.label8,
+					this.label9,
+					this.label10,
+					this.label11,
+					this.label12,
+					this.label13,
+				};
+			}
+		}
+
 		public TableLayoutPanel GetTable()
 		{
-			return this.tableLayoutPanel1;
+			TableLayoutPanel tlp = this.tableLayoutPanel1;
+			Dictionary<Label, TextBox> dict = new Dictionary<Label, TextBox>();
+
+			List<Label> labels = LabelsList;
+			int currentRow, currentCol;
+
+			for(int i = 0; i < labels.Count; i++)
+			{
+				labels[i].Text = "";
+				currentRow = tlp.GetRow(labels[i]);
+				currentCol = tlp.GetColumn(labels[i]);
+
+
+
+
+			}
+
+
+			tlp.Tag = dict;
+			
+			return tlp;
 		}
 	}
 }

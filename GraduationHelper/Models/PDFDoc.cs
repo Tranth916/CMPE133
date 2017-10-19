@@ -124,12 +124,15 @@ namespace GraduationHelper.Models
 				}
 			}
 
-			PdfHelper.ParsePDF(ImportedPDF.MyProgressTranscript, sb);
+			Dictionary<string, Course> transcripts = PdfHelper.ParsePDF(ImportedPDF.MyProgressTranscript, sb) as Dictionary<string,Course>;
+
+			if (transcripts != null)
+			{
+				Debug.WriteLine("Transcript Dictionary !null");
+				this.CourseDictionary = transcripts;
+			}
 		}
-
-
-
-
+		
 		public void ParsePdf()
 		{
 			if (PdfiumDoc.PageCount > 0)
@@ -311,13 +314,13 @@ namespace GraduationHelper.Models
 
 					if (grade > 0)
 					{
-						courseToBuild.BuildCourseFromArray("Season", null, season);
-						courseToBuild.BuildCourseFromArray("Course Abbreviation", null, courseAbbreviation);
-						courseToBuild.BuildCourseFromArray("Course Number", null, courseNumerical);
-						courseToBuild.BuildCourseFromArray("Units", null, courseUnitIndex);
-						courseToBuild.BuildCourseFromArray("Grade", null, grade);
-						courseToBuild.BuildCourseFromArray("Year", null, yearIndex);
-						courseToBuild.BuildCourseFromArray("Course Title", names.ToArray());
+						//courseToBuild.BuildCourseFromArray("Season", null, season);
+						//courseToBuild.BuildCourseFromArray("Course Abbreviation", null, courseAbbreviation);
+						//courseToBuild.BuildCourseFromArray("Course Number", null, courseNumerical);
+						//courseToBuild.BuildCourseFromArray("Units", null, courseUnitIndex);
+						//courseToBuild.BuildCourseFromArray("Grade", null, grade);
+						//courseToBuild.BuildCourseFromArray("Year", null, yearIndex);
+						//courseToBuild.BuildCourseFromArray("Course Title", names.ToArray());
 
 						if (!courses.ContainsKey(courseToBuild.ToString()))
 							courses.Add(courseToBuild.ToString(), courseToBuild);

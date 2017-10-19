@@ -131,6 +131,12 @@
     <Compile Include="Views\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\DataGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\DataGrid.Designer.cs">
+      <DependentUpon>DataGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\InfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Views\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DataGrid.resx">
+      <DependentUpon>DataGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\InfoForm.resx">
       <DependentUpon>InfoForm.cs</DependentUpon>
