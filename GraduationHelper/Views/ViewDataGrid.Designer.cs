@@ -1,6 +1,6 @@
 ﻿namespace GraduationHelper.Views
 {
-	partial class DataGrid
+	partial class ViewDataGrid
 	{
 		/// <summary>
 		/// Required designer variable.
