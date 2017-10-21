@@ -706,10 +706,11 @@
 			// 
 			this.tabPage1.Location = new System.Drawing.Point(8, 39);
 			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.AutoScroll = true;
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size = new System.Drawing.Size(1377, 1030);
 			this.tabPage1.TabIndex = 2;
-			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.Text = "Courses";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// displayGroupBox
@@ -760,6 +761,7 @@
 			this.Padding = new System.Windows.Forms.Padding(5);
 			this.ShowIcon = false;
 			this.Text = "Graduation Helper";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.personalInfoGroupBox.ResumeLayout(false);
 			this.userInfoTable.ResumeLayout(false);
 			this.userInfoTable.PerformLayout();

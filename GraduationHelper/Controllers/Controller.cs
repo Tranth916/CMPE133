@@ -12,7 +12,10 @@ using System.IO;
 using System.Diagnostics;
 using PdfiumViewer;
 using System.Text.RegularExpressions;
-
+using GraduationHelper.Views;
+using PARSER = iTextSharp.text.pdf.parser;
+using RECT = iTextSharp.text;
+using ITEXT = iTextSharp.text.pdf;
 namespace GraduationHelper.Controllers
 {
 	public class Controller
@@ -110,6 +113,45 @@ namespace GraduationHelper.Controllers
 		}
 		#endregion
 
+		public void TestExtractTestByRect()
+		{
+			int deltaY = 10;
+			int top = 792;
+			int bot = top - deltaY;
+			int width = 612;
+			int height = 792;
+			
+			string tempPath = Application.StartupPath + "//templates//majorformtemplate.pdf";
+
+			var reader = new ITEXT.PdfReader(tempPath);
+			var rect = new RECT.Rectangle(0, 0, width, deltaY)
+			{
+				Top = height,
+				Bottom = height  - deltaY,
+			};
+			var rf = new PARSER.RegionTextRenderFilter(rect);
+			var locationStrat = new PARSER.LocationTextExtractionStrategy();
+			var ftrl = new PARSER.FilteredTextRenderListener(locationStrat, rf);
+
+			while (top >= 0)
+			{
+				rect.Top -= deltaY;
+				rect.Bottom -= deltaY;
+
+				top -= deltaY;
+				bot -= deltaY;
+				
+				rf = new PARSER.RegionTextRenderFilter(rect);
+				ftrl = new PARSER.FilteredTextRenderListener(locationStrat, rf);
+
+				var result = ITEXT.parser.PdfTextExtractor.GetTextFromPage(reader, 1, ftrl);
+
+				Debug.WriteLine(result);
+			}
+
+			reader.Close();
+		}
+
 		public void DownloadForms(string[] forms)
 		{
 			if (forms == null || forms.Length == 0)
@@ -119,6 +161,19 @@ namespace GraduationHelper.Controllers
 			d.GetFile(forms);
 		}
 		
+		public void WriteToPDFFile(string fileName = "")
+		{
+			if(ParsedPDFS != null)
+			{
+				string tempPath = Application.StartupPath + "//templates//majorformtemplate.pdf";
+				ITEXT.PdfReader reader = new ITEXT.PdfReader(tempPath);
+				
+				var pdf = ParsedPDFS.FirstOrDefault().Value;
+				
+				pdf.WriteDataToPdf(fileName, reader);
+			}
+		}
+
 		/// <summary>
 		/// Import pdf files and build a dictionary of PdfDocuments.
 		/// </summary>
@@ -148,39 +203,16 @@ namespace GraduationHelper.Controllers
 				myDoc = new PDFDoc(file);
 
 				ParsedPDFS.Add(name, myDoc);
-				
-				if(myDoc.CourseDictionary != null)
-				{
 
+				if (myDoc.CourseDictionary != null)
+				{
+					ViewDataGrid dg = new ViewDataGrid(_mainForm, myDoc.GetInfoForView());
+					_mainForm.SetDataGridView(dg);
 				}
 			}
 
 			if (ParsedPDFS.Count > 0)
 				ret = true;
-
-			try
-			{
-				List<string> strs = new List<string>();
-
-				foreach (var val in ParsedPDFS.Values)
-				{
-					var courses = val.CourseDictionary.Values;
-
-					foreach (var course in courses)
-					{
-						if (course.IsGeneralEd && _mainForm.GeneralEdTextBoxes.ContainsKey(course.GEDesignation))
-						{
-							// Test
-							_mainForm.GeneralEdTextBoxes[course.GEDesignation].Text = course.ToString();
-						}
-					}
-				}
-			}
-			catch (Exception)
-			{
-
-			}
-
 			return ret;
 		}
 
@@ -211,8 +243,7 @@ namespace GraduationHelper.Controllers
 
 			return new List<TextBox>();
 		}
-
-
+		
 		public void PopulateTextFields()
 		{
 			if (ParsedPDFS == null)
@@ -517,6 +548,5 @@ namespace GraduationHelper.Controllers
 			}
 			return null;
 		}
-
 	}
 }

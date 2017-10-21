@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
 using GraduationHelper.Models;
+using System.IO;
+using iTextSharp.text.pdf.parser;
+
+
 namespace GraduationHelper.Utils
 {
 	public enum ImportedPDF
@@ -66,6 +70,8 @@ namespace GraduationHelper.Utils
 		public static readonly List<string> LetterGradesList = new List<string>()
 		{
 			"A", "B", "C", "D", "F",
+			"A+", "B+", "C+", "D+", "F",
+			"A-", "B-", "C-", "D-", "F",
 			"P", "NP",
 			"W"
 		};
@@ -551,18 +557,32 @@ namespace GraduationHelper.Utils
         {
             return Regex.IsMatch(yy, RegexPatternYEAR);
         }
-		private static bool HasGrade(string gg)
+		public static bool HasGrade(string gg)
 		{
-			if (gg.Length == 2 && !(gg.EndsWith("+") || gg.EndsWith("-")))
+			if (gg == "" || gg.Length == 0 || gg == "#")
 				return false;
+
+			//if (gg.Length == 2 && !(gg.EndsWith("+") || gg.EndsWith("-")))
+			//	return false;
 
 			string grade = String.Format(gg[0].ToString()).ToUpper();
 
-			if (Char.IsLetter(gg[0]) && LetterGradesList.Contains(grade))
+			foreach(string s in LetterGradesList)
+			{
+				if (s == gg)
+					return true;
+			}
+
+
+
+
+			if (Char.IsLetter(gg[0]) && LetterGradesList.Contains(grade) && (gg.EndsWith("+") || gg.EndsWith("-")))
 				return true;
 			// some grades are given as units
-			else if (int.TryParse(gg, out var i))
+			else if (int.TryParse(gg, out var i) && i < 1000)
+			{
 				return true;
+			}
 			else
 				return false;
 		}
@@ -570,5 +590,104 @@ namespace GraduationHelper.Utils
         {
             return Regex.IsMatch(cu, RegexPatternClassUnitFloat);
         }
+	}
+
+	class MajorFormExtractor
+	{
+		private string _filePath;
+		private PdfReader _reader;
+		
+		public MajorFormExtractor(string filePath)
+		{
+			_filePath = filePath;
+			LoadReader(_filePath);
+		}
+		private void LoadReader(string filePath)
+		{
+			try
+			{
+				if(File.Exists(filePath) && filePath.EndsWith("pdf",StringComparison.CurrentCultureIgnoreCase))
+				{
+					_reader = new PdfReader(filePath);
+				}
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine(ex.StackTrace);
+			}		
+		}
+
+		public Dictionary<string, float[]> ExtractStringsByRectangle(string filePath, int dY = 10)
+		{
+			if (_reader == null)
+				LoadReader(filePath);
+
+			if (_reader == null || _reader.NumberOfPages == 0)
+				return null;
+
+			int deltaY = dY;
+			int numOfPages = _reader.NumberOfPages;
+
+			var pageRectSize = _reader.GetPageSize(1);
+			float pageHeight = pageRectSize.Height;
+			float pageWidth = pageRectSize.Width;
+
+			int top = (int)pageHeight;
+			int bot = (int)(top - deltaY);
+
+			var data = new Dictionary<string, float[]>();
+			var rect = new iTextSharp.text.Rectangle(0, 0, pageWidth, pageHeight)
+			{
+				Top = top,
+				Bottom = bot,
+			};
+
+			// Declare variables before going into the loop.
+			RegionTextRenderFilter renderFilter;
+			LocationTextExtractionStrategy locStrat;
+			FilteredTextRenderListener textRect;
+			string result;
+			int yPtr;
+
+			// The PdfReader pages[] starts at 1.
+			for(int currentPage = 1; currentPage <= numOfPages; currentPage++)
+			{
+				yPtr = (int)pageHeight;
+
+				while (yPtr >= deltaY && (yPtr-deltaY) >= 0)
+				{
+					renderFilter = new RegionTextRenderFilter(rect);
+					locStrat = new LocationTextExtractionStrategy();
+					textRect = new FilteredTextRenderListener(locStrat, renderFilter);
+					result = PdfTextExtractor.GetTextFromPage(_reader, currentPage, textRect);
+
+					if(result != null && result.Length > 0)
+					{
+						if (!result.Contains("\n"))
+						{
+							if (!data.ContainsKey(result))
+								data.Add(result, new float[] { rect.Top, rect.Bottom });
+						}
+						else
+						{
+
+						}
+					}
+
+					yPtr -= deltaY;
+					rect.Top = yPtr;
+					rect.Bottom = rect.Top - deltaY;
+				}
+			}
+			
+			_reader.Close();
+			return data;
+		}
+		
+		public void CloseReader()
+		{
+			if (_reader != null)
+				_reader.Close();
+		}
 	}
 }

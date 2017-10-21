@@ -71,6 +71,33 @@ namespace GraduationHelper.Models
 		{
 			get { return CourseAbbreviation + CourseNumber + CourseTitle; }
 		}
+		public string FullName
+		{
+			get
+			{
+				return  CourseAbbreviation + " " +
+						CourseNumber + " " +
+						CourseTitle + " " +
+						CourseUnits + " " +
+						YearStr + " " +
+						Grade;
+			}
+		}
+		public string[] DataArray
+		{
+			get
+			{
+				return new string[] 
+				{
+					CourseAbbreviation + CourseNumber,
+					CourseTitle,
+					CourseUnits,
+					Semester,
+					YearStr,
+					Grade
+				};
+			}
+		}
 		#endregion
 
 		public Course(Dictionary<string,string> info)
@@ -129,11 +156,6 @@ namespace GraduationHelper.Models
 				GEDesignation = "areaTB_D1";
 			if (OriginalStringWord.Contains("E: Human Understndng & Devl"))
 				GEDesignation = "areaTB_E1";
-		}
-
-		public string GetDictionaryStr()
-		{
-			return CourseAbbreviation ?? "" + CourseNumber ?? "";
 		}
 		
 		public override string ToString()

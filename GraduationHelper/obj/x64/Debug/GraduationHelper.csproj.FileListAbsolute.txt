@@ -84,3 +84,4 @@ C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelp
 C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.csproj.CoreCompileInputs.cache
 C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.exe
 C:\Users\Thao Tran\Desktop\cmpe133\GraduationHelper\obj\x64\Debug\GraduationHelper.pdb
+C:\GraduationHelper\GraduationHelper\GraduationHelper\obj\x64\Debug\GraduationHelper.Views.ViewDataGrid.resources

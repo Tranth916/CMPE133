@@ -22,8 +22,6 @@ namespace GraduationHelper.Models
 		public Configuration()
 		{
 
-		}
-
-
+		}	
 	}
 }

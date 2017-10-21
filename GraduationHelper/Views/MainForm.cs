@@ -15,7 +15,6 @@ using GraduationHelper.Interfaces;
 using GraduationHelper.Models;
 using PdfiumViewer;
 using System.Linq;
-//using Gnostice.Documents.PDF;
 
 namespace GraduationHelper
 {
@@ -111,19 +110,8 @@ namespace GraduationHelper
 					}
 				}
 			};
-			this.AllowDrop = true;
-			dataPage.AllowDrop = true;
-			geCoursesTab.AllowDrop = true;
-			
-			
-			dataPage.DragDrop += (o, e) =>
-			{
-				
-
-			};
 		}
-
-
+		
 		public void UpdatePersonalInfoFields(string[] infos)
 		{
 			if (infos.Length < 5)
@@ -267,42 +255,25 @@ namespace GraduationHelper
 		}
 
 		#region Test Stuff
-		int testCount = 0;
-		PDFDoc pdf;
-		string _oldFile;
 
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			if(sender is Button)
-			{
-				(sender as Button).DoDragDrop(sender, DragDropEffects.All);
-			}
+			_controller.TestExtractTestByRect();
 
 
-			//if(testCount == 2)
+
+			//SaveFileDialog sfd = new SaveFileDialog()
 			//{
-			//	pdf.Dispose();
-			//	pdf = null;
-			//	_oldFile = null;
-			//}
-			//else if(pdf != null && _oldFile == null)
+			//	DefaultExt = "*.pdf | *.PDF",
+			//	InitialDirectory = Application.StartupPath,				
+			//};
+
+			//var result = sfd.ShowDialog();
+
+			//if( result == DialogResult.OK)
 			//{
-			//	dataPage.Controls.Clear();
-			//	dataPage.Controls.Add(pdf.View);
-			//	pdf.View.Size = dataPage.Size;
-			//	pdf.ParsePdf();
-			//	return;
+			//	_controller.WriteToPDFFile(sfd.FileName);
 			//}
-			//string path = Application.StartupPath +"\\Docs\\stupid_copy.pdf";
-
-			//pdf = new PDFDoc(path);
-			
-			//dataPage.Controls.Add(pdf.View);
-			//pdf.View.Size = dataPage.Size;
-			//_oldFile = pdf.FileLocation;
-			//testCount++;
-
-			//pdf.WriteText();
 		}
 		#endregion
 
@@ -325,13 +296,11 @@ namespace GraduationHelper
 
 				if (gotData)
 					_controller.PopulateTextFields();
-
 			}
 			else
 				return;
 		}
 		
-
 		public void UpdateGeneralEdTextBoxes()
 		{
 
@@ -340,6 +309,19 @@ namespace GraduationHelper
 		public void RenderImportedPdfs(Dictionary<string,PDFDoc> pdfs)
 		{
 
+		}
+
+		public void SetDataGridView(ViewDataGrid vdg)
+		{
+			TabPage tb = new TabPage()
+			{
+				AutoScroll = true,
+				
+			};
+			
+			tabPage1.Controls.Add(vdg.DataTable);
+
+			vdg.SetSizeBindingToParent(tabPage1);
 		}
 
 		#region Logger

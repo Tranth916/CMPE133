@@ -51,8 +51,6 @@ namespace GraduationHelper.Views
 
 
 			}
-
-
 			tlp.Tag = dict;
 			
 			return tlp;
