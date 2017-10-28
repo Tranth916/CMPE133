@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
-using GraduationHelper.Utils;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GraduationHelper.Models
+namespace Parser
 {
 	public class Course
 	{
@@ -68,7 +71,7 @@ namespace GraduationHelper.Models
 		{
 			get
 			{
-				return  CourseAbbreviation + " " +
+				return CourseAbbreviation + " " +
 						CourseNumber + " " +
 						CourseTitle + " " +
 						CourseUnits + " " +
@@ -80,7 +83,7 @@ namespace GraduationHelper.Models
 		{
 			get
 			{
-				return new string[] 
+				return new string[]
 				{
 					CourseAbbreviation + CourseNumber,
 					CourseTitle,
@@ -93,9 +96,9 @@ namespace GraduationHelper.Models
 		}
 		#endregion
 
-		public Course(Dictionary<string,string> info)
+		public Course(Dictionary<string, string> info)
 		{
-			if(info != null)
+			if (info != null)
 				SetCourseInfo(info);
 		}
 		public Course(List<string> strs)

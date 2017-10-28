@@ -214,6 +214,11 @@
     <Content Include="x64\pdfium.dll" />
     <Content Include="x86\pdfium.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Parser\Helper.csproj">
+      <Project>{39b1248f-773f-4bc4-a027-2440f775727c}</Project>
+      <Name>Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

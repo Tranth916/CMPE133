@@ -258,22 +258,7 @@ namespace GraduationHelper
 
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			_controller.TestExtractTestByRect();
-
-
-
-			//SaveFileDialog sfd = new SaveFileDialog()
-			//{
-			//	DefaultExt = "*.pdf | *.PDF",
-			//	InitialDirectory = Application.StartupPath,				
-			//};
-
-			//var result = sfd.ShowDialog();
-
-			//if( result == DialogResult.OK)
-			//{
-			//	_controller.WriteToPDFFile(sfd.FileName);
-			//}
+			_controller.TestExtractTestByRect();	
 		}
 		#endregion
 

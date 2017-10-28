@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
 using GraduationHelper.Models;
 using System.IO;
 using iTextSharp.text.pdf.parser;
-
+using iTextSharp.text;
+using System.Threading;
 
 namespace GraduationHelper.Utils
 {
@@ -20,6 +19,7 @@ namespace GraduationHelper.Utils
 		CourseHistoryTranscript = 1,
 		UnofficalTranscript = 2,
 		MissionCollegeTranscript = 3,
+		MajorForm = 4,
 	};
 	public enum CourseDictionaryContent
 	{
@@ -54,7 +54,8 @@ namespace GraduationHelper.Utils
 
 		}
 		
-        public static readonly char[] SplitPatternVertBar = new char[] { '|' };
+		#region Public Members
+		public static readonly char[] SplitPatternVertBar = new char[] { '|' };
         public static readonly char[] SplitPatternRCarriage = new char[] { '\r' };
         public static readonly char[] SplitPatternNewLine = new char[] { '\n' };
         public static readonly string SplitPatternCarriage = "\r";
@@ -90,17 +91,20 @@ namespace GraduationHelper.Utils
             "   ",
             "  ",
         };
+		#endregion
 
-		public static object ParsePDF(ImportedPDF file, StringBuilder data)
+		public static object ParsePDF(ImportedPDF file, StringBuilder data = null, string fileName = null)
         {
-			Dictionary<string, Course> retDictionary = new Dictionary<string, Course>();
-
             switch (file)
             {
                 case ImportedPDF.MyProgressTranscript:
-					ParseProgressTranscript(data, ref retDictionary);
-					return retDictionary;
-                  
+					if(data != null)
+					{
+						Dictionary<string, Course> retDictionary = new Dictionary<string, Course>();
+						ParseProgressTranscript(data, ref retDictionary);
+						return retDictionary;
+					}
+					break;
                 case ImportedPDF.CourseHistoryTranscript:
 
                     break;
@@ -112,9 +116,29 @@ namespace GraduationHelper.Utils
                 case ImportedPDF.UnofficalTranscript:
 
                     break;
+
+				case ImportedPDF.MajorForm:
+					if (fileName != null)
+						return ParseMajorFormCords(fileName);				
+					break;
             }
 			return null;
         }
+
+		public static Dictionary<string, float[]> ParseMajorFormCords(string fileName)
+		{
+			try
+			{
+				MajorFormExtractor mfe = new MajorFormExtractor(fileName);
+				return mfe.ExtractStringsByRectangle();
+			}
+			catch(Exception ex)
+			{
+				Debug.WriteLine("Exception thrown while parsing major form." + ex.StackTrace);
+			}
+		
+			return null;
+		}
         public static void ParseProgressTranscript(StringBuilder textData, ref Dictionary<string,Course> dict)
         {
             StringBuilder sb = new StringBuilder();
@@ -213,7 +237,8 @@ namespace GraduationHelper.Utils
 			}
 			
         }
-        private static Course ExtractCourseInfoAndGrade(string strr)
+		#region Progress Transcript Parser Methods
+		private static Course ExtractCourseInfoAndGrade(string strr)
         {
 			string str = "";
 
@@ -497,15 +522,8 @@ namespace GraduationHelper.Utils
             }
 
             return false;
-        }
-        public static string GetCourseTitle(string str)
-        {
-            string ret = str;
-
-
-            return ret;
-        }
-        private static bool HasCourseTitle(string str)
+        }  
+		private static bool HasCourseTitle(string str)
         {
             if (str.Length == 0 || str == "")
                 return false;
@@ -557,6 +575,18 @@ namespace GraduationHelper.Utils
         {
             return Regex.IsMatch(yy, RegexPatternYEAR);
         }
+		private static bool HasCourseUnit(string cu)
+		{
+			return Regex.IsMatch(cu, RegexPatternClassUnitFloat);
+		}
+		#endregion
+		public static string GetCourseTitle(string str)
+		{
+			string ret = str;
+
+
+			return ret;
+		}
 		public static bool HasGrade(string gg)
 		{
 			if (gg == "" || gg.Length == 0 || gg == "#")
@@ -586,22 +616,145 @@ namespace GraduationHelper.Utils
 			else
 				return false;
 		}
-        private static bool HasCourseUnit(string cu)
-        {
-            return Regex.IsMatch(cu, RegexPatternClassUnitFloat);
-        }
+	}
+
+	public class PDFFileWriter
+	{
+		public static bool WriteDataToPdf(string path, PdfReader template = null, Dictionary<string,float[]> dataWithPos = null)
+		{
+			if (!File.Exists(path))
+				return false;
+
+			string originalPath = path;
+			string orgRootPath = System.IO.Path.GetDirectoryName(path);
+			string orgFileName = System.IO.Path.GetFileNameWithoutExtension(path);
+			string orgExtension = System.IO.Path.GetExtension(path);
+			
+			// make a copy of the file.
+			string copyOfFile = System.IO.Path.Combine(orgRootPath, orgFileName + "_copy" + orgExtension);
+
+			if (File.Exists(copyOfFile))
+				File.Delete(copyOfFile);
+
+			File.Copy(path, copyOfFile);
+			
+			path = copyOfFile;
+
+			// Need the size of the pages.
+			PdfReader reader = File.Exists(path) ? new PdfReader(path) : template;
+
+			if (reader == null)
+				return false;
+			
+			var _rect = new Rectangle(reader.GetPageSize(1));
+			reader.Close();
+
+			int fontSize = 15;
+			int topOfPage = 792;
+			int rightOfPage = 612;
+			int centerX = rightOfPage / 2;
+			
+			//Create a output doc.
+			Document output = new Document(_rect);
+			FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
+			PdfWriter writer = PdfWriter.GetInstance(output, fs);
+			
+			output.Open();
+
+			PdfContentByte contentWriter = writer.DirectContent;
+
+			if (template != null)
+			{
+				PdfImportedPage page = writer.GetImportedPage(template, 1);
+				contentWriter.AddTemplate(page, 0, 0);
+			}
+
+			var docFonts = BaseFont.GetDocumentFonts(reader);
+
+			var fontStrs = docFonts.Select(ss=> ss.FirstOrDefault()).Cast<String>();
+
+			int smallestFont = int.MaxValue;
+
+			PRIndirectReference prIndrectForFont = null;
+
+			var quer = from df in docFonts
+					   let s = df.FirstOrDefault().ToString()
+					   where !s.Contains("Bold") && !s.Contains("Italic")
+					   select df.LastOrDefault() as PRIndirectReference;
+
+			if (quer != null && quer.Count() > 0)
+				prIndrectForFont = quer.FirstOrDefault();
+
+			var smallestFontQuery = from sf in quer
+									select sf.Type;
+
+			smallestFont = smallestFontQuery.Min();
+
+			BaseFont baseFont;
+			baseFont = prIndrectForFont != null ? BaseFont.CreateFont(prIndrectForFont) :
+										BaseFont.CreateFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+			contentWriter.SetFontAndSize(baseFont, 8);
+
+			Dictionary<float, float> writtenPos = new Dictionary<float, float>();
+	
+			if( dataWithPos != null)
+			{
+				string str;
+				float[] cords;
+				float x, y;
+				
+				foreach(var entry in dataWithPos)
+				{
+					if (entry.Key == "")
+						continue;
+
+					str = entry.Key;
+					cords = entry.Value;
+					x = cords[0];
+					y = cords[1];
+
+
+
+					if (writtenPos.ContainsKey(x) && writtenPos[x] == y)
+						continue;
+
+
+
+					contentWriter.BeginText();
+					contentWriter.ShowTextAligned(0, str, x, y, 0);
+					contentWriter.EndText();	
+				}
+			}
+			
+			output.Close();
+			fs.Close();
+			writer.Close();
+
+			Process.Start("explorer.exe", System.IO.Path.GetDirectoryName(path));
+			return true;
+		}
 	}
 
 	class MajorFormExtractor
 	{
 		private string _filePath;
 		private PdfReader _reader;
-		
+		private Thread[] _threads = new Thread[2];
+
 		public MajorFormExtractor(string filePath)
 		{
 			_filePath = filePath;
 			LoadReader(_filePath);
 		}
+
+		public void CreateThreadsExtractors()
+		{
+			
+
+
+		}
+		
 		private void LoadReader(string filePath)
 		{
 			try
@@ -617,9 +770,14 @@ namespace GraduationHelper.Utils
 			}		
 		}
 
-		public Dictionary<string, float[]> ExtractStringsByRectangle(string filePath, int dY = 10)
+		public Dictionary<string, float[]> ExtractStringsByRectangle()
 		{
-			if (_reader == null)
+			return ExtractStringsByRectangle("");
+		}
+
+		public Dictionary<string, float[]> ExtractStringsByRectangle(string filePath, int dY = 10, bool dualThread = false, int splitHalf = 1)
+		{
+			if (_reader == null && filePath != "")
 				LoadReader(filePath);
 
 			if (_reader == null || _reader.NumberOfPages == 0)
@@ -629,18 +787,22 @@ namespace GraduationHelper.Utils
 			int numOfPages = _reader.NumberOfPages;
 
 			var pageRectSize = _reader.GetPageSize(1);
+
 			float pageHeight = pageRectSize.Height;
 			float pageWidth = pageRectSize.Width;
 
 			int top = (int)pageHeight;
 			int bot = (int)(top - deltaY);
 
+			// Starting cordinates
+			float lowerLeftX_MovingRect = 0;
+			float lowerLeftY_MovingRect = pageHeight - deltaY;
+			float upperRightX_MovingRect = pageWidth;
+			float upperRightY_MovingRect = pageHeight;
+
 			var data = new Dictionary<string, float[]>();
-			var rect = new iTextSharp.text.Rectangle(0, 0, pageWidth, pageHeight)
-			{
-				Top = top,
-				Bottom = bot,
-			};
+			
+			var movingYY_Rect = new Rectangle(lowerLeftX_MovingRect, lowerLeftY_MovingRect, upperRightX_MovingRect, upperRightY_MovingRect);
 
 			// Declare variables before going into the loop.
 			RegionTextRenderFilter renderFilter;
@@ -652,38 +814,57 @@ namespace GraduationHelper.Utils
 			// The PdfReader pages[] starts at 1.
 			for(int currentPage = 1; currentPage <= numOfPages; currentPage++)
 			{
-				yPtr = (int)pageHeight;
-
-				while (yPtr >= deltaY && (yPtr-deltaY) >= 0)
+				try
 				{
-					renderFilter = new RegionTextRenderFilter(rect);
-					locStrat = new LocationTextExtractionStrategy();
-					textRect = new FilteredTextRenderListener(locStrat, renderFilter);
-					result = PdfTextExtractor.GetTextFromPage(_reader, currentPage, textRect);
+					//Total height of this page.
+					yPtr = (int)pageHeight;
 
-					if(result != null && result.Length > 0)
+					//Taverse downwards.
+					while (yPtr >= deltaY && (yPtr - deltaY) >= 0)
 					{
-						if (!result.Contains("\n"))
+						locStrat = new LocationTextExtractionStrategy();
+						renderFilter = new RegionTextRenderFilter(movingYY_Rect);
+						textRect = new FilteredTextRenderListener(locStrat, renderFilter);
+						result = PdfTextExtractor.GetTextFromPage(_reader, currentPage, textRect);
+
+						//Hit a string value vertically.
+						if (result != null && (result = result.Trim()).Length > 0)
 						{
 							if (!data.ContainsKey(result))
-								data.Add(result, new float[] { rect.Top, rect.Bottom });
+								data.Add(result, new float[] { movingYY_Rect.Left, movingYY_Rect.Bottom, currentPage });
 						}
-						else
-						{
-
-						}
+						yPtr -= deltaY;
+						movingYY_Rect.Top = yPtr;
+						movingYY_Rect.Bottom = movingYY_Rect.Top - deltaY;
 					}
-
-					yPtr -= deltaY;
-					rect.Top = yPtr;
-					rect.Bottom = rect.Top - deltaY;
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex.ToString());
 				}
 			}
+			// Got a list of the data by horizontal rectangles;
+
+			Dictionary<string, float[]> dataByHorizontals = new Dictionary<string, float[]>();
+
+			foreach (var entry in data.OrderBy(s => s.Value.LastOrDefault()))
+			{
+
+
+
+				locStrat = new LocationTextExtractionStrategy();
+				renderFilter = new RegionTextRenderFilter(movingYY_Rect);				
+				textRect = new FilteredTextRenderListener(locStrat, renderFilter);
+				result = PdfTextExtractor.GetTextFromPage(_reader, (int)entry.Value.LastOrDefault(), textRect);
+				
+			}
+
 			
+
+
 			_reader.Close();
 			return data;
-		}
-		
+		}	
 		public void CloseReader()
 		{
 			if (_reader != null)

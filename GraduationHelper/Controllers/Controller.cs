@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-using GraduationHelper;
-using GraduationHelper.Models;
 using System.Xml.Linq;
+using GraduationHelper.Models;
 using GraduationHelper.Utils;
-using System.IO;
-using System.Diagnostics;
-using PdfiumViewer;
-using System.Text.RegularExpressions;
 using GraduationHelper.Views;
-using PARSER = iTextSharp.text.pdf.parser;
-using RECT = iTextSharp.text;
+using PdfiumViewer;
 using ITEXT = iTextSharp.text.pdf;
+using HELPER = Parser;
 namespace GraduationHelper.Controllers
 {
 	public class Controller
@@ -115,41 +111,16 @@ namespace GraduationHelper.Controllers
 
 		public void TestExtractTestByRect()
 		{
-			int deltaY = 10;
-			int top = 792;
-			int bot = top - deltaY;
-			int width = 612;
-			int height = 792;
-			
 			string tempPath = Application.StartupPath + "//templates//majorformtemplate.pdf";
 
-			var reader = new ITEXT.PdfReader(tempPath);
-			var rect = new RECT.Rectangle(0, 0, width, deltaY)
+			object data = PdfHelper.ParsePDF(ImportedPDF.MajorForm, null, tempPath);
+
+			if(data != null && data is Dictionary<string,float[]>)
 			{
-				Top = height,
-				Bottom = height  - deltaY,
-			};
-			var rf = new PARSER.RegionTextRenderFilter(rect);
-			var locationStrat = new PARSER.LocationTextExtractionStrategy();
-			var ftrl = new PARSER.FilteredTextRenderListener(locationStrat, rf);
-
-			while (top >= 0)
-			{
-				rect.Top -= deltaY;
-				rect.Bottom -= deltaY;
-
-				top -= deltaY;
-				bot -= deltaY;
-				
-				rf = new PARSER.RegionTextRenderFilter(rect);
-				ftrl = new PARSER.FilteredTextRenderListener(locationStrat, rf);
-
-				var result = ITEXT.parser.PdfTextExtractor.GetTextFromPage(reader, 1, ftrl);
-
-				Debug.WriteLine(result);
+				HELPER.PDFFileWriter.WriteDataToPdf(tempPath, null, (Dictionary<string,float[]>) data);
 			}
 
-			reader.Close();
+
 		}
 
 		public void DownloadForms(string[] forms)
@@ -167,9 +138,7 @@ namespace GraduationHelper.Controllers
 			{
 				string tempPath = Application.StartupPath + "//templates//majorformtemplate.pdf";
 				ITEXT.PdfReader reader = new ITEXT.PdfReader(tempPath);
-				
-				var pdf = ParsedPDFS.FirstOrDefault().Value;
-				
+				var pdf = ParsedPDFS.FirstOrDefault().Value;	
 				pdf.WriteDataToPdf(fileName, reader);
 			}
 		}
@@ -251,8 +220,7 @@ namespace GraduationHelper.Controllers
 
 
 		}
-
-		Dictionary<string, Course> _transcriptInfo = new Dictionary<string, Course>();
+		
 		private string semTokenFall = "Fall 2016";
 		private string semTokenSpring = "Spring 2016";
 		private string unitsToken3 = "3.00";
@@ -260,76 +228,7 @@ namespace GraduationHelper.Controllers
 		private string unitsToken1 = "1.00";
 		private string digitRegex = @"^\d+$";
 		private const int MaxGradeStrLength = 2;
-
-		public string GetGradeAndCourse(string str)
-		{
-			string[] lines = str.Split('\n');
-			string[] spaces;
-
-			int courseNameIndex = 0, 
-				courseNumberIndex = 0,
-				yearIndex = 0,
-				semesterIndex = 0,
-				gradeIndex = 0,
-				unitsIndex = 0;
-
-			string ret = "",
-				   word ="",
-				   courseName = "";
-
-
-			bool isNumber, isNumFloat;
-
-			foreach (var line in lines)
-			{
-				if (line.Contains(semTokenFall) || line.Contains(semTokenSpring))
-				{
-					// BIOL 10 The Living World 3.00 Fall 2016 A GE B2: Life Science
-
-
-
-					// split the line by spaces.
-					spaces = line.Split(' ');
-					
-					for(int i = 0; i < spaces.Length; i++)
-					{
-						// index of the year, the grade should be + 1.
-						isNumber = Regex.IsMatch(spaces[i], digitRegex);
-
-						if (isNumber)
-						{
-							//case 1 the course #, then the i - 1 is the course name.
-							if (i - 1 == 0)
-							{
-								courseNameIndex = i - 1;
-								courseNumberIndex = i;
-							}
 	
-							//case 2 the year followed by the grade maximum length of grade is 2.
-							else if ( i + 1 < spaces.Length && spaces[i+1].Length <= 2)
-							{
-								semesterIndex = i - 1;
-								yearIndex = i;
-								gradeIndex = i + 1;
-							}
-						}
-
-						isNumFloat = CheckCourseUnits(spaces[i]);
-						
-						// Got position of course units then build the course name
-						if(isNumFloat)
-						{
-							unitsIndex = i;
-							courseName = BuildCourseName(spaces, courseNumberIndex, unitsIndex);
-						}
-						
-					}
-				}
-			}
-
-			return ret;
-		}
-
 		StringBuilder _stringB = new StringBuilder();
 
 		public string BuildCourseName(string[] arr, int start, int end)
