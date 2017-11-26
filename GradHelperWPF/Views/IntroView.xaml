@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:GradHelperWPF.Views"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
+	  Background="WhiteSmoke"
       >
     <Grid.RowDefinitions>
             <RowDefinition Height="100" />
