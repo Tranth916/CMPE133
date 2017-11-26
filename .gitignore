@@ -5,3 +5,4 @@ GradHelperWPF/bin/
 GradHelperWPF/bin/Debug
 GradHelperWPF/obj/
 *.cache
+/.vs/GradHelperWPF/v15
