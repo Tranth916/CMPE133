@@ -1,0 +1,7 @@
+packages/
+GradCore/bin/
+GradCore/obj/
+GradHelperWPF/bin/
+GradHelperWPF/bin/Debug
+GradHelperWPF/obj/
+*.cache
