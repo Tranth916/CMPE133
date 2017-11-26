@@ -1,8 +1,0 @@
-C:\GraduationHelper\GraduationHelper\Parser\bin\Debug\Parser.dll
-C:\GraduationHelper\GraduationHelper\Parser\bin\Debug\Parser.pdb
-C:\GraduationHelper\GraduationHelper\Parser\bin\Debug\itextsharp.dll
-C:\GraduationHelper\GraduationHelper\Parser\bin\Debug\itextsharp.xml
-C:\GraduationHelper\GraduationHelper\Parser\obj\Debug\Helper.csproj.CoreCompileInputs.cache
-C:\GraduationHelper\GraduationHelper\Parser\obj\Debug\Parser.dll
-C:\GraduationHelper\GraduationHelper\Parser\obj\Debug\Parser.pdb
-C:\GraduationHelper\GraduationHelper\Parser\obj\Debug\Helper.csprojResolveAssemblyReference.cache
