@@ -1,0 +1,212 @@
+﻿<Grid x:Class="GradHelperWPF.Views.GradApplicationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" Width="800" Height="800" Background="WhiteSmoke" Margin="5,0,5,0" HorizontalAlignment="Center">
+	<StackPanel>
+		<StackPanel Height="55">
+			<Label HorizontalAlignment="Center" FontSize="30" Padding="5,5,5,5" Margin="5,5,5,5" Content="SJSU Graduation Application" />
+		</StackPanel>
+		<Grid Name="EntryGrid" Margin="50,5,15,5">
+			<Grid.Resources>
+				<Style TargetType="{x:Type Label}">
+					<Setter Property="Margin" Value="6,0,0,0" />
+				</Style>
+				<Style TargetType="{x:Type TextBox}">
+					<Setter Property="Margin" Value="10,0,0,0" />
+					<Setter Property="TextAlignment" Value="Left" />
+					<Setter Property="Padding" Value="5,5,5,5" />
+					<Setter Property="Height" Value="30" />
+				</Style>
+			</Grid.Resources>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="139*" />
+				<ColumnDefinition Width="261*" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Label Grid.Row="1" Grid.Column="1" Content="Graduation Year and Semester" />
+			<Grid Margin="5,0,0,0" Grid.Row="2" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBox Name="yearTextBox" Margin="5,0,5,0" Grid.Column="0" ></TextBox>
+				<CheckBox Checked="Checkbox_OnCheck" Name="springCheckBox" Grid.Column="1" Content="Spring"></CheckBox>
+				<CheckBox Checked="Checkbox_OnCheck" Name="summerCheckBox" Grid.Column="2" Content="Summer"></CheckBox>
+				<CheckBox Checked="Checkbox_OnCheck" Name="fallCheckBox" Grid.Column="3" Content="Fall"></CheckBox>
+			</Grid>
+			<Label Name="firstNameLabel" Grid.Row="1" Grid.Column="0" Content="First Name" />
+			<TextBox Name="firstNameTextBox" Grid.Row="2" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<Label Name="middleNameLabel" Grid.Row="3" Grid.Column="0" Content="Middle Name" />
+			<TextBox Name="middleNameTextBox" Grid.Row="4" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<Label Name="lastNameLabel" Grid.Row="5" Grid.Column="0" Content="Last Name" />
+			<TextBox Name="lastNameTextBox" Grid.Row="6" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<Label Name="emailLbl" Grid.Row="7" Grid.Column="0" Content="Email" />
+			<TextBox Name="emailTextBox" Grid.Row="8" Grid.Column="0" TextChanged="TextBox_TextChanged" />
+			<Label Name="phoneLbl" Grid.Row="9" Grid.Column="0" Content="Phone Number" />
+			<TextBox Name="phoneTextBox" Grid.Row="10" Grid.Column="0" TextChanged="TextBox_TextChanged" />
+			<Label Name="sidNameLabel" Grid.Row="11" Grid.Column="0" Content="Student ID" />
+			<TextBox Name="sidNameTextBox" Grid.Row="12" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<Label Name="majorLabel" Grid.Row="13" Grid.Column="0" Content="Major" />
+			<TextBox Name="majorTextBox" Grid.Row="14" Grid.Column="0" Text="Software Engineering" TextChanged="TextBox_TextChanged" />
+			<Grid Margin="10,5,5,5" Grid.Row="8" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<Label Grid.Column="0" Content="Degree Objective" />
+				<ComboBox Name="degreeObjectiveCBox" Grid.Column="1">
+					<ComboBoxItem Content="BS" HorizontalAlignment="Left" />
+					<ComboBoxItem Content="BA" HorizontalAlignment="Left" />
+					<ComboBoxItem Content="BFA" HorizontalAlignment="Left" />
+					<ComboBoxItem Content="B of Music" HorizontalAlignment="Left" />
+					<ComboBoxItem Content="Second Baccalaureate" HorizontalAlignment="Left" />
+				</ComboBox>
+			</Grid>
+			<Grid Grid.Row="3" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30*" />
+					<ColumnDefinition Width="60*" />
+					<ColumnDefinition Width="30*" />
+				</Grid.ColumnDefinitions>
+				<Label Name="streetNumberLbl" Grid.Column="0" Content="Street Number" />
+				<Label Name="streetNameLbl" Grid.Column="1" Content="Street Name" />
+				<Label Name="apartmentLbl" Grid.Column="3" Content="Apartment" />
+			</Grid>
+			<Grid Grid.Row="4" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="30*" />
+					<ColumnDefinition Width="60*" />
+					<ColumnDefinition Width="30*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="streetNumberTextBox" Grid.Column="0" TextChanged="TextBox_TextChanged" />
+				<TextBox Name="streetNameTextBox" Grid.Column="1" TextChanged="TextBox_TextChanged" />
+				<TextBox Name="apartmentTextBox" Grid.Column="2" TextChanged="TextBox_TextChanged" />
+			</Grid>
+			<Grid Grid.Row="5" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="20*" />
+					<ColumnDefinition Width="20*" />
+				</Grid.ColumnDefinitions>
+				<Label Name="cityLbl" Grid.Column="0" Content="City" />
+				<Label Name="stateLbl" Grid.Column="1" Content="State" />
+				<Label Name="zipLbl" Grid.Column="3" Content="Zip Code" />
+			</Grid>
+			<Grid Grid.Row="6" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="20*" />
+					<ColumnDefinition Width="20*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="cityTextBox" Grid.Column="0" TextChanged="TextBox_TextChanged" />
+				<TextBox Name="stateTextBox" Grid.Column="1" TextChanged="TextBox_TextChanged" />
+				<TextBox Name="zipcodeTextBox" Grid.Column="2" TextChanged="TextBox_TextChanged" />
+			</Grid>
+			<Label Content="Non-SJSU College work not yet submitted" Grid.Row="10" Grid.Column="1" />
+			<Grid Grid.Row="11" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="uncompletedTextBox1" Grid.Column="0" />
+				<TextBox Name="uncompletedTextBox2" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="12" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="uncompletedTextBox3" Grid.Column="0" />
+				<TextBox Name="uncompletedTextBox4" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="13" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="uncompletedTextBox5" Grid.Column="0" />
+				<TextBox Name="uncompletedTextBox6" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="14" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="uncompletedTextBox7" Grid.Column="0" />
+				<TextBox Name="uncompletedTextBox8" Grid.Column="1" />
+			</Grid>
+			<Label Content="Currently Enrolled Courses" Grid.Row="15" Grid.Column="1" />
+			<Grid Grid.Row="16" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="currentEnrolled1" Grid.Column="0" />
+				<TextBox Name="currentEnrolled2" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="17" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="currentEnrolled3" Grid.Column="0" />
+				<TextBox Name="currentEnrolled4" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="18" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="currentEnrolled5" Grid.Column="0" />
+				<TextBox Name="currentEnrolled6" Grid.Column="1" />
+			</Grid>
+			<Grid Grid.Row="19" Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<TextBox Name="currentEnrolled7" Grid.Column="0" />
+				<TextBox Name="currentEnrolled8" Grid.Column="1" />
+			</Grid>
+		</Grid>
+		<StackPanel Margin="80,10,10,10">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*"/>
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<Button Margin="3,3,3,3" Background="LightGreen" Grid.Column="0" Name="CreateGradAppButton" FontSize="20" Content="Export to PDF" Click="ExportToPDf_OnClick" />
+				<Button Margin="3,3,3,3" Background="LightBlue" Grid.Row="1" Grid.Column="1" Name="SaveInfoBtn" FontSize="20" Content="Save" Click="LoadSaveResetBtn_OnClick" />
+				<Button Margin="3,3,3,3" Background="LightBlue" Grid.Column="1" Name="LoadInfoBtn" FontSize="20" Content="Load" Click="LoadSaveResetBtn_OnClick" />
+				<Button Margin="3,3,3,3" Background="Red" Grid.Column="2" Name="ResetBtn" FontSize="20" Content="Reset" Click="LoadSaveResetBtn_OnClick" />
+			</Grid>
+		</StackPanel>
+	</StackPanel>
+</Grid>
