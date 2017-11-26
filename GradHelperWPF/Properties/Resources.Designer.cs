@@ -63,9 +63,19 @@ namespace GradHelperWPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] grad_app {
+        public static byte[] gradapp {
             get {
-                object obj = ResourceManager.GetObject("grad_app", resourceCulture);
+                object obj = ResourceManager.GetObject("gradapp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] majorform2016 {
+            get {
+                object obj = ResourceManager.GetObject("majorform2016", resourceCulture);
                 return ((byte[])(obj));
             }
         }
