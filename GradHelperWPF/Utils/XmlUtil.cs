@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using System.IO;
 
 namespace GradHelperWPF.Utils
 {
@@ -72,6 +73,46 @@ namespace GradHelperWPF.Utils
             }
 
             return retDiction;
+        }
+
+        public static string SaveXMLConfiguration(string path, Dictionary<string,string> data)
+        {
+            // delete the existing file if it exists.
+            if (File.Exists(path))
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.StackTrace);                    
+                }
+            }
+
+            string result = path;
+
+            XDocument doc = new XDocument(  new XDeclaration("1.0","utf-8","yes") );
+
+            //Make the root
+            doc.Add(new XElement("GradAppDataRoot"));
+
+            var root = doc.Root;
+
+            foreach ( var entry in data)
+            {
+                if (string.IsNullOrEmpty(entry.Key) || string.IsNullOrEmpty(entry.Value))
+                    continue;
+
+                root.Add(new XElement(entry.Key, entry.Value ?? ""));
+            }
+
+            using( FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite,FileShare.ReadWrite) )
+            {
+                doc.Save(fs);    
+            }
+
+            return result;
         }
 
     }
