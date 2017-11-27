@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace GradHelperWPF.Views
 {
@@ -85,10 +87,86 @@ namespace GradHelperWPF.Views
 
 		private void ExportToPDf_OnClick(object sender, RoutedEventArgs e)
 		{
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog()
+            {
+                InitialDirectory = System.IO.Directory.GetCurrentDirectory(),
+                Filter = "*.pdf | *.PDF",                
+            };
 
-		}
+            var result = sfd.ShowDialog();
+            if( result.Value )
+            {
+                StampDataToPDF(sfd.FileName, GetAllEntries());
+            }
+        }
 
-		public Dictionary<string, string> GetAllEntries()
+        //Move this out
+        public void StampDataToPDF(string path, Dictionary<string, string> data)
+        {
+            var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.pdf", SearchOption.AllDirectories);
+            if (files == null)
+                throw new Exception();
+            var pdfFile = files.FirstOrDefault(ff => ff.Contains("gradapp"));
+            var reader = new PdfReader(pdfFile);
+            FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
+            var stamper = new PdfStamper(reader, fs);
+            var fields = stamper.AcroFields.Fields;
+
+            Dictionary<string, string> map = new Dictionary<string, string>()
+            {
+                    //{"yearTextBox",""},
+                    { "firstNameTextBox"    ,"First name"      }              ,
+                    { "middleNameTextBox"   ,"Middle name"      }              ,
+                    { "lastNameTextBox"     ,"Last name"      }              ,
+                    { "emailTextBox"        ,"E-mail address"      }              ,
+                    { "phoneTextBox"        ,"Home phone number"      }              ,
+                    { "sidNameTextBox"      ,"SJSU ID"      }              ,
+                    { "majorTextBox"        ,"Major"      }              ,
+                    { "streetNumberTextBox" ,"Street number"      }              ,
+                    { "streetNameTextBox"   ,"Street name"      }              ,
+                    { "apartmentTextBox"    ,"Apartment number"      }              ,
+                    { "cityTextBox"         ,"City"      }              ,
+                    { "stateTextBox"        ,"State"      }              ,
+                    { "zipcodeTextBox"      ,"Zip code"      }              ,
+                    { "uncompletedTextBox1" ,"Non SJSU course 1"      }              ,
+                    { "uncompletedTextBox2" ,"Non SJSU course 2"      }              ,
+                    { "uncompletedTextBox3" ,"Non SJSU course 3"      }              ,
+                    { "uncompletedTextBox4" ,"Non SJSU course 4"      }              ,
+                    { "uncompletedTextBox5" ,"Non SJSU course 5"      }              ,
+                    { "uncompletedTextBox6" ,"Non SJSU course 6"      }              ,
+                    { "uncompletedTextBox7" ,"Non SJSU course 7"      }              ,
+                    { "uncompletedTextBox8" ,"Non SJSU course 8"      }              ,
+                    { "currentEnrolled1"    ,"current SJSU course 1"      }              ,
+                    { "currentEnrolled2"    ,"current SJSU course 2"      }              ,
+                    { "currentEnrolled3"    ,"current SJSU course 3"      }              ,
+                    { "currentEnrolled4"    ,"current SJSU course 4"      }              ,
+                    { "currentEnrolled5"    ,"current SJSU course 5"      }              ,
+                    { "currentEnrolled6"    ,"current SJSU course 6"      }              ,
+                    { "currentEnrolled7"    ,"current SJSU course 7"      }              ,
+                    { "currentEnrolled8"    ,"current SJSU course 8"      }              ,
+            };
+
+
+            foreach( var f in fields)
+            {
+                string fieldName = f.Key;
+
+                var textBoxName = map.Where(m => m.Value == fieldName).Select(m => m.Key).FirstOrDefault();
+
+                if (textBoxName == null || !data.ContainsKey(textBoxName))
+                    continue;
+
+                stamper.AcroFields.SetField(fieldName, data[textBoxName] , true);
+            }
+
+            stamper.Close();
+            fs.Close();
+            reader.Close();
+
+            System.Diagnostics.Process.Start("explorer.exe", path);
+        }
+
+        public Dictionary<string, string> GetAllEntries()
 		{
 			Dictionary<string, string> data = new Dictionary<string, string>();
 

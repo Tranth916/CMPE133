@@ -17,7 +17,7 @@ namespace GradHelperWPF.Model
     {
         public class WordDoc
         {
-            public static readonly List<string> CourseFullName = new List<string>()
+            public static readonly List<string> CourseFullName                       = new List<string>()
         {
             "Biol 010 The Living World 3",
 
@@ -57,6 +57,19 @@ namespace GradHelperWPF.Model
             "Phys 050 Mechanics 4",
             "Phys 051 Electricity and Magnetism 4",
         };
+            private const int MinNumRequiredTuple                                    = 5;
+
+            private StringBuilder                                                    _courseFullNameSB;
+            private WordprocessingDocument                                           _doc;
+            private OpenXmlElement                                                   _page1Table;
+            private RunProperties                                                    _textRunProperty;
+            private IEnumerable<TableRow>                                            _tableRows;
+            private IEnumerable<Run>                                                 _runs;
+            private IEnumerable<IGrouping<string, OpenXmlElement>>                   _cellsWithCourseName;
+            private Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>> _lookupGrids;
+
+            private string _workingPath;
+            #region Public properties
 
             public string CourseFullNameStr
             {
@@ -73,31 +86,19 @@ namespace GradHelperWPF.Model
                 }
             }
 
-            private StringBuilder _courseFullNameSB;
-            private WordprocessingDocument _doc;
-
-            private OpenXmlElement _page1Table;
-            private RunProperties _textRunProperty;
-
-            private IEnumerable<TableRow> _tableRows;
-            private IEnumerable<Run> _runs;
-            private IEnumerable<IGrouping<string, OpenXmlElement>> _cellsWithCourseName;
-
-            private Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>> _lookupGrids;
-
-            private const int MinNumRequiredTuple = 5;
-            private string _workingPath;
-
             public string WorkingPath
             {
                 get { return _workingPath; }
             }
-
+            
+            #endregion
+            #region Constructor
             public WordDoc(string filePath)
-            {
-                FileLocation = filePath;
-                Init();
-            }
+                        {
+                            FileLocation = filePath;
+                            Init();
+                        }
+            #endregion
 
             private void Init()
             {

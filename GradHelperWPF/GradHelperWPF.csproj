@@ -83,6 +83,9 @@
     <Reference Include="ExcelDataReader, Version=3.3.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.3.0\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -172,8 +175,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Interfaces\ObservableObject.cs" />
-    <Compile Include="Model\CourseModel.cs" />
-    <Compile Include="Model\MajorFormModel.cs" />
+    <Compile Include="Models\CourseModel.cs" />
+    <Compile Include="Models\GradAppModel.cs" />
+    <Compile Include="Models\MajorFormModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -183,6 +187,7 @@
     <Compile Include="Utils\GoogleUtil.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
     <Compile Include="ViewModel\CourseViewModel.cs" />
+    <Compile Include="ViewModel\GradAppViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="Views\ImportCoursesView.xaml.cs">
       <DependentUpon>ImportCoursesView.xaml</DependentUpon>
