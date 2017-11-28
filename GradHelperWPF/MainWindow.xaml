@@ -16,24 +16,25 @@
         WindowStartupLocation="CenterScreen"
         BorderThickness="0" 
         GlowBrush="Black" 
-        UseLayoutRounding="True">
-    <Grid 
+        UseLayoutRounding="True"
+	>
+	<Grid 
         Name="TopGrid" 
         Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" 
         Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" 
         >
-        <Controls:FlipView x:Name="FlipView" 
+		<Controls:FlipView x:Name="FlipView" 
                            BorderThickness="0" 
                            MouseOverGlowEnabled="False"
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" 
                            Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" 
                            FontSize="14"
                            >
-            <Controls:FlipView.Items>
-                <Views:IntroView/>
-                <Views:GradApplicationView/>
-                <Views:ImportCoursesView/>
-            </Controls:FlipView.Items>
-        </Controls:FlipView>
-    </Grid>
+			<Controls:FlipView.Items>
+				<Views:IntroView/>
+				<Views:GradApplicationView/>
+				<Views:ImportCoursesView/>
+			</Controls:FlipView.Items>
+		</Controls:FlipView>
+	</Grid>
 </Controls:MetroWindow>
