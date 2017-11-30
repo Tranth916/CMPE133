@@ -24,7 +24,9 @@ namespace GradHelperWPF.Models
 			{"Status",""},
 			{"Transcript Note",""}
 		};
-		
+
+		private const int MatrixRowCount = 50;
+
 		private string _filePath;
 
 		private Dictionary<string, string> _dataTable;
@@ -56,7 +58,126 @@ namespace GradHelperWPF.Models
 		{
 			_dataTable = GetExcelData(_filePath);
 		}
-		
+
+		public List<List<string>> Get2DTable(string filePath)
+		{
+			List<List<string>> matrix = new List<List<string>>();
+
+			string pathOfCopy = FileUtil.MakeWorkingCopy(filePath);
+
+			if (string.IsNullOrEmpty(pathOfCopy))
+				return matrix;
+
+			try
+			{
+				FileStream fs;
+				using (fs = new FileStream(pathOfCopy, FileMode.OpenOrCreate, FileAccess.Read))
+				{
+					var excel = ExcelDataReader.ExcelReaderFactory.CreateReader(fs);
+
+					int rowCount = 0;
+					//Get the column headers:
+					do
+					{
+						while (excel.Read())
+						{
+							for (int i = 0; i < excel.FieldCount; i++)
+							{
+								if (excel.GetValue(i) == null)
+									continue;
+
+								string val = excel.GetValue(i) as string;
+
+								matrix.Add(new List<string>() { val });
+
+							}
+						}
+						++rowCount;
+					}
+					while (excel.NextResult());
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
+			return matrix;
+		}
+	
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="header"></param>
+		/// <param name="data"></param>
+		/// <param name="filePath"></param>
+		/// <returns></returns>
+		public static bool GetExcelDataWithHeaders(out List<string> header, out Dictionary<string,string> data, string filePath)
+		{
+			header = new List<string>();
+			data = new Dictionary<string, string>();
+
+			if (string.IsNullOrEmpty(filePath))
+				return false;
+
+			string workingCopy = FileUtil.MakeWorkingCopy(filePath);
+
+			FileStream fs;
+
+			using( fs = new FileStream(workingCopy, FileMode.Open, FileAccess.Read, FileShare.Read) )
+			{
+				if (fs == null)
+					return false;
+
+				try
+				{
+					var excelReader = ExcelDataReader.ExcelReaderFactory.CreateReader(fs);
+
+					do
+					{
+						int row = 0;
+						string key, cellValue;
+
+						while ( excelReader.Read() )
+						{
+							for(int col = 0; col < excelReader.FieldCount; col++)
+							{
+								if (excelReader.GetValue(col) == null)
+									continue;
+
+								cellValue = excelReader.GetValue(col) as String;
+
+								if( row == 0 )
+								{
+									header.Add(cellValue);
+								}
+								else
+								{
+									key = $"{row},{col}";
+
+									if (!data.ContainsKey(key))
+										data.Add(key, cellValue);
+								}								
+							}							
+							row++;
+						}
+					} while (excelReader.NextResult());
+					
+				}
+				catch(Exception ex)
+				{
+					if( ex.Message.Contains("Invalid signature") )
+					{
+						//
+						throw new Exception("Need manually fix the excel file.");
+					}
+				}
+
+			}
+			
+			return header.Count > 0;
+		}
+	
 		public static Dictionary<string,string> GetExcelData(string filePath)
 		{
 			Dictionary<string, string> data = new Dictionary<string, string>();

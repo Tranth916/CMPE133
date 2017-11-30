@@ -15,7 +15,6 @@
 			<Button 
 				Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
 		</StackPanel>
-		
 		<Grid Name="TableGrid">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>

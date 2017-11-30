@@ -57,9 +57,9 @@
 				<CheckBox Checked="Checkbox_OnCheck" Name="fallCheckBox" Grid.Column="3" Content="Fall"></CheckBox>
 			</Grid>
 			<Label Name="firstNameLabel" Grid.Row="1" Grid.Column="0" Content="First Name" />
-			<TextBox Name="firstNameTextBox" Grid.Row="2" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<TextBox Name="firstNameTextBox" Grid.Row="2" Grid.Column="0" Text="{Binding FirstName}" TextChanged="TextBox_TextChanged" />
 			<Label Name="middleNameLabel" Grid.Row="3" Grid.Column="0" Content="Middle Name" />
-			<TextBox Name="middleNameTextBox" Grid.Row="4" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
+			<TextBox Name="middleNameTextBox" Grid.Row="4" Grid.Column="0" Text="{Binding LastName}" TextChanged="TextBox_TextChanged" />
 			<Label Name="lastNameLabel" Grid.Row="5" Grid.Column="0" Content="Last Name" />
 			<TextBox Name="lastNameTextBox" Grid.Row="6" Grid.Column="0" Text="" TextChanged="TextBox_TextChanged" />
 			<Label Name="emailLbl" Grid.Row="7" Grid.Column="0" Content="Email" />

@@ -92,6 +92,9 @@
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
@@ -186,18 +189,27 @@
     </Compile>
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\GoogleUtil.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\ViewUtil.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
     <Compile Include="ViewModel\CourseViewModel.cs" />
     <Compile Include="ViewModel\GradAppViewModel.cs" />
+    <Compile Include="ViewModel\MajorFormViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="Views\ImportCoursesView.xaml.cs">
       <DependentUpon>ImportCoursesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImportTransferCoursesView.xaml.cs">
+      <DependentUpon>ImportTransferCoursesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IntroView.xaml.cs">
       <DependentUpon>IntroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GradApplicationView.xaml.cs">
       <DependentUpon>GradApplicationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MajorFormView.xaml.cs">
+      <DependentUpon>MajorFormView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -224,11 +236,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ImportTransferCoursesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\IntroView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GradApplicationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MajorFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

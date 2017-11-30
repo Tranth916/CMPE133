@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace GradHelperWPF.Utils
 {
@@ -88,5 +89,33 @@ namespace GradHelperWPF.Utils
             return retPath;
         }
 
+		public static string ShowOpenFileDialog(string[] filters)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			//Text files (*.txt)|*.txt|All files (*.*)|*.*
+			for (int i = 0; i < filters.Length; i++)
+			{
+				sb.Append($" | {filters[i]} ");
+			}
+
+			string filePath = "";
+
+			OpenFileDialog ofd = new OpenFileDialog()
+			{
+				Filter = sb.ToString(),
+				InitialDirectory = Directory.GetCurrentDirectory(),
+				Multiselect = true,
+			};
+
+			bool? selectedFile = ofd.ShowDialog();
+
+			if (selectedFile.Value && !string.IsNullOrEmpty(ofd.FileName) )
+			{
+				filePath = ofd.FileName;
+			}
+
+			return filePath;
+		}
     }
 }

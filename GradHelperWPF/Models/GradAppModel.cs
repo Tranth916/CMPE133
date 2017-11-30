@@ -7,10 +7,11 @@ using System.IO;
 using iTextSharp;
 using iTextSharp.text.pdf;
 using System.ComponentModel;
+using Prism.Mvvm;
 
 namespace GradHelperWPF.Model
 {
-    public class GradAppModel : INotifyPropertyChanged
+    public class GradAppModel : BindableBase
     {
         public string GradAppFilePath
         {
@@ -75,13 +76,8 @@ namespace GradHelperWPF.Model
 
         }
 
-
-
-
-        #region MVVM stuff
-
-        private string firstName;
-        private string lastName;
+        private string firstName = "Student F";
+        private string lastName = "Student L'";
 
         public string FirstName
         {
@@ -121,15 +117,5 @@ namespace GradHelperWPF.Model
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
-        #endregion
     }
 }

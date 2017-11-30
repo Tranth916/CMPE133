@@ -1,0 +1,38 @@
+﻿<Grid x:Class="GradHelperWPF.Views.MajorFormView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GradHelperWPF.Views"
+        mc:Ignorable="d"
+		Background="AliceBlue"  
+		Height="300" Width="300">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="10*"/>
+			<RowDefinition Height="80*"/>
+			<RowDefinition Height="10*"/>
+		</Grid.RowDefinitions>
+		
+		<StackPanel Grid.Row="0">
+			<Label Content="Major Form" />
+		</StackPanel>
+
+		<Grid Name="MajorFormTable" Grid.Row="1">
+			<Grid.RowDefinitions>
+
+			</Grid.RowDefinitions>
+			
+			<Grid.ColumnDefinitions>
+
+			</Grid.ColumnDefinitions>
+		</Grid>
+		<StackPanel Grid.Row="2">
+			<Button Click="ExportBtn_OnClick" Content="Export" Background="Green"></Button>
+		</StackPanel>
+	</Grid>
+</Grid>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using GradHelperWPF.Utils;
 using iTextSharp.text.pdf;
 using System.IO;
+using GradHelperWPF.ViewModel;
 
 namespace GradHelperWPF.Views
 {
@@ -79,6 +80,7 @@ namespace GradHelperWPF.Views
 		public GradApplicationView()
 		{
 			InitializeComponent();
+			DataContext = new GradAppViewModel();
 		}
 
 		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

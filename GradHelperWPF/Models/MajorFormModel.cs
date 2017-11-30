@@ -285,14 +285,6 @@ namespace GradHelperWPF.Model
                 return result;
             }
 
-            public void TestWriteValueToRow()
-            {
-                string keyFull = "CmpE 102 Assembly Language Programming 3";
-                string key = "CmpE | 102 | Assembly Language Programming | 3 | A";
-
-                Console.WriteLine(GetBestMatchCourseName(key));
-            }
-
             public string GetBestMatchCourseName(string key)
             {
                 diff_match_patch google = new diff_match_patch();
@@ -673,7 +665,17 @@ namespace GradHelperWPF.Model
             public string FileName { get; set; }
             public string FileLocation { get; set; }
             public string FileVersion { get; set; }
-        }
 
-    }
+			#region Test
+
+
+
+
+
+
+			#endregion
+
+		}
+
+	}
 }
