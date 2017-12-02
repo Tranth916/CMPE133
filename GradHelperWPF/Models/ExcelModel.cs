@@ -128,7 +128,6 @@ namespace GradHelperWPF.Models
 			{
 				if (fs == null)
 					return false;
-
 				try
 				{
 					var excelReader = ExcelDataReader.ExcelReaderFactory.CreateReader(fs);
@@ -136,28 +135,60 @@ namespace GradHelperWPF.Models
 					do
 					{
 						int row = 0;
+
 						string key, cellValue;
 
 						while ( excelReader.Read() )
 						{
 							for(int col = 0; col < excelReader.FieldCount; col++)
 							{
-								if (excelReader.GetValue(col) == null)
+								if ( row == 0 && excelReader.GetValue(col) != null )
+								{
+									header.Add(excelReader.GetValue(col) as String);
 									continue;
+								}
+
+								key = $"{row},{col}";
+
+								if (!data.ContainsKey(key))
+									data.Add(key, "");
 
 								cellValue = excelReader.GetValue(col) as String;
 
-								if( row == 0 )
+								if ( cellValue == null && excelReader.GetFieldType(col) != null )
 								{
-									header.Add(cellValue);
-								}
-								else
-								{
-									key = $"{row},{col}";
+									var type = excelReader.GetFieldType(col);
 
-									if (!data.ContainsKey(key))
-										data.Add(key, cellValue);
-								}								
+									string val = "";
+
+									switch (type.Name)
+									{
+										case "Double":
+											val = $"{excelReader.GetDouble(col)}";
+											break;
+
+										case "Float":
+											val = $"{excelReader.GetFloat(col)}";
+											break;
+
+										case "Integer":
+											val = $"{excelReader.GetInt32(col)}";
+											break;
+									}
+
+									data[key] = val;
+								}
+								else if( cellValue != null )
+								{
+									data[key] = cellValue;
+								}
+								
+								if( data.ContainsKey(key) && data[key].StartsWith("TRLD", StringComparison.CurrentCultureIgnoreCase) )
+								{
+									data.Remove(key);
+									//break out the loop.
+									break;
+								}
 							}							
 							row++;
 						}
@@ -167,14 +198,12 @@ namespace GradHelperWPF.Models
 				catch(Exception ex)
 				{
 					if( ex.Message.Contains("Invalid signature") )
-					{
-						//
-						throw new Exception("Need manually fix the excel file.");
-					}
+						throw new Exception("Need to manually fix the excel file.");
 				}
 
 			}
-			
+
+			// remove all entries that have a TRLD PE
 			return header.Count > 0;
 		}
 	

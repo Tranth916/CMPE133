@@ -181,7 +181,7 @@
     <Compile Include="Models\CourseModel.cs" />
     <Compile Include="Models\ExcelModel.cs" />
     <Compile Include="Models\GradAppModel.cs" />
-    <Compile Include="Models\MajorFormModel.cs" />
+    <Compile Include="Models\WordModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

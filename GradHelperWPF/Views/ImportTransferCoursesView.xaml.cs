@@ -58,7 +58,6 @@ namespace GradHelperWPF.Views
 
 				var xlsFile = files.Where(f => f.ToLower().Contains(".xls")).FirstOrDefault();
 
-
 				List<string> header;
 				Dictionary<string, string> table;
 
@@ -73,6 +72,7 @@ namespace GradHelperWPF.Views
 				Dictionary<int, List<TextBox>> textboxes = new Dictionary<int, List<TextBox>>(); 
 
 				string key, val;
+
 				string[] rowColIndexes;
 
 				foreach( var entry in table )
@@ -92,21 +92,62 @@ namespace GradHelperWPF.Views
 					int cc = 0;
 					int.TryParse(rowColIndexes[0], out rr);
 					int.TryParse(rowColIndexes[1], out cc);
-					
+
+					//Course	Description	Term	Grade	Units	Grd Points
+					if (header[cc].Contains("Term"))
+						continue;
+
+					// Unit needs to be swapped with grade.
+					if (header[cc].Contains("Unit"))
+					{
+						var currentRow = textboxes[rr];
+
+						int indexOfGradeTB = currentRow.Where(tbx => tbx.Tag != null && (tbx.Tag as String).Contains("Grade"))
+													 .Select(tbx => currentRow.IndexOf(tbx))
+													 .FirstOrDefault();
+						if (indexOfGradeTB > 0)
+						{
+							TextBox poppedTB = currentRow[indexOfGradeTB];
+
+							currentRow.RemoveAt(indexOfGradeTB);
+
+							TextBox unitTB = new TextBox()
+							{
+								Text = val,
+								Tag = "Unit"
+							};
+
+							currentRow.Insert(indexOfGradeTB, unitTB);
+							currentRow.Insert(indexOfGradeTB + 1, poppedTB);
+							continue;
+						}
+					}
+
 					if (val.Contains(" ") && header[cc].Contains("Course"))
 					{
 						//split the course abbrv from the course #.
 						var split = val.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 						if (!textboxes.ContainsKey(rr))
-							textboxes.Add(rr, new List<TextBox>());
-
-						foreach (var str in split)
 						{
-							TextBox tbx = new TextBox()
+							textboxes.Add(rr, new List<TextBox>());
+						}
+
+						if ( split.Length == 2 )
+						{
+							TextBox tb1 = new TextBox()
 							{
-								Text = str
+								Text = split[0],
+								Tag = "Course"
 							};
+							TextBox tb2 = new TextBox()
+							{
+								Text = split[1],
+								Tag = "Number"
+							};
+
+							textboxes[rr].Add(tb1);
+							textboxes[rr].Add(tb2);
 						}
 
 						continue;
@@ -115,9 +156,8 @@ namespace GradHelperWPF.Views
 					TextBox tb = new TextBox()
 					{
 						Text = val,
-						Tag = new int[] { rr, cc }
+						Tag = header[cc]
 					};
-
 					if ( !textboxes.ContainsKey(rr) )
 					{
 						textboxes.Add( rr, new List<TextBox>(){ tb });
@@ -134,14 +174,22 @@ namespace GradHelperWPF.Views
 											.Select( r => TransferCourseGrid.RowDefinitions.IndexOf(r) )
 											.FirstOrDefault() + 2;
 
+				int colI = TransferCourseGrid.ColumnDefinitions
+								.Where(cd => cd.Name == "GradeColDef")
+								.Select(cd => TransferCourseGrid.ColumnDefinitions.IndexOf(cd))
+								.FirstOrDefault();
 				// now populate the rows
-				foreach( var tbList in textboxes.Values)
+				foreach ( var tbList in textboxes.Values)
 				{
 					for(int i = 0; i < tbList.Count; i++)
 					{
-						TransferCourseGrid.Children.Add(tbList[i]);
+						if (tbList[i].Tag == null 
+							|| (tbList[i].Tag as String).Contains("Grd") 
+							|| (tbList[i].Tag as String).Contains("Reqmnt"))
+						continue;
 
-						if( row >= TransferCourseGrid.RowDefinitions.Count)
+						TransferCourseGrid.Children.Add(tbList[i]);
+						if( row >= TransferCourseGrid.RowDefinitions.Count )
 						{
 							RowDefinition rowDef = new RowDefinition();
 							rowDef.Height = TransferCourseGrid.RowDefinitions.LastOrDefault().Height;
@@ -149,12 +197,18 @@ namespace GradHelperWPF.Views
 						}
 
 						Grid.SetRow(tbList[i], row);
-						Grid.SetColumn(tbList[i], i);
+						// Need to place the textbox in the correct column.
+						if ( (string)tbList[i].Tag == "Grade" )
+						{
+							Grid.SetColumn(tbList[i], colI);
+						}
+						else
+						{
+							Grid.SetColumn(tbList[i], i);
+						}
 					}
-
 					row++;
-				}
-				
+				}				
 			}
 		}
 

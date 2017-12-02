@@ -30,11 +30,11 @@
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" IsEnabled="True" CanContentScroll="True">
 			<Grid Name="TransferCourseGrid">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Name="CourseColDef" Width="10*"/>
+					<ColumnDefinition Name="NumberColDef" Width="10*"/>
+					<ColumnDefinition Name="TitleColDef" Width="35*"/>
+					<ColumnDefinition Name="UnitColDef" Width="10*"/>
+					<ColumnDefinition Name="GradeColDef" Width="10*"/>
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Name="LabelsRowDef" Height="50*"/>

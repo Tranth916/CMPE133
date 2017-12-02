@@ -9,19 +9,31 @@
       Background="WhiteSmoke"
       Margin="5 5 5 5"
 	  >
-	<StackPanel Margin="5 5 5 5">
+	<StackPanel Margin="5 5 5 5"				
+				  AllowDrop="True"
+				  PreviewDragOver="Grid_PreviewDragOver"
+				  Drop="Grid_Drop">
 		<StackPanel Name="TableGridStackPanel" HorizontalAlignment="Center" >
-			<Label Content="Import SJSU Courses"/>
-			<Button 
-				Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
+			<Label Content="Drag and drop or  click Import SJSU Courses"/>
+			<Button Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
+			<Button Name="TestButton" Content="Test" Click="TestButton_Click"/>
 		</StackPanel>
-		<Grid Name="TableGrid">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-		</Grid>
+		
+		<ScrollViewer VerticalScrollBarVisibility="Visible" >
+			<Grid Name="TransferCourseGrid">
+				
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Name="CourseColDef" Width="10*"/>
+					<ColumnDefinition Name="NumberColDef" Width="10*"/>
+					<ColumnDefinition Name="TitleColDef" Width="35*"/>
+					<ColumnDefinition Name="UnitColDef" Width="10*"/>
+					<ColumnDefinition Name="GradeColDef" Width="10*"/>
+				</Grid.ColumnDefinitions>
+				
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+			</Grid>
+		</ScrollViewer>
 	</StackPanel>
 </Grid>
