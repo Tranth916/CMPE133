@@ -22,7 +22,7 @@ namespace GradHelperWPF.Views
 	/// <summary>
 	/// Interaction logic for MajorFormView.xaml
 	/// </summary>
-	public partial class GradApplicationView : Grid
+	public partial class GradApplicationView : StackPanel
 	{
 		private List<TextBox> _textboxes;
 		private List<TextBox> TextBoxes

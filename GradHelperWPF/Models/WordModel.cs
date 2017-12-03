@@ -215,429 +215,13 @@ namespace GradHelperWPF.Model
 
 			return result = _page1Table != null && _tableRows != null && _cellsWithCourseName != null && _runs != null;
 		}
-
-		/// <summary>
-		/// Build a dictionary for the cells to edit in the future.
-		/// </summary>
-		/// <returns></returns>
-		public bool BuildWritableCellsTable()
-		{
-			if (_cellsWithCourseName == null || _cellsWithCourseName.Count() == 0)
-				return false;
-
-			bool result = false;
-
-			_lookupGrids = new Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>>();
-
-			IEnumerable<string> query;
-			string key;
-
-			foreach (var group in _cellsWithCourseName)
-			{
-				key = group.Key;
-
-				// the key contains the entire text of the row
-				query = from course in CourseFullName
-						let name = course.Replace(" ", "")
-						where key.Contains(name)
-						select course;
-
-				// no matches
-				if (query == null || query.Count() == 0)
-					continue;
-
-				var rowOfCells = group.Cast<TableCell>().ToList();
-				var nextRowOfCells = GetNextTableRow(key);
-
-				foreach (string name in query)
-				{
-					int startIndex = key.LastIndexOf(name.Replace(" ", ""));
-					if (startIndex >= 0)
-					{
-						// The first 5 tablecell belongs to this course.
-						if (rowOfCells == null || rowOfCells.Count < 5 || _lookupGrids.ContainsKey(name))
-							continue;
-						
-						// Each cell is going to be mapped to each word in the name.
-						var splitOfName = name.Split(' ');
-
-						var beginTuple = from cell in rowOfCells
-										 let i = 0
-										 where cell.InnerText.Contains(splitOfName[i])
-										 select rowOfCells.IndexOf(cell);
-
-						if (beginTuple == null || beginTuple.Count() == 0)
-							continue;
-
-						int tt = beginTuple.FirstOrDefault();
-
-						_lookupGrids.Add( name, 
-							Tuple.Create(
-												rowOfCells[tt++],	//5
-												rowOfCells[tt++],	//6
-												rowOfCells[tt++],	//7
-												rowOfCells[tt++],	//8
-												rowOfCells[tt]		//9
-										));
-
-						tt = beginTuple.FirstOrDefault();
-
-						try
-						{
-							// This is throwing an exception for se - fall2015
-							if (tt + 5 < nextRowOfCells.Count && nextRowOfCells.Count > 5)
-							{
-								_lookupGrids.Add(name + "|EMPTY", Tuple.Create(
-									nextRowOfCells[tt++],
-									nextRowOfCells[tt++],
-									nextRowOfCells[tt++],
-									nextRowOfCells[tt++],
-									nextRowOfCells[tt]
-								));
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine(ex.StackTrace);
-						}
-					}
-				}
-			}
-			return result;
-		}
-
-		public string GetBestMatchCourseName(string searchKey)
-		{			
-			string key = searchKey;
-
-			if (key.StartsWith("TRLD") || key.Contains("Precalculus") )
-				return "";
-
-			key = key.Replace("Engr ", "Engineering ");			
-			key = key.Replace("Org & Arch", "Organization and Architecture");
-			key = key.Replace("Strc", "Structures");
-			key = key.Replace("Progrmng", "Programming");
-			key = key.Replace("Comp ", "Computer ");
-			key = key.Replace("Inter ", "Interaction ");
-			key = key.Replace("Struct & Alg", "Structures and Algorithms");
-			key = key.Replace("Soft ", "Software ");
-			key = key.Replace("SW ", "Software");
-			key = key.Replace("Diff Eq ", "Differential Equations ");
-			key = key.Replace("Intro ", "Introduction ");
-			key = key.Replace("Orntd ", "Oriented");
-			key = key.Replace("Dsgn", "Design");
-
-			System.Diagnostics.Debug.WriteLine("searchkey : " + searchKey);
-			System.Diagnostics.Debug.WriteLine("key : " + key);
-
-			// okay try to search by course name then course #.
-			string[] splitKey = key.Split(' ');
-			if( splitKey.Length > 3 )
-			{
-				// search for the course #.
-				var query = from number in CourseFullName
-							where number.Contains(splitKey[1])
-						    select number as string;
-	
-				if (query != null)
-				{
-					if (query.Count() == 1)
-						return query.FirstOrDefault();
-					else
-					{
-						var query2 = from name in query
-									 let first = name.Split(' ').FirstOrDefault()
-									 where !string.IsNullOrEmpty(first) &&
-										   ("SECMPECS".Contains(first) || key.StartsWith(first))
-									 select name as string;
-
-						if (query2 != null && query2.Count() == 1)
-							return query2.FirstOrDefault();
-
-					}
-				}
-			}
-
-			// if its an SE course, it might fall under CMPE.
-			if( key.Contains("SE") )
-			{
-				string cmpeKey = key.Replace("SE", "CMPE");
-				string csKey = key.Replace("SE ", "CS ");
-				string found = CourseFullName.Where(s => s.Equals(cmpeKey) || s.Equals(csKey)).FirstOrDefault();
-				
-				if (!string.IsNullOrEmpty(found))
-					return found;
-			}
-
-			diff_match_patch google = new diff_match_patch();
-
-			Dictionary<string, int> leviDistances = new Dictionary<string, int>();
-
-			for(int i = 0; i < CourseFullName.Count; i++)
-			{
-				var diff1 = google.diff_main(key, CourseFullName[i]);
-
-				int leviDistance1 = google.diff_levenshtein(diff1);
-
-				if( !leviDistances.ContainsKey(CourseFullName[i]) )
-					leviDistances.Add(CourseFullName[i], leviDistance1);
-				
-				if( key.StartsWith("SE ") )
-				{
-					string cmpeKey = key.Replace("SE ","CMPE ");
-
-					var diff2 = google.diff_main(cmpeKey, CourseFullName[i]);
-					int leviDistance2 = google.diff_levenshtein(diff2);
-
-					if (!leviDistances.ContainsKey(cmpeKey))
-						leviDistances.Add(cmpeKey, leviDistance2);
-
-					string csKey = key.Replace("SE ", "CS ");
-					var diff3 = google.diff_main(csKey, CourseFullName[i]);
-					int leviDistance3 = google.diff_levenshtein(diff3);
-
-					if (!leviDistances.ContainsKey(csKey))
-						leviDistances.Add(csKey, leviDistance3);
-
-				}
-			}
-
-			string courseAbbr = key.Split(' ').FirstOrDefault();
-
-			var sorted = leviDistances.Where( s => s.Key.StartsWith(courseAbbr, StringComparison.CurrentCultureIgnoreCase) )
-									  .OrderBy(s => s.Value)
-									  .FirstOrDefault();
-
-			if ( sorted.Key == null && key.StartsWith("SE "))
-			{
-				sorted = leviDistances.Where(s => s.Key.StartsWith("CMPE ", StringComparison.CurrentCultureIgnoreCase))
-						.OrderBy(s => s.Value)
-						.FirstOrDefault();
-			}
-
-			if (sorted.Key != null)
-			{				
-				return sorted.Key;
-			}
-
-			return "";
-		}
-
-		public bool WriteGradeToSJSUCourse(string key, string grade)
-		{
-			if (_writtenToCells == null)
-				_writtenToCells = new Dictionary<string, TableCell>();
-
-			if (_lookupGrids == null)
-			{
-				ReadGridTable();
-				BuildWritableCellsTable();
-			}
-
-			var exactMatch = CourseFullName.FirstOrDefault(k => k.ToLower().Trim() == key.ToLower().Trim());
-
-			if ( string.IsNullOrEmpty(exactMatch) )
-			{
-				string bestMatchKey = GetBestMatchCourseName(key);
-
-				if( !string.IsNullOrWhiteSpace(bestMatchKey) )
-					WriteValueToGrade( bestMatchKey, grade );
-			}
-			else
-			{
-				if( _lookupGrids.ContainsKey(key))
-					WriteValueToGrade(key, grade);
-			}
-			
-			return false;
-		}
-
-		public bool WriteValueToGrade(string key, string grade)
-		{
-			if (_lookupGrids == null || !_lookupGrids.ContainsKey(key))
-				return false;
-
-			var value = _lookupGrids[key];
-
-			var gradeText = value.Item5.ChildElements.FirstOrDefault(p => p is Paragraph);
-
-			var neighborRun = (from item in value.Item4.ChildElements
-							   where item is Paragraph
-							   from ru in item.ChildElements
-							   where ru is Run
-							   select ru as Run).FirstOrDefault();
-
-			string fontSizeOfRun = neighborRun != null &&
-								   neighborRun.RunProperties != null &&
-								   neighborRun.RunProperties.FontSize != null ? neighborRun.RunProperties.FontSize.Val.ToString() :
-								   "14";
-
-			Text t = new Text();
-
-			string gradeVal = grade;
-
-			if ( grade.Length > 1 )
-			{
-				// get a count of occurences.
-				var occurences = from g in gradeVal
-								 group g by g;
-
-				foreach( var group in occurences )
-				{
-					var letter = group.Key;
-
-					if( group.Count() > 1)
-					{
-						int indexOfLetter = gradeVal.IndexOf(letter);
-
-						string firstHalf = gradeVal.Substring(0, indexOfLetter);
-						string secondHalf = grade.Substring(indexOfLetter + 1);
-						secondHalf = secondHalf.Replace(letter.ToString(),"");
-						gradeVal = firstHalf + secondHalf;
-					}
-				}
-			}
-
-			t.Text = gradeVal;
-		
-			Run r = new Run();
-			r.Append(t);
-			r.RunProperties = new RunProperties();
-			r.RunProperties.FontSize = new FontSize() { Val = fontSizeOfRun };
-
-			gradeText.AppendChild(r);
-
-			if( _writtenToCells != null && !_writtenToCells.ContainsKey(key) )
-			{
-				_writtenToCells.Add(key, _lookupGrids[key].Item5);
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine($"Key-> {key} Grade-> {grade}");
-			}
-
-			return true;
-		}
-
-		public bool WriteValueToRow(string key, string[] vals)
-		{
-			if (vals.Length < 4)
-				return false;
-
-			return WriteValueToRow(key, vals[0], vals[1], vals[2], vals[3], vals[4]);
-		}
-
-		/// <summary>
-		/// Strike out the SJSU course and write the value of the transfered course into the bottom row.
-		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="val1">Course Abbreviation</param>
-		/// <param name="val2">Course Number</param>
-		/// <param name="val3">Course Title</param>
-		/// <param name="val4">Course Units</param>
-		/// <param name="val5">Grade</param>
-		/// <returns></returns>
-		public bool WriteValueToRow(string key, string val1, string val2, string val3, string val4, string val5)
-		{
-			bool result = false;
-
-			if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
-				return result;
-
-			string dictKey = key.Replace("|EMPTY", "");
-			string dictKeyEmpty = key + "|EMPTY";
-
-			var rowTop = _lookupGrids[dictKey];
-			var rowBot = _lookupGrids[dictKeyEmpty];
-
-			/* To write values for "transfer courses"
-			 * 
-			 *		----------------------------------------------------------
-			 *		[ some sjsu course			]   |
-			 *		[ transfer course           ]   |
-			 *      -----------------------------------------------------------
-			 *  The transfer course row is initially empty.
-			 *	To handle this programmatically:
-			 *	1. Create the transfer course by cloning the elements in the top row.
-			 *  2. Fill in the values
-			 *  3. Strike out the top row ONLY after all the elements in the top row is filled out.
-			 * 
-			 */
-			CloneTopAndWriteIntoBot(rowTop.Item1, rowBot.Item1, val1);
-			CloneTopAndWriteIntoBot(rowTop.Item2, rowBot.Item2, val2);
-			CloneTopAndWriteIntoBot(rowTop.Item3, rowBot.Item3, val3);
-			CloneTopAndWriteIntoBot(rowTop.Item4, rowBot.Item4, val4);
-			CloneTopAndWriteIntoBot(rowTop.Item5, rowBot.Item5, val5);
-
-			StrikeOutText(rowTop.Item1);
-			StrikeOutText(rowTop.Item2);
-			StrikeOutText(rowTop.Item3);
-			StrikeOutText(rowTop.Item4);
-			StrikeOutText(rowTop.Item5);
-
-			return result;
-		}
-
-		public bool StrikeOutText(OpenXmlElement item)
-		{
-			List<Text> texts = new List<Text>();
-
-			int processedText = 0;
-
-			if (item is Text)
-			{
-				texts.Add(item as Text);
-			}
-			else if (item is TableCell)
-			{
-				var itemTexts = from pg in item.ChildElements
-								where pg is Paragraph
-								from rr in pg.ChildElements
-								where rr is Run
-								from tt in rr.ChildElements
-								where tt is Text
-								select tt as Text;
-
-				foreach (var t in itemTexts)
-				{
-					texts.Add(t);
-				}
-			}
-			else if (item is Run)
-			{
-				var itemTexts = from t in item.ChildElements
-								where t is Text
-								select t as Text;
-				foreach (var t in itemTexts)
-				{
-					texts.Add(t);
-				}
-			}
-
-			foreach (var txt in texts)
-			{
-				if (string.IsNullOrEmpty(txt.InnerText))
-					continue;
-
-				Run parent = txt.Parent as Run;
-
-				if (parent == null)
-					continue;
-
-				parent.RunProperties.Strike = new Strike();
-				++processedText;
-			}
-
-			return processedText > 0;
-		}
-
-		/// <summary>
-		/// This should be called for transferred courses only. Clone the RUN children of the Top row and insert them into the bottom.
-		/// </summary>
-		/// <param name="top"></param>
-		/// <param name="bot"></param>
-		/// <returns></returns>
-		public bool CloneTopAndWriteIntoBot(TableCell top, TableCell bot, string val)
+            /// <summary>
+        /// This should be called for transferred courses only. Clone the RUN children of the Top row and insert them into the bottom.
+        /// </summary>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <returns></returns>
+        private bool CloneTopAndWriteIntoBot(TableCell top, TableCell bot, string val)
 		{
 			var paragraphs = bot.ChildElements
 							.Where(s => s is Paragraph)
@@ -725,43 +309,11 @@ namespace GradHelperWPF.Model
 			return true;
 		}
 
-		/// <summary>
-		/// Get the tablecells of the next sibling row.
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public List<TableCell> GetNextTableRow(string key)
-		{
-			List<TableCell> ret = new List<TableCell>();
-			try
-			{
-				// select the empty row that follows this row.
-				var rowOfEmptyCells = (from rr in _tableRows
-									   where !string.IsNullOrEmpty(rr.InnerText)
-										   && rr.InnerText.Replace(" ", "") == key
-									   select rr.NextSibling() as TableRow
-									   ).FirstOrDefault();
-
-				var emptyValueCells =  from cell in rowOfEmptyCells.ChildElements
-									   where cell is TableCell &&
-									  (string.IsNullOrEmpty(cell.InnerText)
-									|| string.IsNullOrWhiteSpace(cell.InnerText))
-									   select cell as TableCell;
-
-				ret = emptyValueCells.ToList();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.StackTrace);
-			}
-			return ret;
-		}
-
-		/// <summary>
-		/// Prepare the major form by appending empty rows under existing text cells.
-		/// </summary>
-		/// <param name="tableRows"></param>
-		public void AppendEmptyGridRows(ref IEnumerable<TableRow> tableRows)
+        /// <summary>
+        /// Prepare the major form by appending empty rows under existing text cells.
+        /// </summary>
+        /// <param name="tableRows"></param>
+        private void AppendEmptyGridRows(ref IEnumerable<TableRow> tableRows)
 		{
 			// Get a reference to a table row that does not have any text.
 			// Use that empty row to fix up the entire table.
@@ -854,8 +406,215 @@ namespace GradHelperWPF.Model
 				currentRow = currentRow.NextSibling() as TableRow;
 			}
 		}
-		
-		public Dictionary<string, Text> GetNameTextCells(ref OpenXmlElement table)
+       
+        /// <summary>
+        /// Build a dictionary for the cells to edit in the future.
+        /// </summary>
+        /// <returns></returns>
+        public bool BuildWritableCellsTable()
+        {
+            if (_cellsWithCourseName == null || _cellsWithCourseName.Count() == 0)
+                return false;
+
+            bool result = false;
+
+            _lookupGrids = new Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>>();
+
+            IEnumerable<string> query;
+            string key;
+
+            foreach (var group in _cellsWithCourseName)
+            {
+                key = group.Key;
+
+                // the key contains the entire text of the row
+                query = from course in CourseFullName
+                        let name = course.Replace(" ", "")
+                        where key.Contains(name)
+                        select course;
+
+                // no matches
+                if (query == null || query.Count() == 0)
+                    continue;
+
+                var rowOfCells = group.Cast<TableCell>().ToList();
+                var nextRowOfCells = GetNextTableRow(key);
+
+                foreach (string name in query)
+                {
+                    int startIndex = key.LastIndexOf(name.Replace(" ", ""));
+                    if (startIndex >= 0)
+                    {
+                        // The first 5 tablecell belongs to this course.
+                        if (rowOfCells == null || rowOfCells.Count < 5 || _lookupGrids.ContainsKey(name))
+                            continue;
+
+                        // Each cell is going to be mapped to each word in the name.
+                        var splitOfName = name.Split(' ');
+
+                        var beginTuple = from cell in rowOfCells
+                                         let i = 0
+                                         where cell.InnerText.Contains(splitOfName[i])
+                                         select rowOfCells.IndexOf(cell);
+
+                        if (beginTuple == null || beginTuple.Count() == 0)
+                            continue;
+
+                        int tt = beginTuple.FirstOrDefault();
+
+                        _lookupGrids.Add(name,
+                            Tuple.Create(
+                                                rowOfCells[tt++],   //5
+                                                rowOfCells[tt++],   //6
+                                                rowOfCells[tt++],   //7
+                                                rowOfCells[tt++],   //8
+                                                rowOfCells[tt]      //9
+                                        ));
+
+                        tt = beginTuple.FirstOrDefault();
+
+                        try
+                        {
+                            // This is throwing an exception for se - fall2015
+                            if (tt + 5 < nextRowOfCells.Count && nextRowOfCells.Count > 5)
+                            {
+                                _lookupGrids.Add(name + "|EMPTY", Tuple.Create(
+                                    nextRowOfCells[tt++],
+                                    nextRowOfCells[tt++],
+                                    nextRowOfCells[tt++],
+                                    nextRowOfCells[tt++],
+                                    nextRowOfCells[tt]
+                                ));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.StackTrace);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public string GetBestMatchCourseName(string searchKey)
+        {
+            string key = searchKey;
+
+            if (key.StartsWith("TRLD") || key.Contains("Precalculus"))
+                return "";
+
+            key = key.Replace("Engr ", "Engineering ");
+            key = key.Replace("Org & Arch", "Organization and Architecture");
+            key = key.Replace("Strc", "Structures");
+            key = key.Replace("Progrmng", "Programming");
+            key = key.Replace("Comp ", "Computer ");
+            key = key.Replace("Inter ", "Interaction ");
+            key = key.Replace("Struct & Alg", "Structures and Algorithms");
+            key = key.Replace("Soft ", "Software ");
+            key = key.Replace("SW ", "Software");
+            key = key.Replace("Diff Eq ", "Differential Equations ");
+            key = key.Replace("Intro ", "Introduction ");
+            key = key.Replace("Orntd ", "Oriented");
+            key = key.Replace("Dsgn", "Design");
+
+            System.Diagnostics.Debug.WriteLine("searchkey : " + searchKey);
+            System.Diagnostics.Debug.WriteLine("key : " + key);
+
+            // okay try to search by course name then course #.
+            string[] splitKey = key.Split(' ');
+            if (splitKey.Length > 3)
+            {
+                // search for the course #.
+                var query = from number in CourseFullName
+                            where number.Contains(splitKey[1])
+                            select number as string;
+
+                if (query != null)
+                {
+                    if (query.Count() == 1)
+                        return query.FirstOrDefault();
+                    else
+                    {
+                        var query2 = from name in query
+                                     let first = name.Split(' ').FirstOrDefault()
+                                     where !string.IsNullOrEmpty(first) &&
+                                           ("SECMPECS".Contains(first) || key.StartsWith(first))
+                                     select name as string;
+
+                        if (query2 != null && query2.Count() == 1)
+                            return query2.FirstOrDefault();
+
+                    }
+                }
+            }
+
+            // if its an SE course, it might fall under CMPE.
+            if (key.Contains("SE"))
+            {
+                string cmpeKey = key.Replace("SE", "CMPE");
+                string csKey = key.Replace("SE ", "CS ");
+                string found = CourseFullName.Where(s => s.Equals(cmpeKey) || s.Equals(csKey)).FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(found))
+                    return found;
+            }
+
+            diff_match_patch google = new diff_match_patch();
+
+            Dictionary<string, int> leviDistances = new Dictionary<string, int>();
+
+            for (int i = 0; i < CourseFullName.Count; i++)
+            {
+                var diff1 = google.diff_main(key, CourseFullName[i]);
+
+                int leviDistance1 = google.diff_levenshtein(diff1);
+
+                if (!leviDistances.ContainsKey(CourseFullName[i]))
+                    leviDistances.Add(CourseFullName[i], leviDistance1);
+
+                if (key.StartsWith("SE "))
+                {
+                    string cmpeKey = key.Replace("SE ", "CMPE ");
+
+                    var diff2 = google.diff_main(cmpeKey, CourseFullName[i]);
+                    int leviDistance2 = google.diff_levenshtein(diff2);
+
+                    if (!leviDistances.ContainsKey(cmpeKey))
+                        leviDistances.Add(cmpeKey, leviDistance2);
+
+                    string csKey = key.Replace("SE ", "CS ");
+                    var diff3 = google.diff_main(csKey, CourseFullName[i]);
+                    int leviDistance3 = google.diff_levenshtein(diff3);
+
+                    if (!leviDistances.ContainsKey(csKey))
+                        leviDistances.Add(csKey, leviDistance3);
+
+                }
+            }
+
+            string courseAbbr = key.Split(' ').FirstOrDefault();
+
+            var sorted = leviDistances.Where(s => s.Key.StartsWith(courseAbbr, StringComparison.CurrentCultureIgnoreCase))
+                                      .OrderBy(s => s.Value)
+                                      .FirstOrDefault();
+
+            if (sorted.Key == null && key.StartsWith("SE "))
+            {
+                sorted = leviDistances.Where(s => s.Key.StartsWith("CMPE ", StringComparison.CurrentCultureIgnoreCase))
+                        .OrderBy(s => s.Value)
+                        .FirstOrDefault();
+            }
+
+            if (sorted.Key != null)
+            {
+                return sorted.Key;
+            }
+
+            return "";
+        }
+
+        private Dictionary<string, Text> GetNameTextCells(ref OpenXmlElement table)
 		{
 			if (_doc == null)
 				return null;
@@ -890,12 +649,13 @@ namespace GradHelperWPF.Model
 			return textCells;
 		}
 
-		public Dictionary<string, OpenXmlElement> GetFootNoteCell( ref OpenXmlElement table)
+        private Dictionary<string, OpenXmlElement> GetFootNoteCell( ref OpenXmlElement table)
 		{
 			Dictionary<string, OpenXmlElement> footnote = new Dictionary<string, OpenXmlElement>();
 
-			string footStr = "Footnotes";
+			string footStr = "footnote";
 
+            // THERES GOT TO BE A BETTER WAY TO DO THIS!!!!
 			var footNoteAlternateContents = from tableRow in table.ChildElements
 											where tableRow.InnerText.Contains(footStr)
 											from tableCell in tableRow.ChildElements
@@ -939,33 +699,334 @@ namespace GradHelperWPF.Model
                            where text is Text
                            select text as Text;
 
+            string textVal;
+            int i = 0;
             foreach(var text in textRuns)
             {
-                text.Text = "*****";
+                textVal = text.Text;
+
+                text.Text = "";
+
+                if( i++ % 2 == 0)
+                    footnote.Add($"footNote{i}", text);
             }
-
-
-
-            var ss = textBoxParagraphs.FirstOrDefault();
-
-
-
-
-
-
-            var foot = footNoteAlternateContents.FirstOrDefault();
-
-			
-
-			
-
-			
-
 			return footnote;
 		}
 
+        /// <summary>
+        /// Get the tablecells of the next sibling row.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private List<TableCell> GetNextTableRow(string key)
+        {
+            List<TableCell> ret = new List<TableCell>();
+            try
+            {
+                // select the empty row that follows this row.
+                var rowOfEmptyCells = (from rr in _tableRows
+                                       where !string.IsNullOrEmpty(rr.InnerText)
+                                           && rr.InnerText.Replace(" ", "") == key
+                                       select rr.NextSibling() as TableRow
+                                       ).FirstOrDefault();
 
-		public string FileName { get; set; }
+                var emptyValueCells = from cell in rowOfEmptyCells.ChildElements
+                                      where cell is TableCell &&
+                                     (string.IsNullOrEmpty(cell.InnerText)
+                                   || string.IsNullOrWhiteSpace(cell.InnerText))
+                                      select cell as TableCell;
+
+                ret = emptyValueCells.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+            return ret;
+        }
+
+        private bool StrikeOutText(OpenXmlElement item)
+        {
+            List<Text> texts = new List<Text>();
+
+            int processedText = 0;
+
+            if (item is Text)
+            {
+                texts.Add(item as Text);
+            }
+            else if (item is TableCell)
+            {
+                var itemTexts = from pg in item.ChildElements
+                                where pg is Paragraph
+                                from rr in pg.ChildElements
+                                where rr is Run
+                                from tt in rr.ChildElements
+                                where tt is Text
+                                select tt as Text;
+
+                foreach (var t in itemTexts)
+                {
+                    texts.Add(t);
+                }
+            }
+            else if (item is Run)
+            {
+                var itemTexts = from t in item.ChildElements
+                                where t is Text
+                                select t as Text;
+                foreach (var t in itemTexts)
+                {
+                    texts.Add(t);
+                }
+            }
+
+            foreach (var txt in texts)
+            {
+                if (string.IsNullOrEmpty(txt.InnerText))
+                    continue;
+
+                Run parent = txt.Parent as Run;
+
+                if (parent == null)
+                    continue;
+
+                parent.RunProperties.Strike = new Strike();
+                ++processedText;
+            }
+
+            return processedText > 0;
+        }
+
+        public bool WriteFootNote(string value)
+        {
+            int count = 0;
+
+            if( _footNoteCells != null )
+            {
+                try
+                {
+                    var keys = _footNoteCells.Keys.ToList();
+
+                    var keyToInsert = from text in _footNoteCells
+                                      let textBox = text.Value as Text
+                                      where string.IsNullOrEmpty(textBox.Text)
+                                      let indexOfTextBox = keys.IndexOf(text.Key)
+                                      select indexOfTextBox;
+
+                    string key = keys[keyToInsert.FirstOrDefault()];
+
+                    int numOfAskerists = keys.IndexOf(key) + 1;
+
+                    (_footNoteCells[key] as Text).Text = new string('*', numOfAskerists) + value;
+
+                    count++;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Exception while writing to foot note. " + ex.StackTrace);
+                }
+            }
+
+            return count > 0;
+        }
+
+        public bool WriteGradeToSJSUCourse(string key, string grade)
+        {
+            if (_writtenToCells == null)
+                _writtenToCells = new Dictionary<string, TableCell>();
+
+            if (_lookupGrids == null)
+            {
+                ReadGridTable();
+                BuildWritableCellsTable();
+            }
+
+            var exactMatch = CourseFullName.FirstOrDefault(k => k.ToLower().Trim() == key.ToLower().Trim());
+
+            if (string.IsNullOrEmpty(exactMatch))
+            {
+                string bestMatchKey = GetBestMatchCourseName(key);
+
+                if (!string.IsNullOrWhiteSpace(bestMatchKey))
+                    WriteGrade(bestMatchKey, grade);
+            }
+            else
+            {
+                if (_lookupGrids.ContainsKey(key))
+                    WriteGrade(key, grade);
+            }
+
+            return false;
+        }
+
+        public bool WriteGrade(string key, string grade)
+        {
+            if (_lookupGrids == null || !_lookupGrids.ContainsKey(key))
+                return false;
+
+            var value = _lookupGrids[key];
+
+            var gradeText = value.Item5.ChildElements.FirstOrDefault(p => p is Paragraph);
+
+            var neighborRun = (from item in value.Item4.ChildElements
+                               where item is Paragraph
+                               from ru in item.ChildElements
+                               where ru is Run
+                               select ru as Run).FirstOrDefault();
+
+            string fontSizeOfRun = neighborRun != null &&
+                                   neighborRun.RunProperties != null &&
+                                   neighborRun.RunProperties.FontSize != null ? neighborRun.RunProperties.FontSize.Val.ToString() :
+                                   "14";
+
+            Text t = new Text();
+
+            string gradeVal = grade;
+
+            if (grade.Length > 1)
+            {
+                // get a count of occurences.
+                var occurences = from g in gradeVal
+                                 group g by g;
+
+                foreach (var group in occurences)
+                {
+                    var letter = group.Key;
+
+                    if (group.Count() > 1)
+                    {
+                        int indexOfLetter = gradeVal.IndexOf(letter);
+
+                        string firstHalf = gradeVal.Substring(0, indexOfLetter);
+                        string secondHalf = grade.Substring(indexOfLetter + 1);
+                        secondHalf = secondHalf.Replace(letter.ToString(), "");
+                        gradeVal = firstHalf + secondHalf;
+                    }
+                }
+            }
+
+            t.Text = gradeVal;
+
+            Run r = new Run();
+            r.Append(t);
+            r.RunProperties = new RunProperties();
+            r.RunProperties.FontSize = new FontSize() { Val = fontSizeOfRun };
+
+            gradeText.AppendChild(r);
+
+            if (_writtenToCells != null && !_writtenToCells.ContainsKey(key))
+            {
+                _writtenToCells.Add(key, _lookupGrids[key].Item5);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Key-> {key} Grade-> {grade}");
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Write first, middle, last name.
+        /// </summary>
+        /// <param name="key">first, fn, middle, mi, last, ln</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool WriteNameYear(string key, string value)
+        {
+            int writtenCount = 0;
+
+            string dest = key.ToLower();
+            string dictKey = "";
+
+            try
+            {
+                if (dest.Contains("first") || dest.Contains("fn"))
+                    dictKey = _studentNameTable.Keys.FirstOrDefault(fn => fn.Contains("first"));
+                else if (dest.Contains("last") || dest.Contains("ln"))
+                    dictKey = _studentNameTable.Keys.FirstOrDefault(fn => fn.Contains("last"));
+                else if (dest.Contains("middle") || dest.Contains("mi"))
+                    dictKey = _studentNameTable.Keys.FirstOrDefault(fn => fn.Contains("mi"));
+                else if (dest.Contains("year"))
+                    dictKey = _studentNameTable.Keys.FirstOrDefault(fn => fn.Contains("year"));
+                else if (dest.Contains("studentid") || dest.Contains("id"))
+                    dictKey = _studentNameTable.Keys.FirstOrDefault(fn => fn.Contains("student"));
+
+                if (!string.IsNullOrEmpty(dictKey))
+                {
+                    _studentNameTable[dictKey].Text = value;
+                    writtenCount++;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.StackTrace);
+            }
+
+            return writtenCount > 0;
+        }
+
+        public bool WriteRow(string key, string[] vals)
+        {
+            if (vals.Length < 4)
+                return false;
+
+            return WriteValueToRow(key, vals[0], vals[1], vals[2], vals[3], vals[4]);
+        }
+
+        /// <summary>
+        /// Strike out the SJSU course and write the value of the transfered course into the bottom row.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="val1">Course Abbreviation</param>
+        /// <param name="val2">Course Number</param>
+        /// <param name="val3">Course Title</param>
+        /// <param name="val4">Course Units</param>
+        /// <param name="val5">Grade</param>
+        /// <returns></returns>
+        private bool WriteValueToRow(string key, string val1, string val2, string val3, string val4, string val5)
+        {
+            bool result = false;
+
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                return result;
+
+            string dictKey = key.Replace("|EMPTY", "");
+            string dictKeyEmpty = key + "|EMPTY";
+
+            var rowTop = _lookupGrids[dictKey];
+            var rowBot = _lookupGrids[dictKeyEmpty];
+
+            /* To write values for "transfer courses"
+			 * 
+			 *		----------------------------------------------------------
+			 *		[ some sjsu course			]   |
+			 *		[ transfer course           ]   |
+			 *      -----------------------------------------------------------
+			 *  The transfer course row is initially empty.
+			 *	To handle this programmatically:
+			 *	1. Create the transfer course by cloning the elements in the top row.
+			 *  2. Fill in the values
+			 *  3. Strike out the top row ONLY after all the elements in the top row is filled out.
+			 * 
+			 */
+            CloneTopAndWriteIntoBot(rowTop.Item1, rowBot.Item1, val1);
+            CloneTopAndWriteIntoBot(rowTop.Item2, rowBot.Item2, val2);
+            CloneTopAndWriteIntoBot(rowTop.Item3, rowBot.Item3, val3);
+            CloneTopAndWriteIntoBot(rowTop.Item4, rowBot.Item4, val4);
+            CloneTopAndWriteIntoBot(rowTop.Item5, rowBot.Item5, val5);
+
+            StrikeOutText(rowTop.Item1);
+            StrikeOutText(rowTop.Item2);
+            StrikeOutText(rowTop.Item3);
+            StrikeOutText(rowTop.Item4);
+            StrikeOutText(rowTop.Item5);
+
+            return result;
+        }
+
+        public string FileName { get; set; }
 		public string FileLocation { get; set; }
 		public string FileVersion { get; set; }
 	}

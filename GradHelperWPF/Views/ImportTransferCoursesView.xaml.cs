@@ -19,7 +19,7 @@ namespace GradHelperWPF.Views
 	/// <summary>
 	/// Interaction logic for ImportTransferCoursesView.xaml
 	/// </summary>
-	public partial class ImportTransferCoursesView : Grid
+	public partial class ImportTransferCoursesView : StackPanel
 	{
 		private string[] ExcelExtensions
 		{

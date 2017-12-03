@@ -17,7 +17,7 @@ namespace GradHelperWPF.Views
 	/// <summary>
 	/// Interaction logic for MajorFormView.xaml
 	/// </summary>
-	public partial class MajorFormView : Grid
+	public partial class MajorFormView : StackPanel
 	{
 		public MajorFormView()
 		{
@@ -29,16 +29,7 @@ namespace GradHelperWPF.Views
 			var ofd = new Microsoft.Win32.SaveFileDialog()
 			{
 
-				Filter = ".docx"
 			};
-
-			bool? result = ofd.ShowDialog();
-
-			if( result.Value )
-			{
-
-			}
-
 		}
 	}
 }

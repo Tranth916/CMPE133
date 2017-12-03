@@ -19,13 +19,12 @@ namespace GradHelperWPF
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
-    {
-		
+    {		
         // All Views here.
         public MainWindow()
         {
             InitializeComponent();
-            Init();
+            Init();            
         }
 
         private void Init()

@@ -20,7 +20,7 @@ namespace GradHelperWPF.Views
     /// <summary>
     /// Interaction logic for ImportCoursesView.xaml
     /// </summary>
-    public partial class ImportCoursesView : Grid
+    public partial class ImportCoursesView : StackPanel
     {
         public ImportCoursesView()
         {
@@ -217,76 +217,7 @@ namespace GradHelperWPF.Views
 				}
 			}
 		}
-
-		//private void Grid_Drop(object sender, DragEventArgs e)
-		//{
-		//	try
-		//	{
-		//		if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
-		//		{
-		//			// Get the extension.
-		//			var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-
-		//			int xls=0, xlsx=0;
-
-		//			string file;
-
-		//			// Get a count of how many files need to be imported.
-		//			for(int i = 0; i < files.Length; i++)
-		//			{
-		//				file = files[i].ToLower();
-
-		//				if (file.EndsWith(".xls"))
-		//					xls++;
-		//				else if (file.EndsWith(".xlsx"))
-		//					xlsx++;
-		//			}
-
-		//			if (xls == 0 && xlsx == 0)
-		//				return;
-
-		//			var xlsFiles = files.Where(ff => ff.ToLower().EndsWith(".xls"));
-
-		//			var xlsxFiles = files.Where(ff => ff.ToLower().EndsWith(".xlsx"));
-
-		//			foreach( var s in xlsxFiles)
-		//			{
-		//				ExcelModel exmodel = new ExcelModel(s);
-
-		//				var data = exmodel.DataTable;
-
-		//				foreach(var entry in data)
-		//				{
-		//					var arr = entry.Value.Split(new char[] { '|'}, StringSplitOptions.RemoveEmptyEntries);
-
-		//					List<string> list = new List<string>();
-
-		//					int i = 0;
-		//					foreach(var str in arr)
-		//					{
-		//						i++;
-		//						list.Add(str);
-		//						if (i == 4)
-		//							break;
-		//					}
-
-
-		//					BuildGridRow(list);
-		//				}
-		//			}
-		//			foreach (var s in xlsFiles)
-		//			{
-		//				ExcelModel exmodel = new ExcelModel(s);
-		//				var data = exmodel.DataTable;
-		//			}
-		//		}
-		//	}
-		//	catch(Exception ex)
-		//	{
-		//	//	throw new Exception(ex.StackTrace);
-		//	}
-		//}
-
+       
 		private List<TextBox> BuildGridRow(List<string> data)
 		{
 			// Need 5 columns for 5 textboxes, only for the initial load.
@@ -458,12 +389,17 @@ namespace GradHelperWPF.Views
 				}
 
 				courseKey = courseKey.Trim();
-				doc.WriteGradeToSJSUCourse(courseKey, tb.Text);
-				//doc.WriteName("Tran");
-
+				doc.WriteGradeToSJSUCourse(courseKey, tb.Text);	
 			}
 
-			doc.Close();
+            doc.WriteNameYear("first", "thao");
+            doc.WriteNameYear("last", "tran");
+            doc.WriteNameYear("mi", "hoang");
+            doc.WriteNameYear("id", "010836020");
+            doc.WriteNameYear("year", "2018");
+
+
+            doc.Close();
 			doc.ShowDoc();
 		}
 	}

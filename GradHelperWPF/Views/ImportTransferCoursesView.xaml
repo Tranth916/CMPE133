@@ -1,4 +1,4 @@
-﻿<Grid x:Class="GradHelperWPF.Views.ImportTransferCoursesView"
+﻿<StackPanel x:Class="GradHelperWPF.Views.ImportTransferCoursesView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -27,7 +27,7 @@
 			<Button Name="TransferCourseImportBtn" Click="TransferCourseImportBtn_Click" Content="Import"  />
 		</StackPanel>
 		
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" IsEnabled="True" CanContentScroll="True">
+		<StackPanel Grid.Row="1">
 			<Grid Name="TransferCourseGrid">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Name="CourseColDef" Width="10*"/>
@@ -64,6 +64,6 @@
 				<Label Margin="2 2 2 2" Background="LightBlue" Content="Units" Grid.Column="3" Grid.Row="1"/>
 				<Label Margin="2 2 2 2" Background="LightBlue" Content="Grade" Grid.Column="4" Grid.Row="1"/>
 			</Grid>
-		</ScrollViewer>
+		</StackPanel>
 	</Grid>
-</Grid>
+</StackPanel>

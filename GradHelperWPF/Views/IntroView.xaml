@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:GradHelperWPF.Views"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
-	  Background="WhiteSmoke"
       >
     <Grid.RowDefinitions>
             <RowDefinition Height="100" />
@@ -27,26 +26,26 @@
                            HorizontalAlignment="Center"
                            Grid.Row="1" Grid.Column="0" 
                            Content=" Graduation Helper "
-                           Margin="5,0,0,0" />
+                           />
 
         <Label Name="subHeadingLabel"
                            FontSize="20"
                            HorizontalAlignment="Center"
                            Grid.Row="2" Grid.Column="0" 
                            Content="by Thao Tran"
-                           Margin="5,0,0,0" />
+                           />
 
         <Label Name="subHeadingLabel2"
                            FontSize="20"
                            HorizontalAlignment="Center"
                            Grid.Row="3" Grid.Column="0" 
                            Content="CMPE 133 Fall 2017"
-                           Margin="5,0,0,0" />
+                           />
 
     <Label Name="subHeadingLabel3"
                            FontSize="20"
                            HorizontalAlignment="Center"
                            Grid.Row="4" Grid.Column="0" 
                            Content="Professor Eswar"
-                           Margin="5,0,0,0" />
+                           />
 </Grid>

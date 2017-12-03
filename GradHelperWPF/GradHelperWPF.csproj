@@ -192,10 +192,8 @@
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\ViewUtil.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
-    <Compile Include="ViewModel\CourseViewModel.cs" />
     <Compile Include="ViewModel\GradAppViewModel.cs" />
     <Compile Include="ViewModel\MajorFormViewModel.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="Views\ImportCoursesView.xaml.cs">
       <DependentUpon>ImportCoursesView.xaml</DependentUpon>
     </Compile>
@@ -265,6 +263,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config">
       <SubType>Designer</SubType>
