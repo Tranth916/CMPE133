@@ -8,6 +8,7 @@ using System.Text;
 using GradHelperWPF.Google;
 using GradHelperWPF.Utils;
 using System;
+using DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
 
 namespace GradHelperWPF.Model
 {
@@ -919,11 +920,40 @@ namespace GradHelperWPF.Model
 							  from gData in graphic.ChildElements
 							  where gData is DocumentFormat.OpenXml.Drawing.GraphicData
 							  from wProcShape in gData.ChildElements
-							  where wProcShape is DocumentFormat.OpenXml.Office2010.Word.DrawingShape.WordprocessingShape
-							  select wProcShape as DocumentFormat.OpenXml.Office2010.Word.DrawingShape.WordprocessingShape;
+							  where wProcShape is WordprocessingShape
+							  select wProcShape as WordprocessingShape;
+
+            var textBoxParagraphs = from wordProcShape in graphicData
+                                    from textBoxInfo2 in wordProcShape.ChildElements
+                                    where textBoxInfo2 is TextBoxInfo2
+                                    from content in textBoxInfo2.ChildElements
+                                    where content.InnerText.Contains(footStr) && content is TextBoxContent
+                                    from para in content.ChildElements
+                                    where para is Paragraph
+                                    select para as Paragraph;
+
+            var textRuns = from para in textBoxParagraphs
+                           from run in para.ChildElements
+                           where run is Run
+                           from text in run.ChildElements
+                           where text is Text
+                           select text as Text;
+
+            foreach(var text in textRuns)
+            {
+                text.Text = "*****";
+            }
 
 
-			var foot = footNoteAlternateContents.FirstOrDefault();
+
+            var ss = textBoxParagraphs.FirstOrDefault();
+
+
+
+
+
+
+            var foot = footNoteAlternateContents.FirstOrDefault();
 
 			
 
