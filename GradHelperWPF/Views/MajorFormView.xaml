@@ -1,4 +1,10 @@
-﻿<StackPanel x:Class="GradHelperWPF.Views.MajorFormView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:GradHelperWPF.Views" mc:Ignorable="d" Background="AliceBlue" Height="800" Width="900">
+﻿<StackPanel x:Class="GradHelperWPF.Views.MajorFormView" 
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			xmlns:local="clr-namespace:GradHelperWPF.Views" 
+			mc:Ignorable="d" Background="AliceBlue" Height="800" Width="900">
 	<Grid>
 		<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -7,7 +13,9 @@
 			<RowDefinition Height="10*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-			<Label Content="Major Form" />
+			<TextBox Text="{Binding GardAppVM.FirstName}"/>
+
+			<Label Content="Major Form" Height="112" />
 		</StackPanel>
 		<Grid Name="MajorFormTable" Grid.Row="1">
 			<Grid.RowDefinitions></Grid.RowDefinitions>
@@ -16,28 +24,27 @@
 	</Grid>
 	<Grid Height="730" Margin="10,0">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="31*" />
+			<RowDefinition Height="33*" />
 			<RowDefinition Height="35" />
-			<RowDefinition Height="39"/>
-			<RowDefinition Height="71*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="33*" />
 			<RowDefinition Height="31*" />
-			<RowDefinition Height="30*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="32*" />
+			<RowDefinition Height="33*" />
 			<RowDefinition Height="31*" />
-			<RowDefinition Height="30*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="30*" />
-			<RowDefinition Height="30*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="31*" />
+			<RowDefinition Height="32*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="33*" />
+			<RowDefinition Height="32*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="54*"  Name="DeptColDef1"	/>
@@ -52,247 +59,240 @@
 			<ColumnDefinition Width="45"	Name="GradeColDef2"	/>
 			<ColumnDefinition Width="0*"						/>
 		</Grid.ColumnDefinitions>
-		<Label Content="Dept" Grid.Column="0"		VerticalAlignment="Top" Height="26"  />
-		<Label Content="No." Grid.Column="1"		VerticalAlignment="Top" Height="26"	 />
-		<Label Content="Title" Grid.Column="2"	 	VerticalAlignment="Top" Height="26"  />
-		<Label Content="Units" Grid.Column="3"	 	VerticalAlignment="Top" Height="26"  />
-		<Label Content="Grade" Grid.Column="4"	 	VerticalAlignment="Top" Height="26"  />
-		<Label Content="Dept" Grid.Column="5"		VerticalAlignment="Top" Height="26"  />
-		<Label Content="No." Grid.Column="6"		VerticalAlignment="Top" Height="26"  />
-		<Label Content="Title" Grid.Column="7"	 	VerticalAlignment="Top" Height="26"  />
-		<Label Content="Units" Grid.Column="8"	 	VerticalAlignment="Top" Height="26"  />
-		<Label Content="Grade" Grid.Column="9"	 	VerticalAlignment="Top" Height="26"  />
-		<TextBox Grid.Column="0"  Height="28" Grid.Row="1" 					   Text="Engr"								VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"					   Text="010"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="Introduction to Engineering"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="CS"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="046A"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="Introduction to Programming"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="4"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
 
-		<TextBox  Height="28" Grid.Row="3" TextWrapping="Wrap"	Grid.Column="1"												VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="3" TextWrapping="Wrap"												VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="3" TextWrapping="Wrap"												VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text=""										VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text="CS"									VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text="046B"									VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text="Introduction to Data Structures"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text="4"									VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="3" TextWrapping="Wrap"	Text=""										VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="3" TextWrapping="Wrap" Text=""										VerticalAlignment="Top" />
+		<Label Content="Dept"	Grid.Column="0"		 Height="26"  />
+		<Label Content="No."	Grid.Column="1"		 Height="26"	 />
+		<Label Content="Title"	Grid.Column="2"	 	 Height="26"  />
+		<Label Content="Units"	Grid.Column="3"	 	 Height="26"  />
+		<Label Content="Grade"	Grid.Column="4"	 	 Height="26"  />
+		<Label Content="Dept"	Grid.Column="5"		 Height="26"  />
+		<Label Content="No."	Grid.Column="6"		 Height="26"  />
+		<Label Content="Title"	Grid.Column="7"	 	 Height="26"  />
+		<Label Content="Units"	Grid.Column="8"	 	 Height="26"  />
+		<Label Content="Grade"	Grid.Column="9"	 	 Height="26"  />
 
-		<TextBox  Height="28" Grid.Row="3" TextWrapping="Wrap"						VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="4" TextWrapping="Wrap"		VerticalAlignment="Top" Text="102" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="4" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Assembly Language Programming" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="4" TextWrapping="Wrap"		VerticalAlignment="Top" Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text="CS"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text="149"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text="Operating Systems"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="4" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="4" TextWrapping="Wrap"						VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text="120"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="5" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Computer Organization and Architecture" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="5" TextWrapping="Wrap"		VerticalAlignment="Top" Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text="CS"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text="151"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text="Object – Oriented Design"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="5" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="5" TextWrapping="Wrap"						VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="131" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Software Engineering I" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="6" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="CS" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="157A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="6" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Introduction to Database Management" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="6" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="6" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="6" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="6" TextWrapping="Wrap"						VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="131"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Software Engineering II"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="3"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="7" TextWrapping="Wrap" Text=""		VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="CS"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="166"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="7" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Information Security"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="7" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="7" TextWrapping="Wrap" Text=""		VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="7" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="7" TextWrapping="Wrap" Text="CmpE&#x9;"						VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="148" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Computer Networks" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="8" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="ISE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="164" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="8" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Computer and Human Interaction" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="8" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="8" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="8" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="8" TextWrapping="Wrap"						VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="9" TextWrapping="Wrap"		VerticalAlignment="Top" Text="165" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="9" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Software Engineering Process Management" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="9" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="9" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="9" TextWrapping="Wrap"		VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="9" TextWrapping="Wrap"		VerticalAlignment="Top" Text="195A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="9" TextWrapping="Wrap"		VerticalAlignment="Top" Text="Senior Design Project I" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="9" TextWrapping="Wrap" Text="2"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="9" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="9" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="9" TextWrapping="Wrap"						VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="172"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="Enterprise Software Platforms"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="10" TextWrapping="Wrap"		VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="10" TextWrapping="Wrap"		VerticalAlignment="Top" Text="195B" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="Senior Design Project II"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="10" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="10" TextWrapping="Wrap" Text="CmpE"						VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text="187"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text="Software Quality Engineering"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="11" TextWrapping="Wrap"	VerticalAlignment="Top" Text="Engr" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="11" TextWrapping="Wrap"	VerticalAlignment="Top" Text="195A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="11" TextWrapping="Wrap"	VerticalAlignment="Top" Text="Global and Social Issues in Engineering (S)" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text="1"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="11" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="11" TextWrapping="Wrap"					VerticalAlignment="Top" Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="146"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="Data Structures and Algorithms"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="Engr"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="195B"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="Global and Social Issues in Engineering (V)"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="1"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="12" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="12" TextWrapping="Wrap" Text="CS"					VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="13" TextWrapping="Wrap" Text=""					VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="010"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="The Living World"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="Phys"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="050"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="Mechanics"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="4"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="14" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="14" TextWrapping="Wrap" Text="Biol"					VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="030"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="Calculus I"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="Phys"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="051"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="Electricity and Magnetism"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="4"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="15" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox  Height="28" Grid.Row="15" TextWrapping="Wrap" Text="Math"					VerticalAlignment="Top"  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="031"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="Calculus II"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="4"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="Math"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="123"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="Differential Equations &amp; Linear Algebra"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="16" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="16" TextWrapping="Wrap" Text="Math"					VerticalAlignment="Top"  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="032"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="Calculus III"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="ISE"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="130"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="Engineering Probability &amp; Statistics"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="17" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="17" TextWrapping="Wrap" Text="Math"					VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="042"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="Discrete Mathematics"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="Engl"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="01B"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="Argument &amp; Analysis"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="3"	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="18" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox  Height="28" Grid.Row="18" TextWrapping="Wrap" Text="Math"					VerticalAlignment="Top"  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox  Height="28" Grid.Row="19" TextWrapping="Wrap" Text=""					VerticalAlignment="Top"  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""	VerticalAlignment="Top"  />
-		<TextBox  Height="28" Grid.Row="20" TextWrapping="Wrap" Text=""					VerticalAlignment="Top"  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""	VerticalAlignment="Top" />
-		<TextBox  Height="28" Grid.Row="21" TextWrapping="Wrap" Text=""					VerticalAlignment="Top" />
-		<TextBox Grid.Column="0"  Height="28" Grid.Row="1" 					   Text="Engr"								VerticalAlignment="Top" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"					   Text="010"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="Introduction to Engineering"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="3"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="CS"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="046A"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="Introduction to Programming"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text="4"		VerticalAlignment="Top" />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="1" TextWrapping="Wrap" Text=""		VerticalAlignment="Top" />
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="1"  Text="Engr" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"	Text="010"	/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="1"  Text="Introduction to Engineering"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="1"  Text="3"	/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="1"  Text=""		/>
+
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="1"  Text="CS"	/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="1"  Text="046A"	/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="1"  Text="Introduction to Programming" />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="1"  Text="4"	/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="1"  Text=""		/>
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="1"  Text=""	/>
+
+		<TextBox  Height="28" Grid.Row="2" 	Grid.Column="1"												 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="2" 												 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="2" 												 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="2" 	Text=""										 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="2" 	Text="CS"									 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="2" 	Text="046B"									 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="2" 	Text="Introduction to Data Structures"		 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="2" 	Text="4"									 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="2" 	Text=""										 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="2"  Text=""										 />
+
+		<TextBox  Height="28" Grid.Row="2" 						 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="3" 		 Text="102" />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="3" 		 Text="Assembly Language Programming" />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="3" 		 Text="3" />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="3"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="3"  Text="CS"		 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="3"  Text="149"		 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="3"  Text="Operating Systems"		 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="3"  Text="3"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="3"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="3"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="3" 						 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="4"  Text="120"		 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="4" 		 Text="Computer Organization and Architecture" />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="4" 		 Text="3" />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="4"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="4"  Text="CS"		 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="4"  Text="151"		 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="4"  Text="Object – Oriented Design"		 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="4"  Text="3"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="4"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="4"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="4" 						 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="5" 		 Text="131" />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="5" 		 Text="Software Engineering I" />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="5" 		 Text="3" />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="5"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="5" 		 Text="CS" />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="5" 		 Text="157A" />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="5" 		 Text="Introduction to Database Management" />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="5"  Text="3"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="5"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="5"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="5" 						 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="6" 		 Text="133"  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="6" 		 Text="Software Engineering II"  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="6" 		 Text="3"  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="6"  Text=""		  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="6" 		 Text="CS"  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="6" 		 Text="166"  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="6" 		 Text="Information Security"  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="6"  Text="3"		  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="6"  Text=""		  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="6"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="6"  Text="CmpE&#x9;"						 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="7" 		 Text="148" />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="7" 		 Text="Computer Networks" />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="7" 		 Text="3" />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="7"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="7" 		 Text="ISE" />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="7" 		 Text="164" />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="7" 		 Text="Computer and Human Interaction" />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="7"  Text="3"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="7"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="7"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="7" 						 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="8" 		 Text="165" />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="8" 		 Text="Software Engineering Process Management" />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="8"  Text="3"		 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="8"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="8" 		 Text="CmpE" />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="8" 		 Text="195A" />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="8" 		 Text="Senior Design Project I" />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="8"  Text="2"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="8"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="8"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="8" 						 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="9"  Text="172"		 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="9"  Text="Enterprise Software Platforms"		 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="9"  Text="3"		 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="9"  Text=""		 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="9" 		 Text="CmpE" />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="9" 		 Text="195B" />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="9"  Text="Senior Design Project II"		 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="9"  Text="3"		 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="9"  Text=""		 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="9"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="9"  Text="CmpE"						 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="10"  Text="187"	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="10"  Text="Software Quality Engineering"	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="10"  Text="3"	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="10"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="10" 	 Text="Engr" />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="10" 	 Text="195A" />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="10" 	 Text="Global and Social Issues in Engineering (S)" />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="10"  Text="1"	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="10"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="10"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="10" 					 Text="CmpE" />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="11"  Text="146"	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="11"  Text="Data Structures and Algorithms"	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="11"  Text="3"	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="11"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="11"  Text="Engr"	 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="11"  Text="195B"	 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="11"  Text="Global and Social Issues in Engineering (V)"	 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="11"  Text="1"	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="11"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="11"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="11"  Text="CS"					 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="12"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="12"  Text=""					 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="13"  Text="010"	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="13"  Text="The Living World"	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="13"  Text="3"	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="13"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="13"  Text="Phys"	 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="13"  Text="050"	 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="13"  Text="Mechanics"	 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="13"  Text="4"	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="13"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="13"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="13"  Text="Biol"					 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="14"  Text="030"	  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="14"  Text="Calculus I"	  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="14"  Text="3"	  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="14"  Text=""	  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="14"  Text="Phys"	  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="14"  Text="051"	  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="14"  Text="Electricity and Magnetism"	  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="14"  Text="4"	  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="14"  Text=""	  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="14"  Text=""	  />
+		<TextBox  Height="28" Grid.Row="14"  Text="Math"					  />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="15"  Text="031"	  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="15"  Text="Calculus II"	  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="15"  Text="4"	  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="15"  Text=""	  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="15"  Text="Math"	  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="15"  Text="123"	  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="15"  Text="Differential Equations &amp; Linear Algebra"	  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="15"  Text="3"	  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="15"  Text=""	  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="15"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="15"  Text="Math"					  />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="16"  Text="032"	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="16"  Text="Calculus III"	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="16"  Text="3"	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="16"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="16"  Text="ISE"	 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="16"  Text="130"	 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="16"  Text="Engineering Probability &amp; Statistics"	 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="16"  Text="3"	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="16"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="16"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="16"  Text="Math"					 />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="17"  Text="042"	  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="17"  Text="Discrete Mathematics"	  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="17"  Text="3"	  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="17"  Text=""	  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="17"  Text="Engl"	  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="17"  Text="01B"	  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="17"  Text="Argument &amp; Analysis"	  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="17"  Text="3"	  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="17"  Text=""	  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="17"  Text=""	  />
+		<TextBox  Height="28" Grid.Row="17"  Text="Math"					  />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="18"  Text=""	  />
+		<TextBox  Height="28" Grid.Row="18"  Text=""					  />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="19"  Text=""	  />
+		<TextBox  Height="28" Grid.Row="19"  Text=""					  />
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="20"  Text=""	 />
+		<TextBox  Height="28" Grid.Row="20"  Text=""					 />
 	</Grid>
 </StackPanel>

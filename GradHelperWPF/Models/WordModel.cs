@@ -10,7 +10,7 @@ using GradHelperWPF.Utils;
 using System;
 using DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
 
-namespace GradHelperWPF.Model
+namespace GradHelperWPF.Models
 {
 	public class WordModel
 	{
@@ -98,18 +98,20 @@ namespace GradHelperWPF.Model
 			get { return _workingPath; }
 		}
 
-		#endregion
+        #endregion
 
-		#region Constructor
-		public WordModel(string filePath)
+        #region Constructor
+        public WordModel()
+        {
+
+        }
+
+        public WordModel(string filePath)
 		{
 			FileLocation = filePath;
 			Init();
 		}
-		
-		
-		
-		
+	
 		#endregion
 
 		private void Init()

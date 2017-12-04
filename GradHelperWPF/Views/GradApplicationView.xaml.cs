@@ -24,6 +24,11 @@ namespace GradHelperWPF.Views
 	/// </summary>
 	public partial class GradApplicationView : StackPanel
 	{
+        /// <summary>
+        /// Student's data in GradApplicationView
+        /// </summary>
+        public static GradAppViewModel gradAppViewModelStatic = new GradAppViewModel();
+
 		private List<TextBox> _textboxes;
 		private List<TextBox> TextBoxes
 		{
@@ -80,7 +85,7 @@ namespace GradHelperWPF.Views
 		public GradApplicationView()
 		{
 			InitializeComponent();
-			DataContext = new GradAppViewModel();
+			DataContext = gradAppViewModelStatic;
 		}
 
 		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

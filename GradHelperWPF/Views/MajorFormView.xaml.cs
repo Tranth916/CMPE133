@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GradHelperWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,19 @@ namespace GradHelperWPF.Views
 	/// </summary>
 	public partial class MajorFormView : StackPanel
 	{
+        public static MajorFormViewModel majorFormModelStatic = new MajorFormViewModel();
+
 		public MajorFormView()
 		{
 			InitializeComponent();
-		}
+            DataContext = new
+            {
+                MajorFormVM = majorFormModelStatic,
+                GardAppVM = GradApplicationView.gradAppViewModelStatic,
+            };
+        }
+
+
 
 		private void ExportBtn_OnClick(object sender, RoutedEventArgs e)
 		{

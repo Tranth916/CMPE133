@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using GradHelperWPF.Interfaces;
 
-namespace GradHelperWPF.Model
+namespace GradHelperWPF.Models
 {
     public class CourseModel : ObservableObject
     {

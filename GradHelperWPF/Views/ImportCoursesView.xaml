@@ -8,30 +8,32 @@
       d:DesignHeight="800" d:DesignWidth="900"
       Background="WhiteSmoke"
 	  >
-	<StackPanel   AllowDrop="True"
-				  PreviewDragOver="Grid_PreviewDragOver"
-				  Drop="Grid_Drop">
-		<StackPanel Name="TableGridStackPanel" HorizontalAlignment="Center" >
+	<Grid   AllowDrop="True"
+		PreviewDragOver="Grid_PreviewDragOver"
+		Drop="Grid_Drop" Height="97">
+
+		<StackPanel x:Name="TableGridStackPanel" HorizontalAlignment="Center" Margin="281,0,206,0" Width="413" >
 			<Label Content="Drag and drop or  click Import SJSU Courses"/>
-			<Button Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
-			<Button Name="TestButton" Content="Test" Click="TestButton_Click"/>
+			<Button x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
+			<Button x:Name="TestButton" Content="Test" Click="TestButton_Click"/>
+			<TextBox Text="{Binding FirstName}" />
 		</StackPanel>
-		
-		<StackPanel>
-			<Grid Name="TransferCourseGrid">
-				
+
+		<StackPanel Margin="0,52,0,0">
+			<Grid x:Name="TransferCourseGrid">
+
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Name="CourseColDef" Width="10*"/>
-					<ColumnDefinition Name="NumberColDef" Width="10*"/>
-					<ColumnDefinition Name="TitleColDef" Width="35*"/>
-					<ColumnDefinition Name="UnitColDef" Width="10*"/>
-					<ColumnDefinition Name="GradeColDef" Width="10*"/>
+					<ColumnDefinition x:Name="CourseColDef" Width="10*"/>
+					<ColumnDefinition x:Name="NumberColDef" Width="10*"/>
+					<ColumnDefinition x:Name="TitleColDef" Width="35*"/>
+					<ColumnDefinition x:Name="UnitColDef" Width="10*"/>
+					<ColumnDefinition x:Name="GradeColDef" Width="10*"/>
 				</Grid.ColumnDefinitions>
-				
+
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*"/>
 				</Grid.RowDefinitions>
 			</Grid>
 		</StackPanel>
-	</StackPanel>
+	</Grid>
 </StackPanel>

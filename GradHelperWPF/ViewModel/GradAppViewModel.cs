@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GradHelperWPF.Model;
+using GradHelperWPF.Models;
 using System.Collections.ObjectModel;
 using Prism.Mvvm;
 using Prism.Commands;
@@ -16,20 +16,20 @@ namespace GradHelperWPF.ViewModel
     {
 		public StringBuilder strBuilder = new StringBuilder();
 
-		private GradAppFormModel _gradformModel;
+		private GradAppModel _gradAppForm;
 
 		public GradAppViewModel()
         {
+            _gradAppForm = new GradAppModel();
+
 			UpdateCommand = new DelegateCommand( Execute, CanExecute )
 								.ObservesProperty( () => FirstName )
 								.ObservesProperty( () => LastName );
-
 
 		}
 
 		private bool CanExecute()
 		{
-			//System.Windows.MessageBox.Show("CanExcuted!");
 			return true;
 		}
 
@@ -43,62 +43,189 @@ namespace GradHelperWPF.ViewModel
 			set; get;
 		}
 
-		private string _middleName;
-		private string _lastName;
-		private string _studentID;
-		private string _email;
 
-		private string _firstName;
-
-		public String FirstName
+        public String FirstName
 		{
 			set
 			{
-				SetProperty(ref _firstName, StringUtils.CapFirstLetterRemoveNums(value));
+				SetProperty(ref _gradAppForm.firstName, StringUtils.CapFirstLetterRemoveNums(value));
+
 			}
-			get { return _firstName; }
+			get { return _gradAppForm.firstName; }
 		}
 
 		public String LastName
 		{
-			set { SetProperty(ref _lastName, value); }
-			get { return _lastName; }
+			set { SetProperty(ref _gradAppForm.lastName, StringUtils.CapFirstLetterRemoveNums(value)); }
+			get { return _gradAppForm.lastName; }
 		}
 
 		public String MiddleName
 		{
-			set { SetProperty(ref _middleName, value); }
-			get { return _middleName; }
+			set { SetProperty(ref _gradAppForm.middleName, StringUtils.CapFirstLetterRemoveNums(value)); }
+			get { return _gradAppForm.middleName; }
 		}
-
 
 		public String StudentID
 		{
-			set { SetProperty(ref _studentID, StringUtils.RemoveAllLetters(value)); }
-			get { return _studentID; }
+			set { SetProperty(ref _gradAppForm.studentID, StringUtils.RemoveAllLetters(value)); }
+			get { return _gradAppForm.studentID; }
 		}
 
 		public String Email
 		{
-			set { SetProperty(ref _email, value); }
-			get { return _email; }
-		}
-		
-	}
-
-	// move this class out
-	class GradAppFormModel
-	{
-		public GradAppFormModel()
-		{
-
+			set { SetProperty(ref _gradAppForm.email, value); }
+			get { return _gradAppForm.email; }
 		}
 
+        public String PhoneNumber
+        {
+            set { SetProperty(ref _gradAppForm.phoneNumber, StringUtils.FormatPhoneNumber(value)) ; }
+            get { return _gradAppForm.phoneNumber; }
+        }
 
+        public String MajorName
+        {
+            set { SetProperty(ref _gradAppForm.majorName, value); }
+            get { return _gradAppForm.majorName; }
+        }
 
+        public String GradYear
+        {
+            set { SetProperty(ref _gradAppForm.gradYear, value); }
+            get { return _gradAppForm.gradYear; }
+        }
 
+        public String GradSemester
+        {
+            set { SetProperty(ref _gradAppForm.gradSemester, value); }
+            get { return _gradAppForm.gradSemester; }
+        }
 
+        public String StreetNumber
+        {
+            set { SetProperty(ref _gradAppForm.streetNumber, value); }
+            get { return _gradAppForm.streetNumber; }
+        }
 
-	}
+        public String StreetName
+        {
+            set { SetProperty(ref _gradAppForm.streetName, StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.streetName; }
+        }
+
+        public String ApartmentNumber
+        {
+            set { SetProperty(ref _gradAppForm.apartmentNumber, value); }
+            get { return _gradAppForm.apartmentNumber; }
+        }
+
+        public String City
+        {
+            set { SetProperty(ref _gradAppForm.city, StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.city; }
+        }
+
+        public String State
+        {
+            set { SetProperty(ref _gradAppForm.state, StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.state; }
+        }
+
+        public String Zipcode
+        {
+            set { SetProperty(ref _gradAppForm.zipcode, value); }
+            get { return _gradAppForm.zipcode; }
+        }
+
+        public String DegreeObjective
+        {
+            set { SetProperty(ref _gradAppForm.degreeObjective, value); }
+            get { return _gradAppForm.degreeObjective; }
+        }
+
+        public String NonSJSUCourseCompleted1
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[0], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[0]; }
+        }
+        public String NonSJSUCourseCompleted2
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[1], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[1]; }
+        }
+        public String NonSJSUCourseCompleted3
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[2], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[2]; }
+        }
+        public String NonSJSUCourseCompleted4
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[3], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[3]; }
+        }
+        public String NonSJSUCourseCompleted5
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[4], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[4]; }
+        }
+        public String NonSJSUCourseCompleted6
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[5], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[5]; }
+        }
+        public String NonSJSUCourseCompleted7
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[6], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[6]; }
+        }
+        public String NonSJSUCourseCompleted8
+        {
+            set { SetProperty(ref _gradAppForm.nonSJSUNotCompleted[7], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.nonSJSUNotCompleted[7]; }
+        }
+
+        public String CurrentEnrolledCourse1
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[0], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[0]; }
+        }
+        public String CurrentEnrolledCourse2
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[1], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[1]; }
+        }
+        public String CurrentEnrolledCourse3
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[2], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[2]; }
+        }
+        public String CurrentEnrolledCourse4
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[3], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[3]; }
+        }
+        public String CurrentEnrolledCourse5
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[4], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[4]; }
+        }
+        public String CurrentEnrolledCourse6
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[5], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[5]; }
+        }
+        public String CurrentEnrolledCourse7
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[6], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[6]; }
+        }
+        public String CurrentEnrolledCourse8
+        {
+            set { SetProperty(ref _gradAppForm.currentEnrolledCourses[7], StringUtils.CapFirstLetterRemoveNums(value)); }
+            get { return _gradAppForm.currentEnrolledCourses[7]; }
+        }
+
+    }
 }
 

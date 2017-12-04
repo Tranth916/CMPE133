@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using ExcelDataReader;
 using GradHelperWPF.Utils;
-using ExcelDataReader;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
+using System.Text;
+using Prism.Mvvm;
+using System.Linq;
 
 namespace GradHelperWPF.Models
 {
-    public class ExcelModel
+    public class ExcelModel : BindableBase
     {
 		private Dictionary<string, string> SjsuCourseTextBoxMap = new Dictionary<string, string>()
 		{
@@ -104,7 +104,6 @@ namespace GradHelperWPF.Models
 			return matrix;
 		}
 	
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -324,85 +323,5 @@ namespace GradHelperWPF.Models
 			}
 			return data;
 		}
-
-		//public void ReadExcel2003(string path)
-		//{
-		//    Dictionary<string, List<string>> table = new Dictionary<string, List<string>>();
-
-		//    IExcelDataReader excel = null;
-
-		//    Stream stream = null;
-
-		//    // Must be careful here! Ensure that the file is closed after done reading.
-		//    using (stream = new FileStream(path, FileMode.OpenOrCreate))
-		//    {
-		//        try
-		//        {
-		//            // excel = ExcelReaderFactory.CreateOpenXmlReader(stream);
-		//            excel = ExcelReaderFactory.CreateReader(stream);
-		//            //excel = ExcelReaderFactory.CreateBinaryReader(stream);
-		//        }
-		//        catch (Exception ex)
-		//        {
-		//            //Debug.WriteLine(ex.StackTrace);
-		//            if (ex.Message.ToLower().Contains("invalid sign"))
-		//            {
-		//                throw new Exception(ex.StackTrace);
-		//            }
-		//            else
-		//                throw new Exception(ex.StackTrace);
-		//        }
-		//        finally
-		//        {
-		//            if (excel != null)
-		//            {
-
-		//                string value = "";
-		//                int columns, rowNumber = 0;
-
-		//                do
-		//                {
-		//                    while (excel.Read())
-		//                    {
-		//                        columns = excel.FieldCount;
-		//                        // Read across the columns
-		//                        for (int i = 0; i < columns; i++)
-		//                        {
-		//                            if (excel.GetValue(i) == null)
-		//                                continue;
-
-		//                            value = excel.GetValue(i) as String;
-		//                            // The first row is the column headers in the SJSU Course history.
-		//                            // Course	Description	Term	Grade	Units	Grd Points	Repeat Code	Reqmnt Desig Status	Transcript Note
-		//                            if (rowNumber == 0 && !table.ContainsKey(value))
-		//                            {
-		//                                // Each key should look like: 1_Course.. 2_Description.
-		//                                table.Add($"{i}_{value}", new List<string>());
-		//                            }
-		//                            else
-		//                            {
-		//                                // Find the coulmn to insert into.
-		//                                var key = (from k in table.Keys
-		//                                           let columnNumber = k.Substring(0, k.IndexOf("_"))
-		//                                           where i.ToString() == columnNumber
-		//                                           select k).FirstOrDefault();
-
-		//                                if (!string.IsNullOrEmpty(key))
-		//                                {
-		//                                    table[key].Add(value);
-		//                                }
-		//                            }
-		//                        }
-		//                        rowNumber++;
-		//                    }
-		//                    // advance to next row.
-		//                } while (excel.NextResult());
-
-		//            }
-		//        }
-		//    } // Stream will auto close after this statement.
-
-		//    AddCoursesToGridCell(table);
-		//}
 	}
 }
