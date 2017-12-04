@@ -70,19 +70,20 @@
 		<Label Content="Title"	Grid.Column="7"	 	 Height="26"  />
 		<Label Content="Units"	Grid.Column="8"	 	 Height="26"  />
 		<Label Content="Grade"	Grid.Column="9"	 	 Height="26"  />
+		
+		<!---->
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Grade }"/>
 
-		<TextBox Grid.Column="0"  Height="28" Grid.Row="1"  Text="Engr" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"	Text="010"	/>
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="1"  Text="Introduction to Engineering"/>
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="1"  Text="3"	/>
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="1"  Text=""		/>
-
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="1"  Text="CS"	/>
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="1"  Text="046A"	/>
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="1"  Text="Introduction to Programming" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="1"  Text="4"	/>
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="1"  Text=""		/>
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="1"  Text=""	/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Grade }"/>
+		<TextBox Grid.Column="10"  Height="28" Grid.Row="1" />
 
 		<TextBox  Height="28" Grid.Row="2" 	Grid.Column="1"												 />
 		<TextBox Grid.Column="2"  Height="28" Grid.Row="2" 												 />
