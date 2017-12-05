@@ -22,6 +22,7 @@ namespace GradHelperWPF.ViewModel
 
         public MajorFormViewModel()
         {
+			Init();
 
 
         }
@@ -38,11 +39,11 @@ namespace GradHelperWPF.ViewModel
         public String Row1_Col2_Units    { get { return _cs046A[3];     } set { SetProperty(ref _cs046A[3], value); } }
         public String Row1_Col2_Grade    { get { return _cs046A[4];     } set { SetProperty(ref _cs046A[4], value); } }
 
-        public String Row2_Col1_Dept     { get { return ""; } }
-        public String Row2_Col1_No       { get { return ""; } }
-        public String Row2_Col1_Title    { get { return ""; } }
-        public String Row2_Col1_Units	 { get { return ""; } }
-        public String Row2_Col1_Grade    { get { return ""; } } 
+        public String Row2_Col1_Dept     { get { return ""; }			set { SetProperty(ref _cs046A[0], value); }}
+        public String Row2_Col1_No       { get { return ""; }			set { SetProperty(ref _cs046A[1], value); }}
+        public String Row2_Col1_Title    { get { return ""; }			set { SetProperty(ref _cs046A[2], value); }}
+        public String Row2_Col1_Units	 { get { return ""; }			set { SetProperty(ref _cs046A[3], value); }}
+        public String Row2_Col1_Grade    { get { return ""; }			set { SetProperty(ref _cs046A[4], value); } } 
 
         public String Row2_Col2_Dept     { get { return _cs046B[0];    }  set { SetProperty(ref _cs046B[0], value); } }
         public String Row2_Col2_No       { get { return _cs046B[1];    }  set { SetProperty(ref _cs046B[1], value); } }
@@ -231,11 +232,48 @@ namespace GradHelperWPF.ViewModel
         public String Row17_Col2_Units    { get { return _engl01B[3];     } set { SetProperty(ref _engl01B[3], value); } }
         public String Row17_Col2_Grade    { get { return _engl01B[4];     } set { SetProperty(ref _engl01B[4], value); } }
     
-        private readonly string dept = "Dept";
-        private readonly string no = "No.";
-        private readonly string title = "Title";
-        private readonly string units = "Units";
-        private readonly string grade = "Grade";
+
+
+		private void Init()
+		{
+			for( int i = 0; i < _engr010.Length; i++)
+			{
+			  _engr010    [i] = "";
+			  _engr195A   [i] = "";
+			  _engr195B   [i] = "";
+			  _cs046A     [i] = "";
+			  _cs046B     [i] = "";
+			  _cs146      [i] = "";
+			  _cs149      [i] = "";
+			  _cs151      [i] = "";
+			  _cs157A     [i] = "";
+			  _cs166      [i] = "";
+			  _ise164     [i] = "";
+			  _cmpe102    [i] = "";
+			  _cmpe120    [i] = "";
+			  _cmpe131    [i] = "";
+			  _cmpe133    [i] = "";
+			  _cmpe148    [i] = "";
+			  _cmpe165    [i] = "";
+			  _cmpe172    [i] = "";
+			  _cmpe187    [i] = "";
+			  _cmpe195A   [i] = "";
+			  _cmpe195B   [i] = "";
+			  _biol010    [i] = "";
+			  _math030    [i] = "";
+			  _math031    [i] = "";
+			  _math032    [i] = "";
+			  _math042    [i] = "";
+			  _phys050    [i] = "";
+			  _phys051    [i] = "";
+			  _math123    [i] = "";
+			  _ise130     [i] = "";
+			  _engl01B    [i] = "";
+			  _tech1      [i] = "";
+			  _tech2      [i] = "";
+			}
+		}
+
 
         private String[] _engr010          = new String[6];
         private String[] _engr195A         = new String[6];

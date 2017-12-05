@@ -5,295 +5,311 @@
 			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			xmlns:local="clr-namespace:GradHelperWPF.Views" 
 			mc:Ignorable="d" Background="AliceBlue" Height="800" Width="900">
-	<Grid>
-		<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="10*" />
-			<RowDefinition Height="80*" />
-			<RowDefinition Height="10*" />
-		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0">
-			<TextBox Text="{Binding GardAppVM.FirstName}"/>
+    <Grid>
+        <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label Content="Major Form" Height="112" />
+        </StackPanel>
+        <Grid Name="MajorFormTable" Grid.Row="1">
+            <Grid.RowDefinitions></Grid.RowDefinitions>
+            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+    <Grid Height="730" Margin="10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="31*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="31*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="33*" />
+            <RowDefinition Height="32*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            
+            <ColumnDefinition Width="20*"   Name="DeptColDef1"	/>
+            <ColumnDefinition Width="20*"	Name="NumColDef1"	/>
+            <ColumnDefinition Width="20*"	Name="TitleColDef1"	/>
+            <ColumnDefinition Width="20*"	Name="UnitsColDef1"	/>
+            <ColumnDefinition Width="20*"	Name="GradeColDef1"	/>
+            
+            <ColumnDefinition Width="20*"	Name="DeptColDef2"	/>
+            <ColumnDefinition Width="20*" 	Name="NumColDef2"	/>
+            <ColumnDefinition Width="20*"	Name="TitleColDef2"	/>
+            <ColumnDefinition Width="20*"	Name="UnitsColDef2"	/>
+            <ColumnDefinition Width="20*"	Name="GradeColDef2"	/>
+            
+            
+            <ColumnDefinition Width="0*"						/>
+        </Grid.ColumnDefinitions>
 
-			<Label Content="Major Form" Height="112" />
-		</StackPanel>
-		<Grid Name="MajorFormTable" Grid.Row="1">
-			<Grid.RowDefinitions></Grid.RowDefinitions>
-			<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
-		</Grid>
-	</Grid>
-	<Grid Height="730" Margin="10,0">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="35" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="32*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="31*" />
-			<RowDefinition Height="32*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="33*" />
-			<RowDefinition Height="32*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="54*"  Name="DeptColDef1"	/>
-			<ColumnDefinition Width="62*"	Name="NumColDef1"	/>
-			<ColumnDefinition Width="209*"	Name="TitleColDef1"	/>
-			<ColumnDefinition Width="35*"	Name="UnitsColDef1"	/>
-			<ColumnDefinition Width="44*"	Name="GradeColDef1"	/>
-			<ColumnDefinition Width="41*"	Name="DeptColDef2"	/>
-			<ColumnDefinition Width="99*" 	Name="NumColDef2"	/>
-			<ColumnDefinition Width="255*"	Name="TitleColDef2"	/>
-			<ColumnDefinition Width="36*"	Name="UnitsColDef2"	/>
-			<ColumnDefinition Width="45"	Name="GradeColDef2"	/>
-			<ColumnDefinition Width="0*"						/>
-		</Grid.ColumnDefinitions>
+        <Label Content="Dept"	Grid.Column="0"		 Height="26"  />
+        <Label Content="No."	Grid.Column="1"		 Height="26"  />
+        <Label Content="Title"	Grid.Column="2"	 	 Height="26"  />
+        <Label Content="Units"	Grid.Column="3"	 	 Height="26"  />
+        <Label Content="Grade"	Grid.Column="4"	 	 Height="26"  />
+        <Label Content="Dept"	Grid.Column="5"		 Height="26"  />
+        <Label Content="No."	Grid.Column="6"		 Height="26"  />
+        <Label Content="Title"	Grid.Column="7"	 	 Height="26"  />
+        <Label Content="Units"	Grid.Column="8"	 	 Height="26"  />
+        <Label Content="Grade"	Grid.Column="9"	 	 Height="26"  />
 
-		<Label Content="Dept"	Grid.Column="0"		 Height="26"  />
-		<Label Content="No."	Grid.Column="1"		 Height="26"	 />
-		<Label Content="Title"	Grid.Column="2"	 	 Height="26"  />
-		<Label Content="Units"	Grid.Column="3"	 	 Height="26"  />
-		<Label Content="Grade"	Grid.Column="4"	 	 Height="26"  />
-		<Label Content="Dept"	Grid.Column="5"		 Height="26"  />
-		<Label Content="No."	Grid.Column="6"		 Height="26"  />
-		<Label Content="Title"	Grid.Column="7"	 	 Height="26"  />
-		<Label Content="Units"	Grid.Column="8"	 	 Height="26"  />
-		<Label Content="Grade"	Grid.Column="9"	 	 Height="26"  />
+        <!---->
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="1"    Text="{Binding MajorFormVM.Row1_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="1"    Text="{Binding MajorFormVM.Row1_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="1"    Text="{Binding MajorFormVM.Row1_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="1"    Text="{Binding MajorFormVM.Row1_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="1"	  Text="{Binding MajorFormVM.Row1_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="2"	  Text="{Binding MajorFormVM.Row2_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col2_Dept  }"/> 
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="2" 	  Text="{Binding MajorFormVM.Row2_Col2_Grade }"/> 
 		
-		<!---->
-		<TextBox Grid.Column="0"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Dept  }"/>
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col1_No    }"/>
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Title }"/>
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Units }"/>
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="1"    Text="{Binding Row1_Col1_Grade }"/>
-
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Dept  }"/>
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_No    }"/>
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Title }"/>
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Units }"/>
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="1"	  Text="{Binding Row1_Col2_Grade }"/>
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="1" />
-
-		<TextBox  Height="28" Grid.Row="2" 	Grid.Column="1"												 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="2" 												 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="2" 												 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="2" 	Text=""										 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="2" 	Text="CS"									 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="2" 	Text="046B"									 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="2" 	Text="Introduction to Data Structures"		 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="2" 	Text="4"									 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="2" 	Text=""										 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="2"  Text=""										 />
-
-		<TextBox  Height="28" Grid.Row="2" 						 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="3" 		 Text="102" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="3" 		 Text="Assembly Language Programming" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="3" 		 Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="3"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="3"  Text="CS"		 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="3"  Text="149"		 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="3"  Text="Operating Systems"		 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="3"  Text="3"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="3"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="3"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="3" 						 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="4"  Text="120"		 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="4" 		 Text="Computer Organization and Architecture" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="4" 		 Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="4"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="4"  Text="CS"		 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="4"  Text="151"		 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="4"  Text="Object – Oriented Design"		 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="4"  Text="3"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="4"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="4"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="4" 						 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="5" 		 Text="131" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="5" 		 Text="Software Engineering I" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="5" 		 Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="5"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="5" 		 Text="CS" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="5" 		 Text="157A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="5" 		 Text="Introduction to Database Management" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="5"  Text="3"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="5"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="5"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="5" 						 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="6" 		 Text="133"  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="6" 		 Text="Software Engineering II"  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="6" 		 Text="3"  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="6"  Text=""		  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="6" 		 Text="CS"  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="6" 		 Text="166"  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="6" 		 Text="Information Security"  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="6"  Text="3"		  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="6"  Text=""		  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="6"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="6"  Text="CmpE&#x9;"						 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="7" 		 Text="148" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="7" 		 Text="Computer Networks" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="7" 		 Text="3" />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="7"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="7" 		 Text="ISE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="7" 		 Text="164" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="7" 		 Text="Computer and Human Interaction" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="7"  Text="3"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="7"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="7"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="7" 						 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="8" 		 Text="165" />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="8" 		 Text="Software Engineering Process Management" />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="8"  Text="3"		 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="8"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="8" 		 Text="CmpE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="8" 		 Text="195A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="8" 		 Text="Senior Design Project I" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="8"  Text="2"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="8"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="8"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="8" 						 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="9"  Text="172"		 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="9"  Text="Enterprise Software Platforms"		 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="9"  Text="3"		 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="9"  Text=""		 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="9" 		 Text="CmpE" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="9" 		 Text="195B" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="9"  Text="Senior Design Project II"		 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="9"  Text="3"		 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="9"  Text=""		 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="9"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="9"  Text="CmpE"						 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="10"  Text="187"	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="10"  Text="Software Quality Engineering"	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="10"  Text="3"	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="10"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="10" 	 Text="Engr" />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="10" 	 Text="195A" />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="10" 	 Text="Global and Social Issues in Engineering (S)" />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="10"  Text="1"	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="10"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="10"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="10" 					 Text="CmpE" />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="11"  Text="146"	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="11"  Text="Data Structures and Algorithms"	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="11"  Text="3"	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="11"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="11"  Text="Engr"	 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="11"  Text="195B"	 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="11"  Text="Global and Social Issues in Engineering (V)"	 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="11"  Text="1"	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="11"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="11"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="11"  Text="CS"					 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="12"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="12"  Text=""					 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="13"  Text="010"	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="13"  Text="The Living World"	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="13"  Text="3"	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="13"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="13"  Text="Phys"	 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="13"  Text="050"	 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="13"  Text="Mechanics"	 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="13"  Text="4"	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="13"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="13"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="13"  Text="Biol"					 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="14"  Text="030"	  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="14"  Text="Calculus I"	  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="14"  Text="3"	  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="14"  Text=""	  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="14"  Text="Phys"	  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="14"  Text="051"	  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="14"  Text="Electricity and Magnetism"	  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="14"  Text="4"	  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="14"  Text=""	  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="14"  Text=""	  />
-		<TextBox  Height="28" Grid.Row="14"  Text="Math"					  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="15"  Text="031"	  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="15"  Text="Calculus II"	  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="15"  Text="4"	  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="15"  Text=""	  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="15"  Text="Math"	  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="15"  Text="123"	  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="15"  Text="Differential Equations &amp; Linear Algebra"	  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="15"  Text="3"	  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="15"  Text=""	  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="15"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="15"  Text="Math"					  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="16"  Text="032"	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="16"  Text="Calculus III"	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="16"  Text="3"	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="16"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="16"  Text="ISE"	 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="16"  Text="130"	 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="16"  Text="Engineering Probability &amp; Statistics"	 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="16"  Text="3"	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="16"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="16"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="16"  Text="Math"					 />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="17"  Text="042"	  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="17"  Text="Discrete Mathematics"	  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="17"  Text="3"	  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="17"  Text=""	  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="17"  Text="Engl"	  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="17"  Text="01B"	  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="17"  Text="Argument &amp; Analysis"	  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="17"  Text="3"	  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="17"  Text=""	  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="17"  Text=""	  />
-		<TextBox  Height="28" Grid.Row="17"  Text="Math"					  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="18"  Text=""	  />
-		<TextBox  Height="28" Grid.Row="18"  Text=""					  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="19"  Text=""	  />
-		<TextBox  Height="28" Grid.Row="19"  Text=""					  />
-		<TextBox Grid.Column="1"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="2"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="3"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="4"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="5"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="6"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="7"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="8"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="9"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox Grid.Column="10"  Height="28" Grid.Row="20"  Text=""	 />
-		<TextBox  Height="28" Grid.Row="20"  Text=""					 />
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row4_Col2_Grade }"/>
+        
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="5"    Text="{Binding MajorFormVM.Row5_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="5"    Text="{Binding MajorFormVM.Row5_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="5"    Text="{Binding MajorFormVM.Row5_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="5"    Text="{Binding MajorFormVM.Row5_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="5"	  Text="{Binding MajorFormVM.Row5_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="6"	  Text="{Binding MajorFormVM.Row6_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col2_Dept  }"/> 
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="6" 	  Text="{Binding MajorFormVM.Row6_Col2_Grade }"/> 
+		
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="7" 	  Text="{Binding MajorFormVM.Row7_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="7" 	  Text="{Binding MajorFormVM.Row7_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="7" 	  Text="{Binding MajorFormVM.Row7_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="7" 	  Text="{Binding MajorFormVM.Row7_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="7"    Text="{Binding MajorFormVM.Row7_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row8_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="8"    Text="{Binding MajorFormVM.Row9_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="9"    Text="{Binding MajorFormVM.Row9_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="9"    Text="{Binding MajorFormVM.Row9_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="9"    Text="{Binding MajorFormVM.Row9_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="9"	  Text="{Binding MajorFormVM.Row9_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="10"	  Text="{Binding MajorFormVM.Row10_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col2_Dept  }"/> 
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="10"   Text="{Binding MajorFormVM.Row10_Col2_Grade }"/> 
+		
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="11"   Text="{Binding MajorFormVM.Row11_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="12"   Text="{Binding MajorFormVM.Row12_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="13"   Text="{Binding MajorFormVM.Row13_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="13"   Text="{Binding MajorFormVM.Row13_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="13"   Text="{Binding MajorFormVM.Row13_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="13"   Text="{Binding MajorFormVM.Row13_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="13"	  Text="{Binding MajorFormVM.Row13_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col2_Dept  }"/> 
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="14"   Text="{Binding MajorFormVM.Row14_Col2_Grade }"/>
+        
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="15"   Text="{Binding MajorFormVM.Row15_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="16"   Text="{Binding MajorFormVM.Row16_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="17"   Text="{Binding MajorFormVM.Row17_Col2_Grade }"/>
+        
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col1_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col2_Dept  }"/> 
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row18_Col2_Grade }"/> 
+		<TextBox Grid.Column="0"  Height="28" Grid.Row="18"   Text="{Binding MajorFormVM.Row3_Col1_Dept  }"/>
+        
+		<!--<TextBox Grid.Column="1"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="3" 	  Text="{Binding MajorFormVM.Row3_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="3"    Text="{Binding MajorFormVM.Row3_Col2_Grade }"/>
+        <TextBox Grid.Column="0"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_Dept  }"/>
+		<TextBox Grid.Column="1"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col1_No    }"/>
+		<TextBox Grid.Column="2"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col1_Title }"/>
+		<TextBox Grid.Column="3"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col1_Units }"/>
+		<TextBox Grid.Column="4"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col1_Grade }"/>
+		<TextBox Grid.Column="5"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_Dept  }"/>
+		<TextBox Grid.Column="6"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_No    }"/>
+		<TextBox Grid.Column="7"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_Title }"/>
+		<TextBox Grid.Column="8"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_Units }"/>
+		<TextBox Grid.Column="9"  Height="28" Grid.Row="4"    Text="{Binding MajorFormVM.Row2_Col2_Grade }"/>-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 	</Grid>
 </StackPanel>

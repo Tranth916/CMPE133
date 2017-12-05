@@ -28,7 +28,7 @@ namespace GradHelperWPF.Views
             DataContext = new
             {
                 MajorFormVM = majorFormModelStatic,
-                GardAppVM = GradApplicationView.gradAppViewModelStatic,
+                GradAppVM = GradApplicationView.gradAppViewModelStatic,
             };
         }
 
