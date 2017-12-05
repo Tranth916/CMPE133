@@ -23,11 +23,49 @@ namespace GradHelperWPF.ViewModel
         public MajorFormViewModel()
         {
 			Init();
-
-
         }
+		private void Init()
+		{
+			for (int i = 0; i < _engr010.Length; i++)
+			{
+				_engr010[i] = "";
+				_engr195A[i] = "";
+				_engr195B[i] = "";
+				_cs046A[i] = "";
+				_cs046B[i] = "";
+				_cs146[i] = "";
+				_cs149[i] = "";
+				_cs151[i] = "";
+				_cs157A[i] = "";
+				_cs166[i] = "";
+				_ise164[i] = "";
+				_cmpe102[i] = "";
+				_cmpe120[i] = "";
+				_cmpe131[i] = "";
+				_cmpe133[i] = "";
+				_cmpe148[i] = "";
+				_cmpe165[i] = "";
+				_cmpe172[i] = "";
+				_cmpe187[i] = "";
+				_cmpe195A[i] = "";
+				_cmpe195B[i] = "";
+				_biol010[i] = "";
+				_math030[i] = "";
+				_math031[i] = "";
+				_math032[i] = "";
+				_math042[i] = "";
+				_phys050[i] = "";
+				_phys051[i] = "";
+				_math123[i] = "";
+				_ise130[i] = "";
+				_engl01B[i] = "";
+				_tech1[i] = "";
+				_tech2[i] = "";
+			}
+		}
 
-        public String Row1_Col1_Dept     { get { return _engr010[0];    } set { SetProperty(ref _engr010[0], value); } }
+
+		public String Row1_Col1_Dept     { get { return _engr010[0];    } set { SetProperty(ref _engr010[0], value); } }
         public String Row1_Col1_No       { get { return _engr010[1];    } set { SetProperty(ref _engr010[1], value); } }
         public String Row1_Col1_Title    { get { return _engr010[2];    } set { SetProperty(ref _engr010[2], value); } }
         public String Row1_Col1_Units    { get { return _engr010[3];    } set { SetProperty(ref _engr010[3], value); } }
@@ -231,50 +269,7 @@ namespace GradHelperWPF.ViewModel
         public String Row17_Col2_Title    { get { return _engl01B[2];     } set { SetProperty(ref _engl01B[2], value); } }
         public String Row17_Col2_Units    { get { return _engl01B[3];     } set { SetProperty(ref _engl01B[3], value); } }
         public String Row17_Col2_Grade    { get { return _engl01B[4];     } set { SetProperty(ref _engl01B[4], value); } }
-    
-
-
-		private void Init()
-		{
-			for( int i = 0; i < _engr010.Length; i++)
-			{
-			  _engr010    [i] = "";
-			  _engr195A   [i] = "";
-			  _engr195B   [i] = "";
-			  _cs046A     [i] = "";
-			  _cs046B     [i] = "";
-			  _cs146      [i] = "";
-			  _cs149      [i] = "";
-			  _cs151      [i] = "";
-			  _cs157A     [i] = "";
-			  _cs166      [i] = "";
-			  _ise164     [i] = "";
-			  _cmpe102    [i] = "";
-			  _cmpe120    [i] = "";
-			  _cmpe131    [i] = "";
-			  _cmpe133    [i] = "";
-			  _cmpe148    [i] = "";
-			  _cmpe165    [i] = "";
-			  _cmpe172    [i] = "";
-			  _cmpe187    [i] = "";
-			  _cmpe195A   [i] = "";
-			  _cmpe195B   [i] = "";
-			  _biol010    [i] = "";
-			  _math030    [i] = "";
-			  _math031    [i] = "";
-			  _math032    [i] = "";
-			  _math042    [i] = "";
-			  _phys050    [i] = "";
-			  _phys051    [i] = "";
-			  _math123    [i] = "";
-			  _ise130     [i] = "";
-			  _engl01B    [i] = "";
-			  _tech1      [i] = "";
-			  _tech2      [i] = "";
-			}
-		}
-
-
+   
         private String[] _engr010          = new String[6];
         private String[] _engr195A         = new String[6];
         private String[] _engr195B         = new String[6];
@@ -314,289 +309,6 @@ namespace GradHelperWPF.ViewModel
 
 		private String[] _tech1			   = new String[6];
 		private String[] _tech2			   = new String[6];
-
-
-
-        /*
-         
-        private Dictionary<string, string> _engr010          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _engr195A         = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _engr195B         = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-        private Dictionary<string, string> _cs046A           = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cs046B           = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cs149            = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cs151            = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cs157A           = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cs166            = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-        private Dictionary<string, string> _ise164           = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-        private Dictionary<string, string> _cmpe102          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe120          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe131          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe133          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe148          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe165          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe172          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe187          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe195A         = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _cmpe195B         = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-        private Dictionary<string, string> _biol010          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _math030          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _math031          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _math032          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _math042          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-        private Dictionary<string, string> _phys050          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _phys051          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _math123          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _ise130           = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-        private Dictionary<string, string> _engl01B          = new Dictionary<string, string>()
-        {
-            {"Dept", "Engr" },
-            {"No.", "010" },
-            {"Title", "Introduction to Engineering" },
-            {"Units", "3" },
-            {"Grade", "" },
-            {"Row", "1" }
-        };
-
-         
-         */
 
     }
 }
