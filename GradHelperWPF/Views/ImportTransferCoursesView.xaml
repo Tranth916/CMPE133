@@ -13,19 +13,26 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="90*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" x:Name="TableGridStackPanel">
-            <Label Content="Drag and drop or click Import SJSU Courses"/>
-            <Button Name="TextBtn" Content="Test"
-                    Click="TextBtn_Click"
-                    ></Button>
-            
-            
-            <!--<Button x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
-            <Button x:Name="TestButton" Content="Test" Click="TestButton_Click"/>-->
-
-            
-           
-        </StackPanel>
+        <Grid Grid.Row="0" x:Name="TableGridStackPanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Drag and drop or click Import SJSU Courses"/>
+            <Button Grid.Column="1" Name="TextBtn" Content="Test" Click="TextBtn_Click" ></Button>
+            <StackPanel 
+                AllowDrop="True"
+                PreviewDragOver="TransferCoursesGrid_PreviewDragOver"
+                Drop="TransferCoursesGrid_Drop"
+                Grid.Column="0" Grid.Row="1" 
+                Width="100" Height="100" 
+                Background="Green">
+            </StackPanel>
+        </Grid>
         
         <Grid Grid.Row="1" Name="TransferCourseGrid">
             <Grid.ColumnDefinitions>

@@ -77,6 +77,18 @@ namespace GradHelperWPF.Views
 		{
 			WordModel wm = new WordModel();
 
+			var engrCM = CourseModel.CoursesDictionary.Values.Where(v => v.CourseAbbreviation == "ENGR").FirstOrDefault();
+
+
+			if(engrCM == null)
+			{
+				wm.Close();
+				return;
+			}
+
+			wm.WriteCourseToRow(engrCM);
+			wm.Close();
+			wm.ShowDoc();
 		}
 	}
 }

@@ -405,7 +405,6 @@ namespace GradHelperWPF.Models
 							currentRow = null;
 							break;
 						}
-
 						currentRow = currentRow.NextSibling() as TableRow;
 					}
 				}
@@ -1027,6 +1026,154 @@ namespace GradHelperWPF.Models
 
             return result;
         }
+
+		private int SearchInnerTextList(string text, List<string> list)
+		{
+			int count = 0;
+			for (int i = 0; i  < list.Count; i++)
+			{
+				int found = text.IndexOf(list[i], StringComparison.CurrentCultureIgnoreCase);
+				if (found > 0)
+					count++;
+			}
+			return count;
+		}
+
+		public bool WriteCourseToRow(CourseModel cm)
+		{
+			int processed = 0;
+			/* Cases
+			 * 1. SJSU course - if the CourseModel is not flagged as IsTransferCourse 
+			 *		1.a Some CmpE & CS course abbreviation must be striked and SE written to the cell below it.
+			 *		1.b For all others, just write the grade in.
+			 * 
+			 *
+			 * 2. Transfer course -  
+			 *
+			 */
+
+			List<string> texts = new List<string>()
+			{
+				cm.CourseAbbreviation,
+				cm.CourseGrade,
+				//cm.CourseGradePoint,
+				cm.CourseNumber,
+				//cm.CourseRequirementDesignation,
+				//cm.CourseSemester,
+				cm.CourseTitle,
+				cm.CourseUnit,
+				//cm.CourseYear
+			};
+
+			//Find the target TableRow.
+			var targetTableRow = from row in _tableRows
+								   where !string.IsNullOrEmpty(row.InnerText)
+								   let count = SearchInnerTextList(row.InnerText, texts)
+								   where count > 0
+								   orderby count descending
+								   select row;
+
+			if (targetTableRow == null || targetTableRow.Count() == 0)
+				throw new Exception("Cannot find table row to insert " + cm.ToString());
+
+			//Get the columns of that row.
+			var rowColumns = targetTableRow												
+								.FirstOrDefault().ChildElements
+								.Where(c => c is TableCell).Select(c => c as TableCell).ToList();
+
+			//A row has 10 columns, need to select only the columns that belong to this CourseModel.						   
+			int startingIndexOfCourseName = rowColumns
+											.Where(c => c.InnerText.Contains(cm.CourseAbbreviation.ToLower()))
+											.Select(c => rowColumns.IndexOf(c)).FirstOrDefault();
+
+			if (startingIndexOfCourseName < 0)
+				throw new Exception("Exception while searching for columns to insert " + cm.ToString());
+
+			//If the startingIndexIs at the mid point, then the ending point is the count of columns.
+			startingIndexOfCourseName = startingIndexOfCourseName >= rowColumns.Count / 2 ? startingIndexOfCourseName : 0;
+			int end = startingIndexOfCourseName == 0 ? rowColumns.Count / 2 + 1 : rowColumns.Count - 1;
+
+			//Have the target columns:
+			var targetColumns = rowColumns.GetRange(startingIndexOfCourseName, end);			
+			//Need to write the course abbr, no, title, units, and grade into the row below the existing similar course.
+			if( cm.IsTransferCourse )
+			{
+				//todo get a better way to find the indexes of enumerators.
+				int indexOfNextRow = 0;
+				string textOfTargetRow = targetTableRow.FirstOrDefault().InnerText;
+				for(int i = 0; i < _tableRows.Count(); i++)
+				{
+					if( _tableRows.ElementAt(i).InnerText == textOfTargetRow )
+					{
+						indexOfNextRow = i + 1;
+						break;
+					}
+				}
+				var nextTableRow = _tableRows.ElementAt(indexOfNextRow) as TableRow;
+				var nextTableColumns = nextTableRow.ChildElements
+										.Where(c => c is TableCell)
+										.Select(c => c as TableCell)
+										.ToList()
+										.GetRange(startingIndexOfCourseName, end);			
+				for(int i = 0; i < nextTableColumns.Count; i++)
+				{
+					string val = "";
+					switch (i)
+					{
+						case 0:
+							val = cm.CourseAbbreviation;
+							break;
+						case 1:
+							val = cm.CourseNumber;
+							break;
+						case 2:
+							val =  "*" + cm.CourseTitle; // need to preappend the asterisks.
+							break;
+						case 3:
+							val = cm.CourseUnit;
+							break;
+						case 4:
+							val = cm.CourseGrade;
+							break;
+					}
+
+					var paragraph = nextTableColumns[i].ChildElements.Where(c => c is Paragraph).FirstOrDefault();
+					Run run = GetRunForText(val);
+					paragraph.Append(run);
+
+					// strike out the top row.
+					var strikedRun = rowColumns[i].ChildElements.FirstOrDefault( c => c is Run );
+
+					var strikePara = rowColumns[i].ChildElements
+									.Where(c => c is Paragraph)
+									.Select(c => c as Paragraph)
+									.FirstOrDefault();
+
+					var strikeRun = strikePara.ChildElements
+									.Where(c => c is Run)
+									.Select(c => c as Run)
+									.FirstOrDefault(); 
+
+					StrikeOutText(strikeRun);
+				}
+			}
+			
+			return processed > 0;
+		}
+
+		private Run GetRunForText(string text)
+		{
+			Text t = new Text(text);
+			Run r = new Run(t);
+
+			r.RunProperties = new RunProperties()
+			{
+				FontSize = new FontSize() { Val = "14" },
+				RunFonts = new RunFonts() { Ascii = "Arial" }
+			};
+
+			return r;
+		}
 
         public string FileName { get; set; }
 		public string FileLocation { get; set; }
