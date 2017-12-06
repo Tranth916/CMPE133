@@ -346,53 +346,50 @@ namespace GradHelperWPF.Views
 
 		private void TestButton_Click(object sender, RoutedEventArgs e)
 		{
-			TextBox[] list = new TextBox[TransferCourseGrid.Children.Count];
+			//TextBox[] list = new TextBox[TransferCourseGrid.Children.Count];
 
-			TransferCourseGrid.Children.CopyTo(list, 0);
+			//TransferCourseGrid.Children.CopyTo(list, 0);
 
-			var grades = list.Where(l => l.Tag != null && (l.Tag as String) == "Grade");
+			//var grades = list.Where(l => l.Tag != null && (l.Tag as String) == "Grade");
 
-			if (grades == null || grades.Count() == 0)
-				return;
+			//if (grades == null || grades.Count() == 0)
+			//	return;
 
 			// Load the major form doc.
-			string resourceRunningPath = AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\majorform2016.docx";
+			//string resourceRunningPath = AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\majorform2016.docx";
+			//WordModel doc = new WordModel(resourceRunningPath);			
+			//foreach( var tb in grades)
+			//{
+			//	if (tb.Text.Contains("TCR"))
+			//		continue;
 
-			WordModel doc = new WordModel(resourceRunningPath);
-			
-			foreach( var tb in grades)
-			{
-				if (tb.Text.Contains("TCR"))
-					continue;
+			//	int i = Grid.GetRow(tb);
 
-				int i = Grid.GetRow(tb);
+			//	var row = list.Where(tbx => Grid.GetRow(tbx) == i && !tbx.Equals(tb));
 
-				var row = list.Where(tbx => Grid.GetRow(tbx) == i && !tbx.Equals(tb));
+			//	string courseKey = "";
 
-				string courseKey = "";
+			//	foreach( var r in row)
+			//	{
+			//		if (r.Text == tb.Text)
+			//			continue;
 
-				foreach( var r in row)
-				{
-					if (r.Text == tb.Text)
-						continue;
+			//		if( !courseKey.Contains(r.Text) )
+			//			courseKey += $" {r.Text}";
+			//	}
 
-					if( !courseKey.Contains(r.Text) )
-						courseKey += $" {r.Text}";
-				}
-
-				courseKey = courseKey.Trim();
-				doc.WriteGradeToSJSUCourse(courseKey, tb.Text);	
-			}
-
-            doc.WriteNameYear("first", "thao");
-            doc.WriteNameYear("last", "tran");
-            doc.WriteNameYear("mi", "hoang");
-            doc.WriteNameYear("id", "010836020");
-            doc.WriteNameYear("year", "2018");
+			//	courseKey = courseKey.Trim();
+			//	doc.WriteGradeToSJSUCourse(courseKey, tb.Text);	
+			//}
+   //         doc.WriteNameYear("first", "thao");
+   //         doc.WriteNameYear("last", "tran");
+   //         doc.WriteNameYear("mi", "hoang");
+   //         doc.WriteNameYear("id", "010836020");
+   //         doc.WriteNameYear("year", "2018");
+   //         doc.Close();
+			//doc.ShowDoc();
 
 
-            doc.Close();
-			doc.ShowDoc();
 		}
 	}
 }

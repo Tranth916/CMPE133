@@ -5,35 +5,36 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:GradHelperWPF.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="900"
-      Background="WhiteSmoke"
-	  >
-	<Grid   AllowDrop="True"
-		PreviewDragOver="Grid_PreviewDragOver"
-		Drop="Grid_Drop" Height="97">
+      Height="800" Width="900"
+      Background="WhiteSmoke" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" x:Name="TableGridStackPanel">
+            <Label Content="Drag and drop or click Import SJSU Courses"/>
+            <Button x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
+            <Button x:Name="TestButton" Content="Test" Click="TestButton_Click"/>
+        </StackPanel>
 
-		<StackPanel x:Name="TableGridStackPanel" HorizontalAlignment="Center" Margin="281,0,206,0" Width="413" >
-			<Label Content="Drag and drop or  click Import SJSU Courses"/>
-			<Button x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick"/>
-			<Button x:Name="TestButton" Content="Test" Click="TestButton_Click"/>
-			<TextBox Text="{Binding FirstName}" />
-		</StackPanel>
+        <Grid Grid.Row="1" x:Name="TransferCourseGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Name="CourseColDef" Width="10*"/>
+                <ColumnDefinition Name="NumberColDef" Width="10*"/>
+                <ColumnDefinition Name="TitleColDef" Width="35*"/>
+                <ColumnDefinition Name="UnitColDef" Width="10*"/>
+                <ColumnDefinition Name="GradeColDef" Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Name="Header1" Margin="2 2 2 2" Background="LightBlue" Content="Number" Grid.Column="0" Grid.Row="1"/>
+            <Label Name="Header2" Margin="2 2 2 2" Background="LightBlue" Content="Title" Grid.Column="1" Grid.Row="1"/>
+            <Label Name="Header3" Margin="2 2 2 2" Background="LightBlue" Content="Units" Grid.Column="2" Grid.Row="1"/>
+            <Label Name="Header4" Margin="2 2 2 2" Background="LightBlue" Content="Grade" Grid.Column="3" Grid.Row="1"/>
+        </Grid>
 
-		<StackPanel Margin="0,52,0,0">
-			<Grid x:Name="TransferCourseGrid">
-
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition x:Name="CourseColDef" Width="10*"/>
-					<ColumnDefinition x:Name="NumberColDef" Width="10*"/>
-					<ColumnDefinition x:Name="TitleColDef" Width="35*"/>
-					<ColumnDefinition x:Name="UnitColDef" Width="10*"/>
-					<ColumnDefinition x:Name="GradeColDef" Width="10*"/>
-				</Grid.ColumnDefinitions>
-
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*"/>
-				</Grid.RowDefinitions>
-			</Grid>
-		</StackPanel>
-	</Grid>
+    </Grid>
 </StackPanel>

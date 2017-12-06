@@ -177,8 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common.cs" />
     <Compile Include="Interfaces\ObservableObject.cs" />
     <Compile Include="Models\CourseModel.cs" />
+    <Compile Include="Models\ExcelCell.cs" />
     <Compile Include="Models\ExcelModel.cs" />
     <Compile Include="Models\GradAppModel.cs" />
     <Compile Include="Models\WordModel.cs" />

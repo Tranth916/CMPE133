@@ -104,6 +104,46 @@ namespace GradHelperWPF.Models
 			return matrix;
 		}
 	
+		public static List<ExcelCell> GetExcelDataCells(string path)
+		{
+			List<ExcelCell> cells = new List<ExcelCell>();
+			List<string> header;
+			Dictionary<string, string> data;
+			bool hasData = GetExcelDataWithHeaders(out header, out data, path);
+			if (!hasData)
+				throw new Exception("No Data found in file: " + path);
+
+			foreach(var entry in data)
+			{
+				try
+				{
+					if (string.IsNullOrEmpty(entry.Value))
+						continue;
+
+					string[] split = entry.Key.Split(',');
+					int row = -1, col = -1;
+					int.TryParse(split[0], out row);
+					int.TryParse(split[1], out col);
+
+					if (row < 0 || col < 0)
+						continue;
+
+					cells.Add(new ExcelCell(row,col,entry.Value,header[col]));
+				}
+				catch(Exception ex)
+				{
+
+				}
+			}
+
+			var sorted = from cell in cells
+						 orderby cell.Row ascending
+						 orderby cell.Column ascending
+						 select cell as ExcelCell;
+
+			return sorted.ToList();
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -113,6 +153,8 @@ namespace GradHelperWPF.Models
 		/// <returns></returns>
 		public static bool GetExcelDataWithHeaders(out List<string> header, out Dictionary<string,string> data, string filePath)
 		{
+			bool isTransferCourseFlag = false;
+			string transferCourseString = "transfer";
 			header = new List<string>();
 			data = new Dictionary<string, string>();
 
@@ -120,30 +162,46 @@ namespace GradHelperWPF.Models
 				return false;
 
 			string workingCopy = FileUtil.MakeWorkingCopy(filePath);
-
-			FileStream fs;
-
-			using( fs = new FileStream(workingCopy, FileMode.Open, FileAccess.Read, FileShare.Read) )
+			using( FileStream fs = new FileStream(workingCopy, FileMode.Open, FileAccess.Read, FileShare.Read) )
 			{
 				if (fs == null)
 					return false;
 				try
 				{
 					var excelReader = ExcelDataReader.ExcelReaderFactory.CreateReader(fs);
-
 					do
 					{
+						//prep the header
+						for (int i = 0; i < excelReader.FieldCount; i++)
+							header.Add("");
+
 						int row = 0;
-
 						string key, cellValue;
-
 						while ( excelReader.Read() )
 						{
 							for(int col = 0; col < excelReader.FieldCount; col++)
 							{
 								if ( row == 0 && excelReader.GetValue(col) != null )
 								{
-									header.Add(excelReader.GetValue(col) as String);
+									header[col] = excelReader.GetValue(col) as String;
+									// Check this flag only if its false.
+									if( !isTransferCourseFlag )
+									{
+										 isTransferCourseFlag = header
+															    .Where(c => c.ToLower().Contains(transferCourseString))
+																.Count() > 0;
+									}									
+									continue;
+								}
+
+								// This should only execute for transfer course excels.
+								if (row == 1 && isTransferCourseFlag && excelReader.GetValue(col) != null)
+								{
+									string nextHeaderLine = excelReader.GetValue(col) as String;
+
+									if (header[col] != null)
+										header[col] = header[col] + " " + nextHeaderLine;
+
 									continue;
 								}
 
@@ -157,9 +215,7 @@ namespace GradHelperWPF.Models
 								if ( cellValue == null && excelReader.GetFieldType(col) != null )
 								{
 									var type = excelReader.GetFieldType(col);
-
 									string val = "";
-
 									switch (type.Name)
 									{
 										case "Double":
@@ -174,7 +230,6 @@ namespace GradHelperWPF.Models
 											val = $"{excelReader.GetInt32(col)}";
 											break;
 									}
-
 									data[key] = val;
 								}
 								else if( cellValue != null )
@@ -191,17 +246,14 @@ namespace GradHelperWPF.Models
 							}							
 							row++;
 						}
-					} while (excelReader.NextResult());
-					
+					} while (excelReader.NextResult());				
 				}
 				catch(Exception ex)
 				{
 					if( ex.Message.Contains("Invalid signature") )
 						throw new Exception("Need to manually fix the excel file.");
 				}
-
 			}
-
 			// remove all entries that have a TRLD PE
 			return header.Count > 0;
 		}

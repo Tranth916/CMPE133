@@ -115,5 +115,13 @@ namespace GradHelperWPF.Utils
             return result;
         }
 
+		public static bool AppendToXmlFile(Stream fs, Dictionary<string, string> data)
+		{
+
+
+
+
+			return false;
+		}
     }
 }

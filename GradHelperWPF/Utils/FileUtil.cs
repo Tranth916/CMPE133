@@ -103,9 +103,7 @@ namespace GradHelperWPF.Utils
 
 			OpenFileDialog ofd = new OpenFileDialog()
 			{
-				Filter = sb.ToString(),
-				InitialDirectory = Directory.GetCurrentDirectory(),
-				Multiselect = true,
+
 			};
 
 			bool? selectedFile = ofd.ShowDialog();

@@ -77,7 +77,6 @@ namespace GradHelperWPF.Models
 		#endregion
 		
 		#region Public properties
-
 		public string CourseFullNameStr
 		{
 			get
@@ -103,8 +102,9 @@ namespace GradHelperWPF.Models
         #region Constructor
         public WordModel()
         {
-
-        }
+			Init();
+			ReadGridTable();
+		}
 
         public WordModel(string filePath)
 		{
@@ -116,32 +116,39 @@ namespace GradHelperWPF.Models
 
 		private void Init()
 		{
-			_workingPath = "";
-
 			try
 			{
-				_workingPath = FileUtil.MakeWorkingCopy(FileLocation);
+				if( string.IsNullOrEmpty(FileLocation) )
+				{
+					var docFiles = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.docx", SearchOption.AllDirectories);
+
+					if (docFiles != null && docFiles.Count() > 0)
+					{
+						FileLocation = docFiles.Where( f => !f.Contains("copy")).FirstOrDefault();
+					}
+					
+				}
+
+				if (FileLocation == null)
+					throw new Exception("Cannot find the majorform.docx, did someone delete it?");
+
+				_workingPath = FileUtil.MakeWorkingCopy(FileLocation) ?? "";
 
 				if (string.IsNullOrEmpty(_workingPath))
-					return;
+					throw new IOException();
 
 				_doc = WordprocessingDocument.Open(_workingPath, true, new OpenSettings() { AutoSave = true });
-
 			}
 			catch (IOException iox)
 			{
-				Console.WriteLine(iox.StackTrace);
-
 				// File is currently opened. Then use a stream reader to open the doc.
 				FileStream fs = new FileStream(_workingPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-
 				_doc = WordprocessingDocument.Open(fs, true);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.StackTrace);
 			}
-
 		}
 
 		public void ShowDoc()
@@ -163,12 +170,10 @@ namespace GradHelperWPF.Models
 			{
 
 			}
-
 			if (_workingPath != null)
 			{
 				System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(FileLocation));
 			}
-
 			return false;
 		}
 
@@ -184,14 +189,12 @@ namespace GradHelperWPF.Models
 			bool result = false;
 
 			_page1Table = _doc.MainDocumentPart
-							  .Document
-							  .Body
-							  .ChildElements
-							  .FirstOrDefault(tt => tt.InnerText.Contains("LastFirst") && tt is Table);
-
-			_tableRows = from tr in _page1Table.ChildElements
-						 where tr is TableRow
-						 select tr as TableRow;
+							  .Document.Body
+							  .ChildElements.FirstOrDefault(tt => tt.InnerText.Contains("LastFirst") && tt is Table);
+			
+			_tableRows =			from tr in _page1Table.ChildElements
+									where tr is TableRow
+									select tr as TableRow;
 
 			_studentNameTable = GetNameTextCells(ref _page1Table);
 			_footNoteCells = GetFootNoteCell(ref _page1Table);
@@ -199,25 +202,26 @@ namespace GradHelperWPF.Models
 			// prep the form;
 			AppendEmptyGridRows(ref _tableRows);
 
-			_cellsWithCourseName = from tr in _tableRows
-								   where tr.ChildElements.Count() > 10 && !string.IsNullOrEmpty(tr.InnerText)
-								   from trChild in tr.ChildElements
-								   where trChild is TableCell
-								   group trChild by tr.InnerText.Replace(" ", "");
+			_cellsWithCourseName =	from tr in _tableRows
+									where tr.ChildElements.Count() > 10 && !string.IsNullOrEmpty(tr.InnerText)
+									from trChild in tr.ChildElements
+									where trChild is TableCell
+									group trChild by tr.InnerText.Replace(" ", "");
 
-			_runs = from rowx in _tableRows
-					from cell in rowx.ChildElements
-					from paragraph in cell.ChildElements
-					where paragraph is Paragraph
-					from run in paragraph.ChildElements
-					where run is Run
-					select run as Run;
+			_runs =					from rowx in _tableRows
+									from cell in rowx.ChildElements
+									from paragraph in cell.ChildElements
+									where paragraph is Paragraph
+									from run in paragraph.ChildElements
+									where run is Run
+									select run as Run;
 
-			BuildWritableCellsTable();
+			//BuildWritableCellsTable();
 
 			return result = _page1Table != null && _tableRows != null && _cellsWithCourseName != null && _runs != null;
 		}
-            /// <summary>
+        
+		/// <summary>
         /// This should be called for transferred courses only. Clone the RUN children of the Top row and insert them into the bottom.
         /// </summary>
         /// <param name="top"></param>
@@ -519,10 +523,7 @@ namespace GradHelperWPF.Models
             key = key.Replace("Intro ", "Introduction ");
             key = key.Replace("Orntd ", "Oriented");
             key = key.Replace("Dsgn", "Design");
-
-            System.Diagnostics.Debug.WriteLine("searchkey : " + searchKey);
-            System.Diagnostics.Debug.WriteLine("key : " + key);
-
+			
             // okay try to search by course name then course #.
             string[] splitKey = key.Split(' ');
             if (splitKey.Length > 3)
@@ -546,7 +547,6 @@ namespace GradHelperWPF.Models
 
                         if (query2 != null && query2.Count() == 1)
                             return query2.FirstOrDefault();
-
                     }
                 }
             }
