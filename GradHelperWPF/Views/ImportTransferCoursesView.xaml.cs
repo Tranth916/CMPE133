@@ -75,12 +75,11 @@ namespace GradHelperWPF.Views
 
 		private void TextBtn_Click(object sender, RoutedEventArgs e)
 		{
-			WordModel wm = new WordModel();
+			WordModel wm = WordModel.GetInstance();
 
-			var engrCM = CourseModel.CoursesDictionary.Values.Where(v => v.CourseAbbreviation == "ENGR").FirstOrDefault();
+			var engrCM = CourseModel.CoursesDictionary.Values.Where(v => v.CourseAbbreviation == "CIS").FirstOrDefault();
 
-
-			if(engrCM == null)
+			if (engrCM == null)
 			{
 				wm.Close();
 				return;

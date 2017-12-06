@@ -14,6 +14,15 @@ namespace GradHelperWPF.Models
 {
 	public class WordModel
 	{
+		private static WordModel _wordModelSingleton;
+		public static WordModel GetInstance()
+		{
+			if (_wordModelSingleton == null || _wordModelSingleton.IsClosed)
+				_wordModelSingleton = new WordModel();
+			return _wordModelSingleton;
+		}
+
+
 		public static readonly List<string> CourseFullName = new List<string>()
 		{
 			"Biol 010 The Living World 3",
@@ -56,9 +65,13 @@ namespace GradHelperWPF.Models
 		};
 
 		#region Constants
+		private readonly string FontSize = "14";
+		private readonly string FontFamily = "Arial";
 		private readonly string LastFirstMISidFlag = "#lastName##firstName##mi##studentID#";
 		private readonly string YearFlag = "#year#";
 		private const int MinNumRequiredTuple = 5;
+		private const int RowHeight = 200;
+
 		#endregion
 
 		#region Private Members
@@ -96,11 +109,11 @@ namespace GradHelperWPF.Models
 		{
 			get { return _workingPath; }
 		}
-
+		public bool IsClosed{ set; get; }
         #endregion
 
         #region Constructor
-        public WordModel()
+        private WordModel()
         {
 			Init();
 			ReadGridTable();
@@ -163,6 +176,7 @@ namespace GradHelperWPF.Models
 				if (_doc != null)
 				{
 					_doc.Close();
+					IsClosed = true;
 					return true;
 				}
 			}
@@ -200,7 +214,7 @@ namespace GradHelperWPF.Models
 			_footNoteCells = GetFootNoteCell(ref _page1Table);
 
 			// prep the form;
-			AppendEmptyGridRows(ref _tableRows);
+			PrepareMajorForm(ref _tableRows);
 
 			_cellsWithCourseName =	from tr in _tableRows
 									where tr.ChildElements.Count() > 10 && !string.IsNullOrEmpty(tr.InnerText)
@@ -215,9 +229,7 @@ namespace GradHelperWPF.Models
 									from run in paragraph.ChildElements
 									where run is Run
 									select run as Run;
-
 			//BuildWritableCellsTable();
-
 			return result = _page1Table != null && _tableRows != null && _cellsWithCourseName != null && _runs != null;
 		}
         
@@ -319,7 +331,7 @@ namespace GradHelperWPF.Models
         /// Prepare the major form by appending empty rows under existing text cells.
         /// </summary>
         /// <param name="tableRows"></param>
-        private void AppendEmptyGridRows(ref IEnumerable<TableRow> tableRows)
+        private void PrepareMajorForm(ref IEnumerable<TableRow> tableRows)
 		{
 			// Get a reference to a table row that does not have any text.
 			// Use that empty row to fix up the entire table.
@@ -350,7 +362,6 @@ namespace GradHelperWPF.Models
 					}
 
 					nextRow = currentRow.NextSibling() as TableRow;
-
 					if (nextRow == null)
 						break;
 
@@ -370,22 +381,17 @@ namespace GradHelperWPF.Models
 					else
 					{
 						currentRow.InsertAfterSelf(emptyStringTableRow.Clone() as TableRow);
-
 						var tableRowHeight = from ro in currentRow.ChildElements
 											 from rowPro in ro
 											 where rowPro is TableRowProperties
 											 from rowHeight in rowPro
 											 where rowHeight is TableRowHeight
 											 select rowHeight as TableRowHeight;
-
 						foreach (var rowHeight in tableRowHeight)
 						{
 							if (rowHeight.Val.HasValue)
-							{
-								rowHeight.Val = 200;
-							}
+								rowHeight.Val = RowHeight;
 						}
-
 						var currentRowBorders = from ro in currentRow.ChildElements
 												where ro is TableCell
 												from tc in ro.ChildElements
@@ -393,12 +399,8 @@ namespace GradHelperWPF.Models
 												from border in tc.ChildElements
 												where border is TableCellBorders
 												select border as TableCellBorders;
-
 						foreach (var border in currentRowBorders)
-						{
 							border.BottomBorder = null;
-						}
-
 						// remove the bottom black cell border.                            
 						if (currentRow.InnerText.Contains("Argument"))
 						{
@@ -615,6 +617,11 @@ namespace GradHelperWPF.Models
             return "";
         }
 
+		/// <summary>
+		/// Clean up and get the row to write into student's the First, Last, Middle, Year name.
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
         private Dictionary<string, Text> GetNameTextCells(ref OpenXmlElement table)
 		{
 			if (_doc == null)
@@ -650,12 +657,15 @@ namespace GradHelperWPF.Models
 			return textCells;
 		}
 
-        private Dictionary<string, OpenXmlElement> GetFootNoteCell( ref OpenXmlElement table)
+		/// <summary>
+		/// Get the text box to write in the foot note.
+		/// </summary>
+		/// <param name="table"></param>
+		/// <returns></returns>
+        private Dictionary<string, OpenXmlElement> GetFootNoteCell(ref OpenXmlElement table)
 		{
 			Dictionary<string, OpenXmlElement> footnote = new Dictionary<string, OpenXmlElement>();
-
 			string footStr = "footnote";
-
             // THERES GOT TO BE A BETTER WAY TO DO THIS!!!!
 			var footNoteAlternateContents = from tableRow in table.ChildElements
 											where tableRow.InnerText.Contains(footStr)
@@ -746,6 +756,45 @@ namespace GradHelperWPF.Models
             return ret;
         }
 
+		/// <summary>
+		/// Get the cells ...
+		/// </summary>
+		/// <param name="texts"></param>
+		/// <returns></returns>
+		private List<TableCell> GetTargetColumnCells(List<string> texts, out String innerTextOfRow)
+		{
+			List<TableCell> list = new List<TableCell>();
+			innerTextOfRow = "";
+
+			var targetTableRow = from row in _tableRows
+								 where !string.IsNullOrEmpty(row.InnerText)
+								 let count = SearchInnerTextList(row.InnerText, texts)
+								 where count > 2 // need at least 3 of the 4 matching...
+								 orderby count descending
+								 select row;
+
+			if (targetTableRow != null && targetTableRow.Count() > 0)
+			{
+				innerTextOfRow = targetTableRow.FirstOrDefault().InnerText;
+				//Get the columns of that row.
+				var rowColumns = targetTableRow
+									.FirstOrDefault().ChildElements
+									.Where(c => c is TableCell)
+									.Select(c => c as TableCell);
+
+				if (rowColumns != null && rowColumns.Count() > 0)
+					list = rowColumns.ToList();
+			}
+			
+			return list;
+		}
+
+
+		/// <summary>
+		/// Strikes out all text are children of the passed in parameter.
+		/// </summary>
+		/// <param name="item">Text, TableCell, Run, or Paragraph</param>
+		/// <returns></returns>
         private bool StrikeOutText(OpenXmlElement item)
         {
             List<Text> texts = new List<Text>();
@@ -781,8 +830,19 @@ namespace GradHelperWPF.Models
                     texts.Add(t);
                 }
             }
+			else if (item is Paragraph)
+			{
+				var para = item as Paragraph;
+				var runs = para.ChildElements.Where(c => c is Run);
+				foreach ( var run in runs )
+				{
+					var tx = run.ChildElements.Where(t => t is Text).Select(t => t as Text);
+					if (tx != null)
+						texts.AddRange(tx);
+				}
+			}
 
-            foreach (var txt in texts)
+			foreach (var txt in texts)
             {
                 if (string.IsNullOrEmpty(txt.InnerText))
                     continue;
@@ -799,28 +859,30 @@ namespace GradHelperWPF.Models
             return processedText > 0;
         }
 
-        public bool WriteFootNote(string value)
+		/// <summary>
+		/// Automatically append the asterisks and write in the instituion that the course was taken at.
+		/// </summary>
+		/// <param name="value">Institution's name</param>
+		/// <returns>Count of asterisks preappended to the name</returns>
+        public int WriteFootNote(string value)
         {
-            int count = 0;
-
+			if (_footNoteCells == null)
+				_footNoteCells = GetFootNoteCell(ref _page1Table);
+			string name = value.Replace("*", ""); // remove existing asterisks.
+            int count = 0;		
             if( _footNoteCells != null )
             {
                 try
                 {
                     var keys = _footNoteCells.Keys.ToList();
-
                     var keyToInsert = from text in _footNoteCells
                                       let textBox = text.Value as Text
                                       where string.IsNullOrEmpty(textBox.Text)
                                       let indexOfTextBox = keys.IndexOf(text.Key)
                                       select indexOfTextBox;
-
                     string key = keys[keyToInsert.FirstOrDefault()];
-
                     int numOfAskerists = keys.IndexOf(key) + 1;
-
-                    (_footNoteCells[key] as Text).Text = new string('*', numOfAskerists) + value;
-
+                    (_footNoteCells[key] as Text).Text = new string('*', numOfAskerists) + name;
                     count++;
                 }
                 catch (Exception ex)
@@ -829,7 +891,7 @@ namespace GradHelperWPF.Models
                 }
             }
 
-            return count > 0;
+            return count;
         }
 
         public bool WriteGradeToSJSUCourse(string key, string grade)
@@ -1041,6 +1103,7 @@ namespace GradHelperWPF.Models
 
 		public bool WriteCourseToRow(CourseModel cm)
 		{
+			string textOfTargetRow = "";
 			int processed = 0;
 			/* Cases
 			 * 1. SJSU course - if the CourseModel is not flagged as IsTransferCourse 
@@ -1051,56 +1114,70 @@ namespace GradHelperWPF.Models
 			 * 2. Transfer course -  
 			 *
 			 */
-
 			List<string> texts = new List<string>()
 			{
 				cm.CourseAbbreviation,
-				cm.CourseGrade,
-				//cm.CourseGradePoint,
 				cm.CourseNumber,
-				//cm.CourseRequirementDesignation,
-				//cm.CourseSemester,
 				cm.CourseTitle,
 				cm.CourseUnit,
-				//cm.CourseYear
 			};
 
-			//Find the target TableRow.
-			var targetTableRow = from row in _tableRows
-								   where !string.IsNullOrEmpty(row.InnerText)
-								   let count = SearchInnerTextList(row.InnerText, texts)
-								   where count > 0
-								   orderby count descending
-								   select row;
+			//Find the target TableRow.			
+			var rowColumns = GetTargetColumnCells(texts, out textOfTargetRow);
+			if ( rowColumns.Count == 0 && cm.IsTransferCourse )
+			{
+				// did not find a match, then it could be a transfer course.
+				CourseModel sjsuCM = cm.SJSUCourse;
+				texts = new List<string>()
+				{
+					sjsuCM.CourseAbbreviation,
+					sjsuCM.CourseNumber,
+					sjsuCM.CourseTitle,
+					sjsuCM.CourseUnit
+				};
+				rowColumns = GetTargetColumnCells(texts, out textOfTargetRow);
+			}
 
-			if (targetTableRow == null || targetTableRow.Count() == 0)
-				throw new Exception("Cannot find table row to insert " + cm.ToString());
-
-			//Get the columns of that row.
-			var rowColumns = targetTableRow												
-								.FirstOrDefault().ChildElements
-								.Where(c => c is TableCell).Select(c => c as TableCell).ToList();
+			if (rowColumns.Count == 0)
+				throw new Exception("Failed to get column cells to write : " + cm.ToString());
 
 			//A row has 10 columns, need to select only the columns that belong to this CourseModel.						   
-			int startingIndexOfCourseName = rowColumns
-											.Where(c => c.InnerText.Contains(cm.CourseAbbreviation.ToLower()))
-											.Select(c => rowColumns.IndexOf(c)).FirstOrDefault();
+			int startingIndexOfCourseName = -1;
+			for( int i = 0; i < rowColumns.Count; i++)
+			{
+				if (string.IsNullOrEmpty(rowColumns[i].InnerText))
+					continue;
+
+				if (rowColumns[i].InnerText.StartsWith(cm.CourseAbbreviation, StringComparison.CurrentCultureIgnoreCase))
+				{
+					startingIndexOfCourseName = i;
+					break;
+				}
+				else if(cm.SJSUCourse != null && rowColumns[i].InnerText.StartsWith(cm.SJSUCourse.CourseAbbreviation, StringComparison.CurrentCultureIgnoreCase))
+				{
+					startingIndexOfCourseName = i;
+					break;
+				}
+			}
 
 			if (startingIndexOfCourseName < 0)
 				throw new Exception("Exception while searching for columns to insert " + cm.ToString());
 
 			//If the startingIndexIs at the mid point, then the ending point is the count of columns.
 			startingIndexOfCourseName = startingIndexOfCourseName >= rowColumns.Count / 2 ? startingIndexOfCourseName : 0;
-			int end = startingIndexOfCourseName == 0 ? rowColumns.Count / 2 + 1 : rowColumns.Count - 1;
+			int end = startingIndexOfCourseName == 0 ? rowColumns.Count / 2: rowColumns.Count - 1;
 
 			//Have the target columns:
-			var targetColumns = rowColumns.GetRange(startingIndexOfCourseName, end);			
+			var targetColumns = rowColumns
+								.Where( s => rowColumns.IndexOf(s) >= startingIndexOfCourseName && rowColumns.IndexOf(s) <= end)
+								.ToList();
 			//Need to write the course abbr, no, title, units, and grade into the row below the existing similar course.
 			if( cm.IsTransferCourse )
 			{
+				//write in the foot note.
+				int numOfAsterisk = WriteFootNote(cm.Institution);
 				//todo get a better way to find the indexes of enumerators.
 				int indexOfNextRow = 0;
-				string textOfTargetRow = targetTableRow.FirstOrDefault().InnerText;
 				for(int i = 0; i < _tableRows.Count(); i++)
 				{
 					if( _tableRows.ElementAt(i).InnerText == textOfTargetRow )
@@ -1109,12 +1186,15 @@ namespace GradHelperWPF.Models
 						break;
 					}
 				}
-				var nextTableRow = _tableRows.ElementAt(indexOfNextRow) as TableRow;
-				var nextTableColumns = nextTableRow.ChildElements
-										.Where(c => c is TableCell)
-										.Select(c => c as TableCell)
-										.ToList()
-										.GetRange(startingIndexOfCourseName, end);			
+
+				var nextTableRow = (_tableRows.ElementAt(indexOfNextRow) as TableRow)
+									.ChildElements
+									.Where( c => c is TableCell)
+									.Select( c=> c as TableCell).ToList();
+				var nextTableColumns = nextTableRow
+										.Where(c => nextTableRow.IndexOf(c) >= startingIndexOfCourseName &&
+													nextTableRow.IndexOf(c) >= startingIndexOfCourseName).ToList();
+				
 				for(int i = 0; i < nextTableColumns.Count; i++)
 				{
 					string val = "";
@@ -1127,7 +1207,7 @@ namespace GradHelperWPF.Models
 							val = cm.CourseNumber;
 							break;
 						case 2:
-							val =  "*" + cm.CourseTitle; // need to preappend the asterisks.
+							val = new string('*', numOfAsterisk) + cm.CourseTitle; // need to preappend the asterisks.
 							break;
 						case 3:
 							val = cm.CourseUnit;
@@ -1141,23 +1221,20 @@ namespace GradHelperWPF.Models
 					Run run = GetRunForText(val);
 					paragraph.Append(run);
 
-					// strike out the top row.
-					var strikedRun = rowColumns[i].ChildElements.FirstOrDefault( c => c is Run );
+					if( targetColumns[i] != null )
+					{
+						// strike out the top row.
+						var strikePara = targetColumns[i].ChildElements
+										.Where(c => c is Paragraph)
+										.Select(c => c as Paragraph)
+										.FirstOrDefault();
+						StrikeOutText(strikePara);
+					}
 
-					var strikePara = rowColumns[i].ChildElements
-									.Where(c => c is Paragraph)
-									.Select(c => c as Paragraph)
-									.FirstOrDefault();
 
-					var strikeRun = strikePara.ChildElements
-									.Where(c => c is Run)
-									.Select(c => c as Run)
-									.FirstOrDefault(); 
-
-					StrikeOutText(strikeRun);
+					processed++;
 				}
-			}
-			
+			}			
 			return processed > 0;
 		}
 

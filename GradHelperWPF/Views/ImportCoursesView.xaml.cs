@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using GradHelperWPF.Utils;
 
 namespace GradHelperWPF.Views
 {
@@ -35,178 +36,29 @@ namespace GradHelperWPF.Views
 		private void Grid_Drop(object sender, DragEventArgs e)
 		{
 			bool hasData = e != null && e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
-
 			if (hasData)
 			{
 				var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-				// Load the excel file.
-
-				int labelRowIndex = TransferCourseGrid.RowDefinitions
-													  .Where(rr => rr.Name.Contains("Labels"))
-													  .Select(rr => TransferCourseGrid.RowDefinitions.IndexOf(rr))
-													  .FirstOrDefault() + 1;
-
 				if (files == null || files.Length == 0)
 					return;
 
 				var xlsFile = files.Where(f => f.ToLower().Contains(".xls")).FirstOrDefault();
+				if (xlsFile == null || xlsFile.Count() == 0)
+					xlsFile = files.Where(f => f.ToLower().Contains(".xlsx")).FirstOrDefault();
 
-				List<string> header;
-				Dictionary<string, string> table;
+				var cells = ExcelModel.GetExcelDataCells(xlsFile);
 
-				bool gotData = ExcelModel.GetExcelDataWithHeaders(out header, out table, xlsFile);
+				if (cells == null || cells.Count == 0)
+					throw new Exception("No data from excel file");
 
-				if (!gotData)
-				{
-					throw new Exception("No Data Found");
-				}
+				// have data, now build the list of courses model
+				Dictionary<string, CourseModel> courseDict = CourseModel.BuildCourseDictionary(cells);
 
-				// key -> row# 
-				Dictionary<int, List<TextBox>> textboxes = new Dictionary<int, List<TextBox>>();
+				if (courseDict == null || courseDict.Count == 0)
+					throw new Exception("Exception throw while converting excel to course models");
 
-				string key, val;
-
-				string[] rowColIndexes;
-
-				foreach (var entry in table)
-				{
-					if (string.IsNullOrEmpty(entry.Key) || string.IsNullOrEmpty(entry.Value))
-						continue;
-
-					// split the key 
-					rowColIndexes = entry.Key.Split(',');
-
-					if (rowColIndexes == null || rowColIndexes.Length <= 1)
-						continue;
-
-					val = entry.Value;
-
-					int rr = 0;
-					int cc = 0;
-					int.TryParse(rowColIndexes[0], out rr);
-					int.TryParse(rowColIndexes[1], out cc);
-
-					//Course	Description	Term	Grade	Units	Grd Points
-					if (header[cc].Contains("Term"))
-						continue;
-
-					// Unit needs to be swapped with grade.
-					if (header[cc].Contains("Unit"))
-					{
-						var currentRow = textboxes[rr];
-
-						int indexOfGradeTB = currentRow.Where(tbx => tbx.Tag != null && (tbx.Tag as String).Contains("Grade"))
-													 .Select(tbx => currentRow.IndexOf(tbx))
-													 .FirstOrDefault();
-						if (indexOfGradeTB > 0)
-						{
-							TextBox poppedTB = currentRow[indexOfGradeTB];
-
-							currentRow.RemoveAt(indexOfGradeTB);
-
-							TextBox unitTB = new TextBox()
-							{
-								Text = val,
-								Tag = "Unit"
-							};
-
-							currentRow.Insert(indexOfGradeTB, unitTB);
-							currentRow.Insert(indexOfGradeTB + 1, poppedTB);
-							continue;
-						}
-					}
-
-					if (val.Contains(" ") && header[cc].Contains("Course"))
-					{
-						//split the course abbrv from the course #.
-						var split = val.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-						if (!textboxes.ContainsKey(rr))
-						{
-							textboxes.Add(rr, new List<TextBox>());
-						}
-
-						if (split.Length == 2)
-						{
-							TextBox tb1 = new TextBox()
-							{
-								Text = split[0],
-								Tag = "Course"
-							};
-
-							if (split[1].Length == 2)
-								split[1] = $"0{split[1]}";
-
-							TextBox tb2 = new TextBox()
-							{
-								Text = split[1],
-								Tag = "Number"
-							};
-
-							textboxes[rr].Add(tb1);
-							textboxes[rr].Add(tb2);
-						}
-
-						continue;
-					}
-
-					TextBox tb = new TextBox()
-					{
-						Text = val,
-						Tag = header[cc]
-					};
-					if (!textboxes.ContainsKey(rr))
-					{
-						textboxes.Add(rr, new List<TextBox>() { tb });
-					}
-					else
-					{
-
-						textboxes[rr].Add(tb);
-					}
-				}
-
-				int row = TransferCourseGrid.RowDefinitions
-											.Where(r => !string.IsNullOrEmpty(r.Name) && r.Name.StartsWith("Labels"))
-											.Select(r => TransferCourseGrid.RowDefinitions.IndexOf(r))
-											.FirstOrDefault() + 2;
-
-				int colI = TransferCourseGrid.ColumnDefinitions
-								.Where(cd => cd.Name == "GradeColDef")
-								.Select(cd => TransferCourseGrid.ColumnDefinitions.IndexOf(cd))
-								.FirstOrDefault();
-
-				// now populate the rows
-				foreach (var tbList in textboxes.Values)
-				{
-					for (int i = 0; i < tbList.Count; i++)
-					{
-						if (tbList[i].Tag == null
-							|| (tbList[i].Tag as String).Contains("Grd")
-							|| (tbList[i].Tag as String).Contains("Reqmnt"))
-							continue;
-
-						TransferCourseGrid.Children.Add(tbList[i]);
-						if (row >= TransferCourseGrid.RowDefinitions.Count)
-						{
-							RowDefinition rowDef = new RowDefinition();
-							rowDef.Height = TransferCourseGrid.RowDefinitions.LastOrDefault().Height;
-							TransferCourseGrid.RowDefinitions.Add(rowDef);
-						}
-
-						Grid.SetRow(tbList[i], row);
-						// Need to place the textbox in the correct column.
-						if ((string)tbList[i].Tag == "Grade")
-						{
-							Grid.SetColumn(tbList[i], colI);
-						}
-						else
-						{
-							Grid.SetColumn(tbList[i], i);
-						}
-					}
-					row++;
-				}
+				var transferCouresOnly = courseDict.Where(c => !c.Value.IsTransferCourse).Select(c => c.Value).ToList();
+				ViewUtil.AddCourseRowToGrid(ref TransferCourseGrid, transferCouresOnly);
 			}
 		}
        
@@ -346,50 +198,7 @@ namespace GradHelperWPF.Views
 
 		private void TestButton_Click(object sender, RoutedEventArgs e)
 		{
-			//TextBox[] list = new TextBox[TransferCourseGrid.Children.Count];
-
-			//TransferCourseGrid.Children.CopyTo(list, 0);
-
-			//var grades = list.Where(l => l.Tag != null && (l.Tag as String) == "Grade");
-
-			//if (grades == null || grades.Count() == 0)
-			//	return;
-
-			// Load the major form doc.
-			//string resourceRunningPath = AppDomain.CurrentDomain.BaseDirectory + "\\Resources\\majorform2016.docx";
-			//WordModel doc = new WordModel(resourceRunningPath);			
-			//foreach( var tb in grades)
-			//{
-			//	if (tb.Text.Contains("TCR"))
-			//		continue;
-
-			//	int i = Grid.GetRow(tb);
-
-			//	var row = list.Where(tbx => Grid.GetRow(tbx) == i && !tbx.Equals(tb));
-
-			//	string courseKey = "";
-
-			//	foreach( var r in row)
-			//	{
-			//		if (r.Text == tb.Text)
-			//			continue;
-
-			//		if( !courseKey.Contains(r.Text) )
-			//			courseKey += $" {r.Text}";
-			//	}
-
-			//	courseKey = courseKey.Trim();
-			//	doc.WriteGradeToSJSUCourse(courseKey, tb.Text);	
-			//}
-   //         doc.WriteNameYear("first", "thao");
-   //         doc.WriteNameYear("last", "tran");
-   //         doc.WriteNameYear("mi", "hoang");
-   //         doc.WriteNameYear("id", "010836020");
-   //         doc.WriteNameYear("year", "2018");
-   //         doc.Close();
-			//doc.ShowDoc();
-
-
+		
 		}
 	}
 }

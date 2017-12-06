@@ -82,9 +82,19 @@ namespace GradHelperWPF.Models
 		}
 		public static void BuildSJSUCourseRow(ref CourseModel cm, ref List<ExcelCell> cells, ref Dictionary<string,CourseModel> courses)
 		{
+			//Course	Description	Term	Grade	Units	Grd Points	Repeat Code	Reqmnt Desig	Status	Transcript Note
+			string[] courseNameNum = cells.Where(c => c.HeaderName == "Course").Select( c => c.Value).FirstOrDefault().Split(' ');
+			cm.CourseAbbreviation = courseNameNum[0];
+			cm.CourseNumber = courseNameNum[1];
+			cm.CourseTitle = cells.Where(c => c.HeaderName == "Description").Select(c => c.Value).FirstOrDefault();
+			cm.CourseGrade = cells.Where(c => c.HeaderName == "Grade").Select(c => c.Value).FirstOrDefault();
+			cm.CourseUnit = cells.Where(c => c.HeaderName == "Units").Select(c => c.Value).FirstOrDefault();
+			cm.IsTransferCourse = false;
+			cm.Institution = "SJSU";
 
+			if (!courses.ContainsKey(cm.ToString()))
+				courses.Add(cm.ToString(), cm);			
 		}
-
 		public static Dictionary<string, CourseModel> CoursesDictionary
 		{
 			set
@@ -270,6 +280,24 @@ namespace GradHelperWPF.Models
             }
             get { return _courseRequirementDesignation ?? ""; }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		/// <summary>
 		/// If TransferCourse is true, then have the CourseModel obj own a SJSU<CourseModel>.
