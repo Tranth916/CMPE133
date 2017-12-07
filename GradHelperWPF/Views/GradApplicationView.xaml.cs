@@ -31,55 +31,55 @@ namespace GradHelperWPF.Views
 
 		private List<TextBox> _textboxes;
 		private List<TextBox> TextBoxes
-		{
-			set { _textboxes = value; }
-			get
-			{
-				if (_textboxes == null)
-				{
-					_textboxes = new List<TextBox>();
+		{set;get;
+			//set { _textboxes = value; }
+			//get
+			//{
+			//	if (_textboxes == null)
+			//	{
+			//		_textboxes = new List<TextBox>();
 
-					TextBox tb;
-					try
-					{
-						foreach (var c in EntryGrid.Children)
-						{
-							try
-							{
-								if (c is TextBox && (tb = c as TextBox) != null)
-								{
-									if (tb.Name == null)
-										throw new Exception($" THIS TEXTBOX HAS NO NAME! : {tb.GetHashCode()}");
+			//		TextBox tb;
+			//		try
+			//		{
+			//			foreach (var c in EntryGrid.Children)
+			//			{
+			//				try
+			//				{
+			//					if (c is TextBox && (tb = c as TextBox) != null)
+			//					{
+			//						if (tb.Name == null)
+			//							throw new Exception($" THIS TEXTBOX HAS NO NAME! : {tb.GetHashCode()}");
 
-									_textboxes.Add(tb);
-								}
-								else if (c is Grid)
-								{
-									var g = c as Grid;
-									foreach (var grandKid in g.Children)
-									{
-										if (grandKid is TextBox && (tb = grandKid as TextBox) != null)
-										{
-											if (tb.Name == null)
-												throw new Exception($" THIS GRANDKID TEXTBOX HAS NO NAME! {tb.GetHashCode()}");
-											_textboxes.Add(tb);
-										}
-									}
-								}
-							}
-							catch (Exception ex)
-							{
-								throw new Exception(ex.StackTrace);
-							}
-						}
-					}
-					catch (Exception exx)
-					{
-						throw new Exception(exx.StackTrace);
-					}
-				}
-				return _textboxes;
-			}
+			//						_textboxes.Add(tb);
+			//					}
+			//					else if (c is Grid)
+			//					{
+			//						var g = c as Grid;
+			//						foreach (var grandKid in g.Children)
+			//						{
+			//							if (grandKid is TextBox && (tb = grandKid as TextBox) != null)
+			//							{
+			//								if (tb.Name == null)
+			//									throw new Exception($" THIS GRANDKID TEXTBOX HAS NO NAME! {tb.GetHashCode()}");
+			//								_textboxes.Add(tb);
+			//							}
+			//						}
+			//					}
+			//				}
+			//				catch (Exception ex)
+			//				{
+			//					throw new Exception(ex.StackTrace);
+			//				}
+			//			}
+			//		}
+			//		catch (Exception exx)
+			//		{
+			//			throw new Exception(exx.StackTrace);
+			//		}
+			//	}
+			//	return _textboxes;
+			//}
 		}
 
 		public GradApplicationView()
@@ -88,10 +88,6 @@ namespace GradHelperWPF.Views
 			DataContext = gradAppViewModelStatic;
 		}
 
-		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-
-		}
 
 		private void ExportToPDf_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -248,14 +244,17 @@ namespace GradHelperWPF.Views
 					case "springCheckBox":
 						summerCheckBox.IsChecked = false;
 						fallCheckBox.IsChecked = false;
+						gradAppViewModelStatic.GradSemester = "Spring";
 						break;
 					case "summerCheckBox":
 						springCheckBox.IsChecked = false;
 						fallCheckBox.IsChecked = false;
+						gradAppViewModelStatic.GradSemester = "Summer";
 						break;
 					case "fallCheckBox":
 						springCheckBox.IsChecked = false;
 						summerCheckBox.IsChecked = false;
+						gradAppViewModelStatic.GradSemester = "Fall";
 						break;
 				}
 			}

@@ -4,11 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GradHelperWPF.Utils;
 
 namespace GradHelperWPF.Models
 {
     public class GradAppModel : BindableBase
     {
+		private static GradAppModel _gradApp;
+		public static GradAppModel GetInstance()
+		{
+			if (_gradApp == null)
+				_gradApp = new GradAppModel();
+			return _gradApp;
+		}
+
         public string firstName;
         public string middleName;
         public string lastName;
@@ -46,11 +55,18 @@ namespace GradHelperWPF.Models
                 { "nonSJSUNotCompleted"                             ,"Non SJSU course #"        },
                 { "currentEnrolledCourses"                          ,"current SJSU course #"    } ,
             };
-       
-        public string GradAppFilePath
+		private string _outputFilePath;
+		private string _readFromFilePath;
+		private string _gradAppFilePath;
+
+		public string SourceFilePath
         {
+			set { _gradAppFilePath = value; }
             get
             {
+				if (!string.IsNullOrEmpty(_gradAppFilePath))
+					return _gradAppFilePath;
+
                 string path = "";
                 try
                 {
@@ -70,7 +86,30 @@ namespace GradHelperWPF.Models
                 return path;
             }
         }
-        
+
+		private string OutputFilePath
+		{
+			set
+			{
+				// the file should not exist, if it does , then delete it.
+				try
+				{
+					//Delete existing working copy.
+					if (!string.IsNullOrEmpty(_outputFilePath) && File.Exists(_outputFilePath))
+						File.Delete(_outputFilePath);
+				
+					if (File.Exists(value))
+						File.Delete(value);
+				}
+				catch (Exception ex)
+				{
+					throw new Exception("Failed to delete PDF working file!" + ex.StackTrace);
+				}				
+				_outputFilePath = value;
+			}
+			get{ return _outputFilePath ?? ""; }
+		}
+
         public PdfReader Reader
         {
             set;
@@ -87,27 +126,67 @@ namespace GradHelperWPF.Models
             get;
         }
 
-        public GradAppModel()
+        private GradAppModel()
         {
             nonSJSUNotCompleted = new string[8];
             currentEnrolledCourses = new string[8];
-
             for (int i = 0; i < nonSJSUNotCompleted.Length; i++)
             {
                 nonSJSUNotCompleted[i] = "";
                 currentEnrolledCourses[i] = "";
             }
+			Init();
         }
 
-        public void LoadForm(string path)
+		public GradAppModel(string filePath)
+		{
+			SourceFilePath = filePath;
+			Init();
+		}
+
+		private void Init()
+		{
+			_readFromFilePath = FileUtil.MakeWorkingCopy(SourceFilePath);
+			LoadReader(_readFromFilePath);
+
+			OutputFilePath = Directory.GetCurrentDirectory() + "\\" + "temp_gp.pdf";	
+			LoadStamper(OutputFilePath);
+
+
+
+			System.Diagnostics.Process.Start("explorer.exe", Directory.GetCurrentDirectory());
+		}
+
+		private void LoadStamper(string outputPath)
+		{
+			if (string.IsNullOrEmpty(outputPath))
+				return;
+			try
+			{
+				if (Reader == null)
+					LoadReader(_gradAppFilePath);
+
+				FStream = new FileStream(outputPath, FileMode.OpenOrCreate);
+				Stamper = new PdfStamper(Reader, FStream);
+			}
+			catch(Exception ex)
+			{
+				throw new Exception("Exception while loading stamper " + ex.StackTrace);
+			}
+		}
+
+        public void LoadReader(string path)
         {
             if (!File.Exists(path))
                 return;
-                        
-            Reader = new PdfReader(path);
+			try
+			{
+				Reader = new PdfReader(path);
+			}catch(Exception ex)
+			{
+				throw new Exception("Exception while loading PDF Reader" + ex.StackTrace);
+			}
 
-            // This needs to be the output form.
-            FStream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);            
         }
 
         public bool LoadForm()
@@ -134,22 +213,102 @@ namespace GradHelperWPF.Models
             return true;
         }
 
-        public bool WriteToForm(string outputPath = null)
+		public bool CheckSemester(string semester)
+		{
+			//Check Box for Summer
+			var checkBoxKey = Stamper.AcroFields.Fields.Keys.Where(k => k.Contains(semester)).FirstOrDefault();
+
+			Stamper.AcroFields.SetField(checkBoxKey, "On", true);
+
+
+			Stamper.Close();
+			FStream.Close();
+
+
+
+
+
+
+
+			return true;
+		}
+
+		public bool WriteField(string key, string val = null)
+		{
+			int writtenCount = 0;
+
+			if (Stamper == null)
+				return false;
+
+			string fieldValue = string.IsNullOrEmpty(val) ?  "" : val;
+
+			if( key == "Semester" )
+			{
+				return CheckSemester(val);
+			}
+			
+			switch (key)
+			{
+				case "First name"		 :	fieldValue = firstName        ?? ""; break;
+				case "Middle name"		 :	fieldValue = middleName       ?? ""; break;
+				case "Last name"		 :	fieldValue = lastName         ?? ""; break;
+				case "E-mail address"	 :	fieldValue = email            ?? ""; break;
+				case "Home phone number" :	fieldValue = phoneNumber      ?? ""; break;
+				case "SJSU ID"			 :	fieldValue = studentID        ?? ""; break;
+				case "Major"			 :	fieldValue = majorName        ?? ""; break;
+				case "Street number"	 :	fieldValue = streetNumber     ?? ""; break;
+				case "Street name"		 :	fieldValue = streetName       ?? ""; break;
+				case "Apartment number"	 :	fieldValue = apartmentNumber  ?? ""; break;
+				case "City"				 :	fieldValue = city             ?? ""; break;
+				case "State"			 :	fieldValue = state            ?? ""; break;
+				case "Zip code"          :	fieldValue = zipcode		  ?? ""; break;
+			}
+
+			if(string.IsNullOrEmpty(fieldValue))
+			{
+				string currentEnrollKey = "current SJSU course #";
+				string unCompleteKey = "Non SJSU course #";
+
+				bool isCurrentEnrolled = key.StartsWith(currentEnrollKey.Substring(0,currentEnrollKey.Length - 2));
+				bool isUnCompletedKey = key.StartsWith(unCompleteKey.Substring(0, currentEnrollKey.Length - 2));
+				
+				if(isCurrentEnrolled || isUnCompletedKey)
+				{
+					string n = key.Trim().LastOrDefault().ToString();
+					switch (n)
+					{
+						//nonSJSUNotCompleted
+						case "1" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[0];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[0];break;
+						case "2" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[1];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[1];break;
+						case "3" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[2];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[2];break;
+						case "4" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[3];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[3];break;
+						case "5" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[4];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[4];break;
+						case "6" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[5];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[5];break;
+						case "7" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[6];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[6];break;
+						case "8" : if(isCurrentEnrolled) fieldValue=currentEnrolledCourses[7];else if(isUnCompletedKey) fieldValue=nonSJSUNotCompleted[7];break;
+						default: fieldValue = "";break;	
+					}					
+				}
+			}
+
+			if( !string.IsNullOrEmpty(fieldValue) )
+			{
+				Stamper.AcroFields.SetField(key, fieldValue, true);
+				writtenCount++;
+			}
+
+			return writtenCount > 0;
+		}
+
+        public bool WriteAllFields(string outputPath = null)
         {
             if (Reader == null)
             {
                 if (!LoadForm())
                     return false;
             }
-
-            string path = outputPath != null ? outputPath : Directory.GetCurrentDirectory() + $"\\{firstName}_{lastName}_gradapp.pdf";
-
-            FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
-
-            Stamper = new PdfStamper(Reader, fs);
-
+            //string path = outputPath != null ? outputPath : Directory.GetCurrentDirectory() + $"\\{firstName}_{lastName}_gradapp.pdf";
             var fields = Stamper.AcroFields.Fields;
-
             Stamper.AcroFields.SetField(  "First name"              ,firstName        ?? "" , true );
             Stamper.AcroFields.SetField(  "Middle name"             ,middleName       ?? "" , true );
             Stamper.AcroFields.SetField(  "Last name"               ,lastName         ?? "" , true );
@@ -165,28 +324,21 @@ namespace GradHelperWPF.Models
             Stamper.AcroFields.SetField(  "Zip code",                zipcode          ?? "" , true);
 
             string currentEnrollKey = "current SJSU course #";
-            string unCompleteKey = "Non SJSU course #";
+            string unCompleteKey =	  "Non SJSU course #";
             string key1, key2, val1, val2;
 
             for(int i = 0; i < currentEnrolledCourses.Length; i++)
             {
                 key1 = currentEnrollKey.Replace("#", $"{i + 1}");
                 key2 = unCompleteKey.Replace("#", $"{i + 1}");
-
                 val1 = currentEnrolledCourses[i] ?? "";
                 val2 = nonSJSUNotCompleted[i] ?? "";
-
                 Stamper.AcroFields.SetField(key1, val1, true);
                 Stamper.AcroFields.SetField(key2, val2, true);
             }
 
-            fs.Close();
-            Stamper.Close();
-
             return true;
         }
-
-
         public void StampDataToPDF(string path, Dictionary<string, string> data)
         {
             var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.pdf", SearchOption.AllDirectories);

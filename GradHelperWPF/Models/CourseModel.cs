@@ -188,14 +188,29 @@ namespace GradHelperWPF.Models
         {
             set
             {
-                if (_courseTitle == null)
+				string key = value;
+				key = key.Replace("Engr ", "Engineering ");
+				key = key.Replace("Org & Arch", "Organization and Architecture");
+				key = key.Replace("Strc", "Structures");
+				key = key.Replace("Progrmng", "Programming");
+				key = key.Replace("Comp ", "Computer ");
+				key = key.Replace("Inter ", "Interaction ");
+				key = key.Replace("Struct & Alg", "Structures and Algorithms");
+				key = key.Replace("Soft ", "Software ");
+				key = key.Replace("SW ", "Software");
+				key = key.Replace("Diff Eq ", "Differential Equations ");
+				key = key.Replace("Intro ", "Introduction ");
+				key = key.Replace("Orntd ", "Oriented");
+				key = key.Replace("Dsgn", "Design");
+
+				if (_courseTitle == null)
                 {
-                    _courseTitle = value;
-                }
+                    _courseTitle = key;
+				}
                 if(value != _courseTitle)
                 {
-                    _courseTitle = value;
-                    OnPropertyChanged("CourseTitle");
+                    _courseTitle = key;
+					RaisePropertyChanged("CourseTitle");
                 }
             }
             get { return _courseTitle ?? ""; }
@@ -280,24 +295,6 @@ namespace GradHelperWPF.Models
             }
             get { return _courseRequirementDesignation ?? ""; }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		/// <summary>
 		/// If TransferCourse is true, then have the CourseModel obj own a SJSU<CourseModel>.

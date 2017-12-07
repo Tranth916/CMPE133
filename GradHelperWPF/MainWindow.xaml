@@ -8,23 +8,21 @@
         xmlns:Views="clr-namespace:GradHelperWPF.Views"        
 		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
-		Title="Graduation Helper" 
-        
+		Title="Graduation Helper"        
         mc:Ignorable="d"
         Height="800" Width="900"
 		HorizontalContentAlignment="Center"
         Padding="10 10 10 10"
         Margin="10,10,10,10"
         Name="MainFrame"
-
         WindowStartupLocation="CenterScreen"
         BorderThickness="0" 		
         UseLayoutRounding="True"
 		Background="#82C9FC"
 		>
-	<i:Interaction.Behaviors>
+	<!--<i:Interaction.Behaviors>
 		<Behaviours:BorderlessWindowBehavior />
-	</i:Interaction.Behaviors>
+	</i:Interaction.Behaviors>-->
 	<ScrollViewer Name="TopGrid">
 		<Controls:FlipView x:Name="FlipView" 
 		BorderThickness="0" 

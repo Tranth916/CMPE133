@@ -5,212 +5,250 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	mc:Ignorable="d" 
-	Width="826.23" Height="800" 
 	Background="WhiteSmoke" 
 	Margin="5,0,5,0" 
+    MinWidth="900"
 	HorizontalAlignment="Center">
 	<StackPanel>
-		<StackPanel Height="55">
+		<StackPanel Margin="5 5 5 5" Orientation="Vertical" Height="Auto">
 			<Label HorizontalAlignment="Center" FontSize="30" Padding="5,5,5,5" Margin="5,5,5,5" Content="SJSU Graduation Application" />
-		</StackPanel>
-		<Grid Name="EntryGrid" Margin="15,5,15,5">
-			<Grid.Resources>
-				<Style TargetType="{x:Type Label}">
-					<Setter Property="Margin" Value="6,0,0,0" />
-				</Style>
-				<Style TargetType="{x:Type TextBox}">
-					<Setter Property="Margin" Value="10,0,0,0" />
-					<Setter Property="TextAlignment" Value="Left" />
-					<Setter Property="Padding" Value="5,5,5,5" />
-					<Setter Property="Height" Value="30" />
-				</Style>
-			</Grid.Resources>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="139*" />
-				<ColumnDefinition Width="261*" />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-			<Label Grid.Row="1" Grid.Column="1" Content="Graduation Year and Semester" />
-			<Grid Margin="5,0,0,0" Grid.Row="2" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<TextBox Name="yearTextBox" Margin="5,0,5,0" Grid.Column="0" ></TextBox>
-				<CheckBox Checked="Checkbox_OnCheck" Name="springCheckBox" Grid.Column="1" Content="Spring"></CheckBox>
-				<CheckBox Checked="Checkbox_OnCheck" Name="summerCheckBox" Grid.Column="2" Content="Summer"></CheckBox>
-				<CheckBox Checked="Checkbox_OnCheck" Name="fallCheckBox" Grid.Column="3" Content="Fall"></CheckBox>
-			</Grid>
-			
-			<Label Name="firstNameLabel" Grid.Row="1" Grid.Column="0" Content="First Name" />
-			
-			<TextBox Name="firstNameTextBox" 
-					 Grid.Row="2" 
-					 Grid.Column="0" 
-					 Background="AliceBlue" 
-					 Text="{Binding FirstName}" />
-			
-			<Label Name="middleNameLabel" Grid.Row="3" Grid.Column="0" Content="Middle Name" />
-			<TextBox Name="middleNameTextBox" Grid.Row="4" Grid.Column="0" Text="{Binding MiddleName}" TextChanged="TextBox_TextChanged" />
-			
-			<Label Name="lastNameLabel" Grid.Row="5" Grid.Column="0" Content="Last Name" />
-			<TextBox Name="lastNameTextBox" Grid.Row="6" Grid.Column="0" Text="{Binding LastName}" TextChanged="TextBox_TextChanged" />
-			
-			<Label Name="emailLbl" Grid.Row="7" Grid.Column="0" Content="Email" />
-			<TextBox Name="emailTextBox" Grid.Row="8" Grid.Column="0" Text="{Binding Email}"/>
-			<Label Name="phoneLbl" Grid.Row="9" Grid.Column="0" Content="Phone Number" />
-			<TextBox Name="phoneTextBox" Grid.Row="10" Grid.Column="0" Text="{Binding PhoneNumber}"/>
-			<Label Name="sidNameLabel" Grid.Row="11" Grid.Column="0" Content="Student ID" />
-			<TextBox Name="sidNameTextBox" Grid.Row="12" Grid.Column="0" Text="{Binding StudentID}" />
-			<Label Name="majorLabel" Grid.Row="13" Grid.Column="0" Content="Major" />
-			<TextBox Name="majorTextBox" Grid.Row="14" Grid.Column="0" Text="{Binding MajorName}" />
-			<Grid Margin="10,5,5,5" Grid.Row="8" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<Label Grid.Column="0" Content="Degree Objective" />
-				<ComboBox Text="{Binding DegreeObjective}" Name="degreeObjectiveCBox" Grid.Column="1">
-					<ComboBoxItem Content="BS" HorizontalAlignment="Left" />
-					<ComboBoxItem Content="BA" HorizontalAlignment="Left" />
-					<ComboBoxItem Content="BFA" HorizontalAlignment="Left" />
-					<ComboBoxItem Content="B of Music" HorizontalAlignment="Left" />
-					<ComboBoxItem Content="Second Baccalaureate" HorizontalAlignment="Left" />
-				</ComboBox>
-			</Grid>
-			<Grid Grid.Row="3" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="30*" />
-					<ColumnDefinition Width="60*" />
-					<ColumnDefinition Width="30*" />
-				</Grid.ColumnDefinitions>
-				<Label Name="streetNumberLbl" Grid.Column="0" Content="Street Number" />
-				<Label Name="streetNameLbl" Grid.Column="1" Content="Street Name" />
-				<Label Name="apartmentLbl" Grid.Column="3" Content="Apartment" />
-			</Grid>
-			<Grid Grid.Row="4" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="30*" />
-					<ColumnDefinition Width="60*" />
-					<ColumnDefinition Width="30*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="streetNumberTextBox" Text="{Binding StreetNumber}"	 Grid.Column="0" TextChanged="TextBox_TextChanged" />
-				<TextBox Name="streetNameTextBox"	Text="{Binding StreetName}"		 Grid.Column="1" TextChanged="TextBox_TextChanged" />
-				<TextBox Name="apartmentTextBox"	Text="{Binding ApartmentNumber}" Grid.Column="2" TextChanged="TextBox_TextChanged" />
-			</Grid>
-			<Grid Grid.Row="5" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="20*" />
-					<ColumnDefinition Width="20*" />
-				</Grid.ColumnDefinitions>
-				<Label Name="cityLbl" Grid.Column="0" Content="City" />
-				<Label Name="stateLbl" Grid.Column="1" Content="State" />
-				<Label Name="zipLbl" Grid.Column="3" Content="Zip Code" />
-			</Grid>
-			<Grid Grid.Row="6" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="20*" />
-					<ColumnDefinition Width="20*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="cityTextBox"		Text="{Binding City}"       Grid.Column="0" />
-				<TextBox Name="stateTextBox"	Text="{Binding State}"						Grid.Column="1" />
-				<TextBox Name="zipcodeTextBox"	Text="{Binding Zipcode}"						Grid.Column="2" />
-			</Grid>
-			<Label Content="Non-SJSU College work not yet submitted" Grid.Row="10" Grid.Column="1" />
-			<Grid Grid.Row="11" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="uncompletedTextBox1" Text="{Binding NonSJSUCourseCompleted1}" Grid.Column="0" />
-				<TextBox Name="uncompletedTextBox2" Text="{Binding NonSJSUCourseCompleted2}" Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="12" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="uncompletedTextBox3" Text="{Binding NonSJSUCourseCompleted3}" Grid.Column="0" />
-				<TextBox Name="uncompletedTextBox4" Text="{Binding NonSJSUCourseCompleted4}" Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="13" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="uncompletedTextBox5"	Text="{Binding NonSJSUCourseCompleted5}"	Grid.Column="0" />
-				<TextBox Name="uncompletedTextBox6" Text="{Binding NonSJSUCourseCompleted6}"	Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="14" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="uncompletedTextBox7"	Text="{Binding NonSJSUCourseCompleted7}"	Grid.Column="0" />
-				<TextBox Name="uncompletedTextBox8"	Text="{Binding NonSJSUCourseCompleted8}"	Grid.Column="1" />
-			</Grid>
-			<Label Content="Currently Enrolled Courses" Grid.Row="15" Grid.Column="1" />
-			<Grid Grid.Row="16" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="currentEnrolled1" Text="{Binding CurrentEnrolledCourse1}" Grid.Column="0" />
-				<TextBox Name="currentEnrolled2" Text="{Binding CurrentEnrolledCourse2}" Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="17" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="currentEnrolled3" Text="{Binding CurrentEnrolledCourse3}" Grid.Column="0" />
-				<TextBox Name="currentEnrolled4" Text="{Binding CurrentEnrolledCourse4}" Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="18" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="currentEnrolled5" Text="{Binding CurrentEnrolledCourse5}" Grid.Column="0" />
-				<TextBox Name="currentEnrolled6" Text="{Binding CurrentEnrolledCourse6}" Grid.Column="1" />
-			</Grid>
-			<Grid Grid.Row="19" Grid.Column="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="50*" />
-				</Grid.ColumnDefinitions>
-				<TextBox Name="currentEnrolled7" Text="{Binding CurrentEnrolledCourse7}" Grid.Column="0" />
-				<TextBox Name="currentEnrolled8" Text="{Binding CurrentEnrolledCourse8}" Grid.Column="1" />
-			</Grid>
-		</Grid>
-		<StackPanel Margin="80,10,10,10">
+
+            <Border BorderThickness="2" BorderBrush="DarkGray" Margin="15 15 15 20">
+                <Grid Name="FirstMidLastNameGrid" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="5 5 5 5" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35*" />
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="35*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Name="firstNameLabel" Grid.Row="1" Grid.Column="0" Content="First" />
+                        <Label Name="middleNameLabel" Grid.Row="1" Grid.Column="1" Content="Middle" />
+                        <Label Name="lastNameLabel" Grid.Row="1" Grid.Column="2" Content="Last" />
+
+                        <TextBox Name="firstNameTextBox" Grid.Row="2" Grid.Column="0" Text="{Binding FirstName}" />
+                        <TextBox Name="middleNameTextBox" Grid.Row="2" Grid.Column="1" Text="{Binding MiddleName}" />
+                        <TextBox Name="lastNameTextBox" Grid.Row="2" Grid.Column="2" Text="{Binding LastName}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="5 5 5 5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35*" />
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="35*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Name="emailLbl"          Grid.Row="0" Grid.Column="0" Content="Email" />
+                        <Label Name="phoneLbl"          Grid.Row="0" Grid.Column="1" Content="Phone Number" />
+                        <Label Name="sidNameLabel"      Grid.Row="0" Grid.Column="2" Content="Student ID" />
+
+                        <TextBox Name="emailTextBox"    Grid.Row="1" Grid.Column="0" Text="{Binding Email}"/>
+                        <TextBox Name="phoneTextBox"    Grid.Row="1" Grid.Column="1" Text="{Binding PhoneNumber}"/>
+                        <TextBox Name="sidNameTextBox"  Grid.Row="1" Grid.Column="2" Text="{Binding StudentID}" />
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border BorderThickness="2" BorderBrush="DarkGray" Margin="15 15 15 15">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="5 0 0 10" Name="AddressGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20*" />
+                            <ColumnDefinition Width="60*" />
+                            <ColumnDefinition Width="20*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Name="streetNumberLbl"   Grid.Column="0" Grid.Row="0" Content="Street Number" />
+                        <Label Name="streetNameLbl"     Grid.Column="1" Grid.Row="0" Content="Street Name" />
+                        <Label Name="apartmentLbl"      Grid.Column="3" Grid.Row="0" Content="Apartment" />
+
+                        <TextBox Name="streetNumberTextBox" Text="{Binding StreetNumber}"	  Grid.Column="0" Grid.Row="1" />
+                        <TextBox Name="streetNameTextBox"	Text="{Binding StreetName}"		  Grid.Column="1" Grid.Row="1" />
+                        <TextBox Name="apartmentTextBox"	Text="{Binding ApartmentNumber}"  Grid.Column="2" Grid.Row="1" />
+                    </Grid>
+                    <Grid Grid.Row="1" Name="CityStateZipGrid"  Margin="5 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="20*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Name="cityLbl"   Grid.Column="0"  Content="City" />
+                        <Label Name="stateLbl"  Grid.Column="1"  Content="State" />
+                        <Label Name="zipLbl"    Grid.Column="3"  Content="Zip Code" />
+                        <TextBox Name="cityTextBox"		Text="{Binding City}"       Grid.Column="0" Grid.Row="1"/>
+                        <TextBox Name="stateTextBox"	Text="{Binding State}"		Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Name="zipcodeTextBox"	Text="{Binding Zipcode}"	Grid.Column="2" Grid.Row="1"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            
+            <Border HorizontalAlignment="Center" Width="Auto" MinWidth="300" BorderThickness="2" BorderBrush="DarkGray" Margin="15 15 15 15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*" />
+                        <ColumnDefinition Width="40*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid Margin="5 0 5 0" Name="GradYearAndSemesterGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35*" />
+                            <ColumnDefinition Width="30*" />
+                            <ColumnDefinition Width="35*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Graduation Year" />
+                        <TextBox Name="yearTextBox" Grid.Row="1" Grid.Column="0" />
+
+                        <Label Grid.Row="0" Grid.Column="1" Content="Graduating Semester" />
+
+                        <CheckBox Checked="Checkbox_OnCheck" Name="springCheckBox" Grid.Column="1" Grid.Row="1" Margin="5 5 5 5" Content="Spring"/>
+                        <CheckBox Checked="Checkbox_OnCheck" Name="summerCheckBox" Grid.Column="1" Grid.Row="2" Margin="5 5 5 5" Content="Summer"/>
+                        <CheckBox Checked="Checkbox_OnCheck" Name="fallCheckBox"   Grid.Column="1" Grid.Row="3" Margin="5 5 5 5" Content="Fall"/>
+                    </Grid>
+                    
+                    <Grid Name="DegreeObjectiveGrid" Grid.Column="1" Margin="5 5 5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="20*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Name="majorLabel" Grid.Row="0" Grid.Column="0" Content="Major" />
+                        <Label Name="degreeObjLbl" Grid.Column="1" Content="Degree Objective" />
+                        <TextBox Name="majorTextBox" Grid.Row="1" Grid.Column="0" Text="{Binding MajorName}" />
+                        <ComboBox Text="{Binding DegreeObjective}" Name="degreeObjectiveCBox" Grid.Row="1" Grid.Column="1">
+                            <ComboBoxItem Content="BS" HorizontalAlignment="Left" />
+                            <ComboBoxItem Content="BA" HorizontalAlignment="Left" />
+                            <ComboBoxItem Content="BFA" HorizontalAlignment="Left" />
+                            <ComboBoxItem Content="B of Music" HorizontalAlignment="Left" />
+                            <ComboBoxItem Content="Second Baccalaureate" HorizontalAlignment="Left" />
+                        </ComboBox>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border BorderThickness="2" BorderBrush="DarkGray" Margin="15 15 15 15">
+                <Grid Name="CoursesNotCompleteGrid"  Margin="5 5 5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="49*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="49*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Non-SJSU College work not yet submitted" Grid.Row="0" Grid.Column="0" />
+
+                    <GridSplitter Grid.Row="1" Grid.Column="1"></GridSplitter>
+
+                    <TextBox Name="uncompletedTextBox1" Text="{Binding NonSJSUCourseCompleted1}" Grid.Row="2" Grid.Column="0" />
+                    <TextBox Name="uncompletedTextBox2" Text="{Binding NonSJSUCourseCompleted2}" Grid.Row="2" Grid.Column="2" />
+                    <TextBox Name="uncompletedTextBox3" Text="{Binding NonSJSUCourseCompleted3}" Grid.Row="4" Grid.Column="0" />
+                    <TextBox Name="uncompletedTextBox4" Text="{Binding NonSJSUCourseCompleted4}" Grid.Row="4" Grid.Column="2" />
+                    <TextBox Name="uncompletedTextBox5"	Text="{Binding NonSJSUCourseCompleted5}" Grid.Row="6" Grid.Column="0" />
+                    <TextBox Name="uncompletedTextBox6" Text="{Binding NonSJSUCourseCompleted6}" Grid.Row="6" Grid.Column="2" />
+                    <TextBox Name="uncompletedTextBox7"	Text="{Binding NonSJSUCourseCompleted7}" Grid.Row="8" Grid.Column="0" />
+                    <TextBox Name="uncompletedTextBox8"	Text="{Binding NonSJSUCourseCompleted8}" Grid.Row="8" Grid.Column="2" />
+                </Grid>
+            </Border>
+
+
+            <Border BorderThickness="2" BorderBrush="DarkGray" Margin="15 15 15 15">
+                <Grid Name="CurrentEnrolledGrid" Margin="5 5 5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="49*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="49*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Currently Enrolled Courses" Grid.Row="0" Grid.Column="0" />
+
+                    <GridSplitter Grid.Row="1" Grid.Column="1"></GridSplitter>
+                    <TextBox Name="currentEnrolled1"  Text="{Binding CurrentEnrolledCourse1}" Grid.Row="2" Grid.Column="0" />
+                    <TextBox Name="currentEnrolled2"  Text="{Binding CurrentEnrolledCourse2}" Grid.Row="2" Grid.Column="2" />
+                    <TextBox Name="currentEnrolled3"  Text="{Binding CurrentEnrolledCourse3}" Grid.Row="4" Grid.Column="0" />
+                    <TextBox Name="currentEnrolled4"  Text="{Binding CurrentEnrolledCourse4}" Grid.Row="4" Grid.Column="2" />
+                    <TextBox Name="currentEnrolled5"  Text="{Binding CurrentEnrolledCourse5}" Grid.Row="6" Grid.Column="0" />
+                    <TextBox Name="currentEnrolled6"  Text="{Binding CurrentEnrolledCourse6}" Grid.Row="6" Grid.Column="2" />
+                    <TextBox Name="currentEnrolled7"  Text="{Binding CurrentEnrolledCourse7}" Grid.Row="8" Grid.Column="0" />
+                    <TextBox Name="currentEnrolled8"  Text="{Binding CurrentEnrolledCourse8}" Grid.Row="8" Grid.Column="2" />
+                </Grid>
+            </Border>
+
+        </StackPanel>
+        
+		<Border BorderThickness="2" BorderBrush="DarkGray" Margin="10,10,10,10">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="50*" />
@@ -226,6 +264,8 @@
 				<Button Margin="3,3,3,3" Background="LightBlue" Grid.Column="1" Name="LoadInfoBtn" FontSize="20" Content="Load" Click="LoadSaveResetBtn_OnClick" />
 				<Button Margin="3,3,3,3" Background="Red" Grid.Column="2" Name="ResetBtn" FontSize="20" Content="Reset" Click="LoadSaveResetBtn_OnClick" />
 			</Grid>
-		</StackPanel>
+		</Border>
+        
+        
 	</StackPanel>
 </StackPanel>
