@@ -7,23 +7,25 @@
             mc:Ignorable="d">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="100" />
-			<RowDefinition Height="100" />
-			<RowDefinition Height="50" />
-			<RowDefinition Height="50" />
-			<RowDefinition Height="50" />
+			<RowDefinition Height="100*" />
+			<RowDefinition Height="100*" />
+			<RowDefinition Height="50*" />
+			<RowDefinition Height="50*" />
+			<RowDefinition Height="50*" />
+			<RowDefinition Height="50*" />
 		</Grid.RowDefinitions>
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Image Margin="0 20 0 0" Name="SjsuLogo" Grid.Row="0" Grid.Column="0" Source="/Resources/sjsulogo.png"
+		<Image Margin="15 20 15 20" Name="SjsuLogo" Grid.Row="0" Grid.Column="0" Source="/Resources/sjsulogo.png"
 		       Visibility="Visible" />
 
 		<!--Make this center-->
 		<Label Name="titleLabel"
 		       FontSize="40"
+			   FontWeight="Bold"
 		       HorizontalAlignment="Center"
 		       Grid.Row="1" Grid.Column="0"
 		       Content=" Graduation Helper " />
@@ -45,5 +47,12 @@
 		       HorizontalAlignment="Center"
 		       Grid.Row="4" Grid.Column="0"
 		       Content="Professor Eswar" />
+		
+		<Label Name="subHeadingLabel4"			   
+		       FontSize="20"
+		       HorizontalAlignment="Center"
+		       Grid.Row="5" Grid.Column="0"
+		       Content=" - " />
+		
 	</Grid>
 </StackPanel>

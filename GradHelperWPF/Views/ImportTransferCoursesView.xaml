@@ -5,58 +5,63 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
-	Height="800" Width="900"
 	Orientation="Vertical"
+	VerticalAlignment="Stretch"
+	HorizontalAlignment="Stretch"
 	Name="ImportTransferCoursesGrid">
-	<StackPanel>
-		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-			<!--<Button Grid.Column="1" Name="TextBtn" Content="Test" Click="TextBtn_Click" ></Button>-->
-			<!--<StackPanel
-                AllowDrop="True"
-                PreviewDragOver="TransferCoursesGrid_PreviewDragOver"
-                Drop="TransferCoursesGrid_Drop"
-                Grid.Column="1" Grid.Row="1"
-                Width="100" Height="100">
-            </StackPanel>-->
-		</StackPanel>
-
-		<Grid x:Name="TableGridStackPanel">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Label Grid.Column="0" Content="Drag and drop or click Import SJSU Courses" />
-		</Grid>
-
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="10*" />
-				<RowDefinition Height="90*" />
-			</Grid.RowDefinitions>
-			<Grid Grid.Row="1" Name="TransferCourseGrid">
+	<Grid VerticalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="115" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Margin="2 5 2 2" Grid.Row="0" MinHeight="100" MinWidth="100" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="TableGridStackPanel">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Name="CourseColDef" Width="10*" />
-					<ColumnDefinition Name="NumberColDef" Width="10*" />
-					<ColumnDefinition Name="TitleColDef" Width="35*" />
-					<ColumnDefinition Name="UnitColDef" Width="10*" />
-					<ColumnDefinition Name="GradeColDef" Width="10*" />
-					<ColumnDefinition Name="InstitutionColDef" Width="10*" />
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
 				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Name="LabelsRowDef" Height="30*" />
-					<RowDefinition Height="50*" />
-				</Grid.RowDefinitions>
-				<Label Name="Header0" Margin="2 2 2 2" Background="LightBlue" Content="Course" Grid.Column="0" Grid.Row="1" />
-				<Label Name="Header1" Margin="2 2 2 2" Background="LightBlue" Content="Number" Grid.Column="1" Grid.Row="1" />
-				<Label Name="Header2" Margin="2 2 2 2" Background="LightBlue" Content="Title" Grid.Column="2" Grid.Row="1" />
-				<Label Name="Header3" Margin="2 2 2 2" Background="LightBlue" Content="Units" Grid.Column="3" Grid.Row="1" />
-				<Label Name="Header4" Margin="2 2 2 2" Background="LightBlue" Content="Grade" Grid.Column="4" Grid.Row="1" />
-				<Label Name="Header5" Margin="2 2 2 2" Background="LightBlue" Content="Institution" Grid.Column="5" Grid.Row="1" />
+				<Border MinHeight="100" AllowDrop="True" PreviewDragOver="TransferCoursesGrid_PreviewDragOver" Drop="TransferCoursesGrid_Drop" Name="DashedRectangle" Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
+					<Border.BorderBrush>
+						<DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+							<DrawingBrush.Drawing>
+								<DrawingGroup>
+									<GeometryDrawing Brush="Black">
+										<GeometryDrawing.Geometry>
+											<GeometryGroup>
+												<RectangleGeometry Rect="0,0,50,50" />
+												<RectangleGeometry Rect="50,50,50,50" />
+											</GeometryGroup>
+										</GeometryDrawing.Geometry>
+									</GeometryDrawing>
+								</DrawingGroup>
+							</DrawingBrush.Drawing>
+						</DrawingBrush>
+					</Border.BorderBrush>
+					<TextBlock Text="Drag and Drop Transfer Course History Excel File Here!" Margin="5"/>
+				</Border>
+				<Label Grid.Column="0" Content="Drag and drop or click Import SJSU Courses" />
 			</Grid>
+		</StackPanel>
+		<Grid Grid.Row="1" Name="TransferCourseGrid">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Name="CourseColDef" Width="10*" />
+				<ColumnDefinition Name="NumberColDef" Width="10*" />
+				<ColumnDefinition Name="TitleColDef" Width="35*" />
+				<ColumnDefinition Name="UnitColDef" Width="10*" />
+				<ColumnDefinition Name="GradeColDef" Width="10*" />
+				<ColumnDefinition Name="InstitutionColDef" Width="10*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Name="LabelsRowDef" Height="40" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Label Name="Header0"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Course"			Grid.Column="0" Grid.Row="0" />
+			<Label Name="Header1"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Number"			Grid.Column="1" Grid.Row="0" />
+			<Label Name="Header2"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Title"			Grid.Column="2" Grid.Row="0" />
+			<Label Name="Header3"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Units"			Grid.Column="3" Grid.Row="0" />
+			<Label Name="Header4"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Grade"			Grid.Column="4" Grid.Row="0" />
+			<Label Name="Header5"  Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold"  Content="Institution"    Grid.Column="5" Grid.Row="0" />
 		</Grid>
-	</StackPanel>
+	</Grid>
+
 </StackPanel>

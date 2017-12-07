@@ -144,7 +144,10 @@ namespace GradHelperWPF.Models
         {
             set
             {
-                var key = value;
+                if (string.IsNullOrEmpty(value))
+                    return;
+
+                var key = value;                
                 key = key.Replace( "Engr ", "Engineering " );
                 key = key.Replace( "Org & Arch", "Organization and Architecture" );
                 key = key.Replace( "Strc", "Structures" );
@@ -159,8 +162,13 @@ namespace GradHelperWPF.Models
                 key = key.Replace( "Orntd ", "Oriented" );
                 key = key.Replace( "Dsgn", "Design" );
 
+                if (key.EndsWith(" Engr"))
+                    key = key.Replace(" Engr", " Engineering");
+
+
                 if ( _courseTitle == null )
                     _courseTitle = key;
+
                 if ( value != _courseTitle )
                 {
                     _courseTitle = key;

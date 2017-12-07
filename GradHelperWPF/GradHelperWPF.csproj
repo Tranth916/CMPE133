@@ -219,6 +219,9 @@
     <Compile Include="Views\MajorFormView.xaml.cs">
       <DependentUpon>MajorFormView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ErrorWindowView.xaml.cs">
+      <DependentUpon>ErrorWindowView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -260,6 +263,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ErrorWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -281,6 +288,9 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\fixExcelInstructions.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\gradapp.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -321,6 +331,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon_for_myroadmap_2_color_5PH_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\TransferCourseExcelPic.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SjsuCourseExcelPic.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

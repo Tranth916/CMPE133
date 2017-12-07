@@ -9,8 +9,6 @@
         public MainWindow( )
         {
             InitializeComponent( );
-
-            var f = FlipView.GroupStyleSelector;
         }
     }
 }

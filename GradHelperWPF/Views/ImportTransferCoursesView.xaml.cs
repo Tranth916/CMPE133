@@ -20,6 +20,31 @@ namespace GradHelperWPF.Views
         private string[] ExcelExtensions => new[]
             {"2003 Excel *.xls", "2007 Excel *.xlsx"};
 
+        private void TextBtn_Click( object sender, RoutedEventArgs e )
+        {
+            var wm = WordModel.GetInstance();
+
+            var engrCm = CourseModel.CoursesDictionary.Values
+                .FirstOrDefault(v => v.CourseAbbreviation == "CIS");
+
+            if ( engrCm == null )
+            {
+                wm.Close( );
+                return;
+            }
+
+            wm.WriteCourseToRow( engrCm );
+            wm.Close( );
+            wm.ShowDoc( );
+        }
+
+        private void TransferCourseImportBtn_Click( object sender, RoutedEventArgs e )
+        {
+            var filePath = FileUtil.ShowOpenFileDialog(ExcelExtensions);
+            if ( string.IsNullOrEmpty( filePath ) )
+                return;
+        }
+
         private void TransferCoursesGrid_Drop( object sender, DragEventArgs e )
         {
             var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
@@ -45,6 +70,7 @@ namespace GradHelperWPF.Views
                 throw new Exception( "Exception throw while converting excel to course models" );
 
             var transferCouresOnly = courseDict.Where(c => c.Value.IsTransferCourse).Select(c => c.Value).ToList();
+
             ViewUtil.AddCourseRowToGrid( ref TransferCourseGrid, transferCouresOnly );
         }
 
@@ -52,31 +78,20 @@ namespace GradHelperWPF.Views
         {
             if ( e != null )
                 e.Handled = true;
-        }
 
-        private void TransferCourseImportBtn_Click( object sender, RoutedEventArgs e )
-        {
-            var filePath = FileUtil.ShowOpenFileDialog(ExcelExtensions);
-            if ( string.IsNullOrEmpty( filePath ) )
+            var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+
+            if ( !hasData ) return;
+
+            if ( !( e.Data.GetData( DataFormats.FileDrop ) is string[] files ) || files.Length == 0 )
                 return;
-        }
 
-        private void TextBtn_Click( object sender, RoutedEventArgs e )
-        {
-            var wm = WordModel.GetInstance();
+            var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower( ).Contains( ".xlsx" ) );
 
-            var engrCm = CourseModel.CoursesDictionary.Values
-                .FirstOrDefault(v => v.CourseAbbreviation == "CIS");
-
-            if ( engrCm == null )
+            if (xlsFile == null || !xlsFile.Any())
             {
-                wm.Close( );
-                return;
+                System.Diagnostics.Debug.WriteLine("Excel File Detected!");
             }
-
-            wm.WriteCourseToRow( engrCm );
-            wm.Close( );
-            wm.ShowDoc( );
         }
     }
 }

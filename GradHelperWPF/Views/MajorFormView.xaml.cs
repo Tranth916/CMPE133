@@ -6,7 +6,7 @@ namespace GradHelperWPF.Views
     /// <summary>
     ///     Interaction logic for MajorFormView.xaml
     /// </summary>
-    public partial class MajorFormView : StackPanel
+    public partial class MajorFormView
     {
         public static MajorFormViewModel MajorFormModelStatic = new MajorFormViewModel();
 

@@ -3,22 +3,46 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:local="clr-namespace:GradHelperWPF.Views"
-            mc:Ignorable="d"
-            Height="800" Width="900">
-	<Grid>
+			CanVerticallyScroll="True"
+			mc:Ignorable="d"
+            VerticalAlignment="Stretch" 
+			HorizontalAlignment="Stretch">
+	<Grid VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="10*" />
-			<RowDefinition Height="90*" />
+			<RowDefinition Height="115" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
-		<StackPanel Grid.Row="0" x:Name="TableGridStackPanel">
-			<Label Content="Drag and drop or click Import SJSU Courses" />
-			<Button x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick" />
-			<Button x:Name="TestButton" Content="Test" Click="TestButton_Click" />
+		<StackPanel Margin="2 5 2 2" MinHeight="100" Grid.Row="0" x:Name="TableGridStackPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="50*" />
+				</Grid.ColumnDefinitions>
+				<Border MinHeight="100" AllowDrop="True" PreviewDragOver="Grid_PreviewDragOver" Drop="SjsuCourseExcel_OnDrop" Name="DashedRectangle" 
+						Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
+					<Border.BorderBrush>
+						<DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+							<DrawingBrush.Drawing>
+								<DrawingGroup>
+									<GeometryDrawing Brush="Black">
+										<GeometryDrawing.Geometry>
+											<GeometryGroup>
+												<RectangleGeometry Rect="0,0,50,50" />
+												<RectangleGeometry Rect="50,50,50,50" />
+											</GeometryGroup>
+										</GeometryDrawing.Geometry>
+									</GeometryDrawing>
+								</DrawingGroup>
+							</DrawingBrush.Drawing>
+						</DrawingBrush>
+					</Border.BorderBrush>
+					<TextBlock Text="Drag and drop SJSU Course History Excel File Here!" Margin="5"/>
+				</Border>
+				<Button Width="100" Height="100" x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick" />
+			</Grid>
 		</StackPanel>
-
-		<Grid Grid.Row="1" x:Name="TransferCourseGrid">
+		
+		<Grid Grid.Row="1" x:Name="TransferCourseGrid" VerticalAlignment="Stretch">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Name="CourseColDef" Width="10*" />
 				<ColumnDefinition Name="NumberColDef" Width="10*" />
@@ -27,12 +51,14 @@
 				<ColumnDefinition Name="GradeColDef" Width="10*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
+				<RowDefinition Name="SjsuCourseLabels" Height="40" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<Label Name="Header1" Margin="2 2 2 2" Background="LightBlue" Content="Number" Grid.Column="0" Grid.Row="1" />
-			<Label Name="Header2" Margin="2 2 2 2" Background="LightBlue" Content="Title" Grid.Column="1" Grid.Row="1" />
-			<Label Name="Header3" Margin="2 2 2 2" Background="LightBlue" Content="Units" Grid.Column="2" Grid.Row="1" />
-			<Label Name="Header4" Margin="2 2 2 2" Background="LightBlue" Content="Grade" Grid.Column="3" Grid.Row="1" />
+			<Label Name="Header0" Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold" Content="Course" Grid.Column="0" Grid.Row="0" />
+			<Label Name="Header1" Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold" Content="Number" Grid.Column="1" Grid.Row="0" />
+			<Label Name="Header2" Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold" Content="Title" Grid.Column="2"  Grid.Row="0" />
+			<Label Name="Header3" Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold" Content="Units" Grid.Column="3"  Grid.Row="0" />
+			<Label Name="Header4" Margin="2 2 2 2" Background="DodgerBlue" FontWeight="Bold" Content="Grade" Grid.Column="4"  Grid.Row="0" />
 		</Grid>
 	</Grid>
 </StackPanel>
