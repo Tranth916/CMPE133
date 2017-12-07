@@ -1,24 +1,16 @@
-﻿using GradHelperWPF.Views;
-
-namespace GradHelperWPF
+﻿namespace GradHelperWPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
-    {		
-
+    {
         // All Views here.
         public MainWindow()
         {
             InitializeComponent();
 
-            var f = this.FlipView.GroupStyleSelector;
-
-
-
-
-		}		
-	}
+            var f = FlipView.GroupStyleSelector;
+        }
+    }
 }
-

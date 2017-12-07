@@ -1,45 +1,44 @@
-﻿<Controls:MetroWindow	  
-		x:Class="GradHelperWPF.MainWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-        xmlns:Views="clr-namespace:GradHelperWPF.Views"        
-		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
-		Title="Graduation Helper"        
-        mc:Ignorable="d"
-        Height="800" Width="900"
-		HorizontalContentAlignment="Stretch"
-        x:Name="MainFrame"
-        WindowStartupLocation="CenterScreen"
-        BorderThickness="0" 		
-        UseLayoutRounding="True" WindowTransitionsEnabled="True" 
-		EnableDWMDropShadow="True" 
-		VerticalContentAlignment="Stretch"	
-		>
+﻿<Controls:MetroWindow
+	x:Class="GradHelperWPF.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:Views="clr-namespace:GradHelperWPF.Views"
+	xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+	Title="Graduation Helper"
+	mc:Ignorable="d"
+	Height="800" Width="900"
+	HorizontalContentAlignment="Stretch"
+	x:Name="MainFrame"
+	WindowStartupLocation="CenterScreen"
+	BorderThickness="0"
+	UseLayoutRounding="True" WindowTransitionsEnabled="True"
+	EnableDWMDropShadow="True"
+	VerticalContentAlignment="Stretch">
 	<i:Interaction.Behaviors>
 		<Behaviours:BorderlessWindowBehavior />
 	</i:Interaction.Behaviors>
 
 	<ScrollViewer
-		Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" 
-		Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" 
+		Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+		Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
 		x:Name="TopGrid">
 
-		<Controls:FlipView x:Name="FlipView" 
-		BorderThickness="0" 
-		MouseOverGlowEnabled="False" 
-		FontSize="14"
-		IsBannerEnabled="False"
-		UpTransition="Left" 
-		HorizontalContentAlignment="Stretch" 
-		HorizontalAlignment="Stretch" 
-		ScrollViewer.CanContentScroll="True" 
-		ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-		ScrollViewer.VerticalScrollBarVisibility="Auto" 
-		IsNavigationEnabled="True" DownTransition="Right">
+		<Controls:FlipView x:Name="FlipView"
+		                   BorderThickness="0"
+		                   MouseOverGlowEnabled="False"
+		                   FontSize="14"
+		                   IsBannerEnabled="False"
+		                   UpTransition="Left"
+		                   HorizontalContentAlignment="Stretch"
+		                   HorizontalAlignment="Stretch"
+		                   ScrollViewer.CanContentScroll="True"
+		                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
+		                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+		                   IsNavigationEnabled="True" DownTransition="Right">
 			<Views:IntroView />
 			<Views:GradApplicationView />
 			<Views:ImportCoursesView />

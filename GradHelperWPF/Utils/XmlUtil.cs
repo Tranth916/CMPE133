@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.IO;
 
 namespace GradHelperWPF.Utils
 {
@@ -13,7 +10,7 @@ namespace GradHelperWPF.Utils
     {
         public static string ReadXPathStrValue(XDocument doc, string xPath)
         {
-            string result = "";
+            var result = "";
             try
             {
                 result = doc.XPathSelectElement(xPath).Value;
@@ -27,8 +24,8 @@ namespace GradHelperWPF.Utils
 
         public static int ReadXPathIntValue(XDocument doc, string xPath)
         {
-            int retValue = -1;
-            string strVal = "";
+            var retValue = -1;
+            var strVal = "";
 
             try
             {
@@ -44,62 +41,58 @@ namespace GradHelperWPF.Utils
 
         public static Dictionary<string, string> LoadXMLConfiguration(string path)
         {
-            if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path))
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
                 return null;
 
-            Dictionary<string, string> retDiction = new Dictionary<string, string>();
+            var retDiction = new Dictionary<string, string>();
 
-            XDocument configFile = XDocument.Load(path);
+            var configFile = XDocument.Load(path);
 
             if (configFile == null)
                 return null;
 
-            XElement parent = configFile.Root;
+            var parent = configFile.Root;
 
             retDiction.Add(parent.Name.ToString(), parent.Value ?? "");
 
             var childrens = parent.Elements();
             string xName = "", xVal = "";
 
-            foreach (XElement child in childrens)
+            foreach (var child in childrens)
             {
                 xName = child.Name.ToString();
                 xVal = child.Value;
 
                 if (!retDiction.ContainsKey(xName))
-                {
                     retDiction.Add(xName, xVal);
-                }
             }
 
             return retDiction;
         }
 
-        public static string SaveXMLConfiguration(string path, Dictionary<string,string> data)
+        public static string SaveXMLConfiguration(string path, Dictionary<string, string> data)
         {
             // delete the existing file if it exists.
             if (File.Exists(path))
-            {
                 try
                 {
                     File.Delete(path);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.StackTrace);                    
+                    throw new Exception(ex.StackTrace);
                 }
-            }
 
-            string result = path;
+            var result = path;
 
-            XDocument doc = new XDocument(  new XDeclaration("1.0","utf-8","yes") );
+            var doc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"));
 
             //Make the root
             doc.Add(new XElement("GradAppDataRoot"));
 
             var root = doc.Root;
 
-            foreach ( var entry in data)
+            foreach (var entry in data)
             {
                 if (string.IsNullOrEmpty(entry.Key) || string.IsNullOrEmpty(entry.Value))
                     continue;
@@ -107,21 +100,17 @@ namespace GradHelperWPF.Utils
                 root.Add(new XElement(entry.Key, entry.Value ?? ""));
             }
 
-            using( FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite,FileShare.ReadWrite) )
+            using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
             {
-                doc.Save(fs);    
+                doc.Save(fs);
             }
 
             return result;
         }
 
-		public static bool AppendToXmlFile(Stream fs, Dictionary<string, string> data)
-		{
-
-
-
-
-			return false;
-		}
+        public static bool AppendToXmlFile(Stream fs, Dictionary<string, string> data)
+        {
+            return false;
+        }
     }
 }
