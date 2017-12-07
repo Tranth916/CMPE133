@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Text;
-using Microsoft.Win32;
 
 namespace GradHelperWPF.Utils
 {
@@ -11,10 +11,10 @@ namespace GradHelperWPF.Utils
         {
             get
             {
-                if (Directory.GetCurrentDirectory() == null)
+                if ( Directory.GetCurrentDirectory( ) == null )
                     return AppDomain.CurrentDomain.BaseDirectory;
 
-                return Directory.GetCurrentDirectory();
+                return Directory.GetCurrentDirectory( );
             }
         }
 
@@ -23,11 +23,11 @@ namespace GradHelperWPF.Utils
         /// </summary>
         /// <param name="filePath">Filepath of the copied file.</param>
         /// <returns></returns>
-        public static string MakeWorkingCopy(string filePath)
+        public static string MakeWorkingCopy( string filePath )
         {
             var retPath = "";
 
-            if (File.Exists(filePath))
+            if ( File.Exists( filePath ) )
             {
                 var workingPath = Path.GetFullPath(filePath).Replace(Path.GetExtension(filePath), "");
 
@@ -36,8 +36,8 @@ namespace GradHelperWPF.Utils
                     .Replace("\\", "")
                     .Replace("/", "");
                 // File extension must begin with a period.
-                if (!fileExtension.StartsWith("."))
-                    fileExtension = filePath.Substring(filePath.LastIndexOf('.'));
+                if ( !fileExtension.StartsWith( "." ) )
+                    fileExtension = filePath.Substring( filePath.LastIndexOf( '.' ) );
 
                 // Prepare the name for the new copy.
                 var destinationFileName = WorkingDirectory +
@@ -49,22 +49,22 @@ namespace GradHelperWPF.Utils
                                           fileExtension;
 
                 // The working file needs to be deleted.
-                if (File.Exists(destinationFileName))
+                if ( File.Exists( destinationFileName ) )
                     try
                     {
-                        File.Delete(destinationFileName);
+                        File.Delete( destinationFileName );
                     }
-                    catch (Exception)
+                    catch ( Exception )
                     {
-                        Console.WriteLine("Failed to delete working file: " + destinationFileName);
+                        Console.WriteLine( "Failed to delete working file: " + destinationFileName );
                         // Rename it again.
-                        destinationFileName = destinationFileName.Replace(fileExtension, "")
+                        destinationFileName = destinationFileName.Replace( fileExtension, "" )
                                               + "2" + fileExtension;
                     }
 
                 try
                 {
-                    File.Copy(filePath, destinationFileName, true);
+                    File.Copy( filePath, destinationFileName, true );
                     retPath = destinationFileName;
                     //if (Directory.Exists(Path.GetDirectoryName(filePath)))
                     //{
@@ -73,22 +73,22 @@ namespace GradHelperWPF.Utils
                     //    File.Copy(filePath, retPath, true);
                     //}
                 }
-                catch (Exception ex)
+                catch ( Exception ex )
                 {
-                    Console.WriteLine(ex.StackTrace);
+                    Console.WriteLine( ex.StackTrace );
                 }
             }
 
             return retPath;
         }
 
-        public static string ShowOpenFileDialog(string[] filters)
+        public static string ShowOpenFileDialog( string[] filters )
         {
             var sb = new StringBuilder();
 
             //Text files (*.txt)|*.txt|All files (*.*)|*.*
-            for (var i = 0; i < filters.Length; i++)
-                sb.Append($" | {filters[i]} ");
+            for ( var i = 0; i < filters.Length; i++ )
+                sb.Append( $" | {filters[i]} " );
 
             var filePath = "";
 
@@ -96,7 +96,7 @@ namespace GradHelperWPF.Utils
 
             var selectedFile = ofd.ShowDialog();
 
-            if (selectedFile.Value && !string.IsNullOrEmpty(ofd.FileName))
+            if ( selectedFile.Value && !string.IsNullOrEmpty( ofd.FileName ) )
                 filePath = ofd.FileName;
 
             return filePath;

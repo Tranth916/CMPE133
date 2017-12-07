@@ -6,10 +6,10 @@ namespace GradHelperWPF.Interfaces
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged( string propertyName )
         {
             var e = new PropertyChangedEventArgs(propertyName);
-            PropertyChanged(this, e);
+            PropertyChanged( this, e );
         }
     }
 }

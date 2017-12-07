@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using GradHelperWPF.ViewModel;
+﻿using GradHelperWPF.ViewModel;
+using System.Windows.Controls;
 
 namespace GradHelperWPF.Views
 {
@@ -10,9 +10,9 @@ namespace GradHelperWPF.Views
     {
         public static MajorFormViewModel MajorFormModelStatic = new MajorFormViewModel();
 
-        public MajorFormView()
+        public MajorFormView( )
         {
-            InitializeComponent();
+            InitializeComponent( );
             DataContext = new
             {
                 MajorFormVM = MajorFormModelStatic,

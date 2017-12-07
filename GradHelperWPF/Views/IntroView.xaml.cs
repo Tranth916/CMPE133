@@ -7,9 +7,9 @@ namespace GradHelperWPF.Views
     /// </summary>
     public partial class IntroView : StackPanel
     {
-        public IntroView()
+        public IntroView( )
         {
-            InitializeComponent();
+            InitializeComponent( );
         }
     }
 }

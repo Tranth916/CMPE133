@@ -6,7 +6,7 @@ namespace GradHelperWPF
     {
         public static readonly string SessionFileName = "Session.XML";
 
-        public static bool LoadSessionFile()
+        public static bool LoadSessionFile( )
         {
             // look for the current session file in the working directory.
             var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), SessionFileName,

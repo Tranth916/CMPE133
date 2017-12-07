@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Prism.Mvvm;
 
 namespace GradHelperWPF.Models
 {
@@ -26,8 +26,8 @@ namespace GradHelperWPF.Models
             set => _coursesDictionary = value;
             get
             {
-                if (_coursesDictionary == null)
-                    _coursesDictionary = new Dictionary<string, CourseModel>();
+                if ( _coursesDictionary == null )
+                    _coursesDictionary = new Dictionary<string, CourseModel>( );
                 return _coursesDictionary;
             }
         }
@@ -36,40 +36,108 @@ namespace GradHelperWPF.Models
         {
             set
             {
-                if (_courseAbrreviation == null)
+                if ( _courseAbrreviation == null )
                 {
                     _courseAbrreviation = value;
                 }
-                else if (_courseAbrreviation == value)
+                else if ( _courseAbrreviation == value )
                 {
                 }
                 else
                 {
                     _courseAbrreviation = value;
-                    RaisePropertyChanged("CourseAbbreviation");
+                    RaisePropertyChanged( "CourseAbbreviation" );
                 }
             }
             get => _courseAbrreviation ?? "";
+        }
+
+        public string CourseGrade
+        {
+            set
+            {
+                if ( _courseGrade == null )
+                {
+                    _courseGrade = value;
+                }
+                else if ( _courseGrade != value )
+                {
+                    _courseGrade = value;
+                    RaisePropertyChanged( "CourseGrade" );
+                }
+            }
+            get => _courseGrade ?? "";
+        }
+
+        public string CourseGradePoint
+        {
+            set
+            {
+                if ( _courseGradePoint == null )
+                {
+                    _courseGradePoint = value;
+                }
+                else if ( _courseGradePoint != value )
+                {
+                    _courseGradePoint = value;
+                    RaisePropertyChanged( "CourseGradePoint" );
+                }
+            }
+            get => _courseGradePoint ?? "";
         }
 
         public string CourseNumber
         {
             set
             {
-                if (_courseNumber == null)
+                if ( _courseNumber == null )
                 {
                     _courseNumber = value;
                 }
-                else if (_courseNumber == value)
+                else if ( _courseNumber == value )
                 {
                 }
                 else
                 {
                     _courseNumber = value;
-                    RaisePropertyChanged("CourseNumber");
+                    RaisePropertyChanged( "CourseNumber" );
                 }
             }
             get => _courseNumber ?? "";
+        }
+
+        public string CourseRequirementDesignation
+        {
+            set
+            {
+                if ( _courseRequirementDesignation == null )
+                {
+                    _courseRequirementDesignation = value;
+                }
+                else if ( _courseRequirementDesignation != value )
+                {
+                    _courseRequirementDesignation = value;
+                    RaisePropertyChanged( "CourseRequirementDesignation" );
+                }
+            }
+            get => _courseRequirementDesignation ?? "";
+        }
+
+        public string CourseSemester
+        {
+            set
+            {
+                if ( _courseSemester == null )
+                {
+                    _courseSemester = value;
+                }
+                else if ( _courseSemester != value )
+                {
+                    _courseSemester = value;
+                    RaisePropertyChanged( "CourseSemester" );
+                }
+            }
+            get => _courseSemester ?? "";
         }
 
         public string CourseTitle
@@ -77,166 +145,149 @@ namespace GradHelperWPF.Models
             set
             {
                 var key = value;
-                key = key.Replace("Engr ", "Engineering ");
-                key = key.Replace("Org & Arch", "Organization and Architecture");
-                key = key.Replace("Strc", "Structures");
-                key = key.Replace("Progrmng", "Programming");
-                key = key.Replace("Comp ", "Computer ");
-                key = key.Replace("Inter ", "Interaction ");
-                key = key.Replace("Struct & Alg", "Structures and Algorithms");
-                key = key.Replace("Soft ", "Software ");
-                key = key.Replace("SW ", "Software");
-                key = key.Replace("Diff Eq ", "Differential Equations ");
-                key = key.Replace("Intro ", "Introduction ");
-                key = key.Replace("Orntd ", "Oriented");
-                key = key.Replace("Dsgn", "Design");
+                key = key.Replace( "Engr ", "Engineering " );
+                key = key.Replace( "Org & Arch", "Organization and Architecture" );
+                key = key.Replace( "Strc", "Structures" );
+                key = key.Replace( "Progrmng", "Programming" );
+                key = key.Replace( "Comp ", "Computer " );
+                key = key.Replace( "Inter ", "Interaction " );
+                key = key.Replace( "Struct & Alg", "Structures and Algorithms" );
+                key = key.Replace( "Soft ", "Software " );
+                key = key.Replace( "SW ", "Software" );
+                key = key.Replace( "Diff Eq ", "Differential Equations " );
+                key = key.Replace( "Intro ", "Introduction " );
+                key = key.Replace( "Orntd ", "Oriented" );
+                key = key.Replace( "Dsgn", "Design" );
 
-                if (_courseTitle == null)
+                if ( _courseTitle == null )
                     _courseTitle = key;
-                if (value != _courseTitle)
+                if ( value != _courseTitle )
                 {
                     _courseTitle = key;
-                    RaisePropertyChanged("CourseTitle");
+                    RaisePropertyChanged( "CourseTitle" );
                 }
             }
             get => _courseTitle ?? "";
-        }
-
-        public string CourseSemester
-        {
-            set
-            {
-                if (_courseSemester == null)
-                {
-                    _courseSemester = value;
-                }
-                else if (_courseSemester != value)
-                {
-                    _courseSemester = value;
-                    RaisePropertyChanged("CourseSemester");
-                }
-            }
-            get => _courseSemester ?? "";
-        }
-
-        public string CourseYear
-        {
-            set
-            {
-                if (_courseYear == null)
-                {
-                    _courseYear = value;
-                }
-                else if (_courseYear != value)
-                {
-                    _courseYear = value;
-                    RaisePropertyChanged("CourseYear");
-                }
-            }
-            get => _courseYear ?? "";
-        }
-
-        public string CourseGrade
-        {
-            set
-            {
-                if (_courseGrade == null)
-                {
-                    _courseGrade = value;
-                }
-                else if (_courseGrade != value)
-                {
-                    _courseGrade = value;
-                    RaisePropertyChanged("CourseGrade");
-                }
-            }
-            get => _courseGrade ?? "";
         }
 
         public string CourseUnit
         {
             set
             {
-                if (_courseUnit == null)
+                if ( _courseUnit == null )
                 {
                     _courseUnit = value;
                 }
-                else if (_courseUnit != value)
+                else if ( _courseUnit != value )
                 {
                     _courseUnit = value;
-                    RaisePropertyChanged("CourseUnit");
+                    RaisePropertyChanged( "CourseUnit" );
                 }
             }
             get => _courseUnit ?? "";
         }
 
-        public string CourseGradePoint
+        public string CourseYear
         {
             set
             {
-                if (_courseGradePoint == null)
+                if ( _courseYear == null )
                 {
-                    _courseGradePoint = value;
+                    _courseYear = value;
                 }
-                else if (_courseGradePoint != value)
+                else if ( _courseYear != value )
                 {
-                    _courseGradePoint = value;
-                    RaisePropertyChanged("CourseGradePoint");
-                }
-            }
-            get => _courseGradePoint ?? "";
-        }
-
-        public string CourseRequirementDesignation
-        {
-            set
-            {
-                if (_courseRequirementDesignation == null)
-                {
-                    _courseRequirementDesignation = value;
-                }
-                else if (_courseRequirementDesignation != value)
-                {
-                    _courseRequirementDesignation = value;
-                    RaisePropertyChanged("CourseRequirementDesignation");
+                    _courseYear = value;
+                    RaisePropertyChanged( "CourseYear" );
                 }
             }
-            get => _courseRequirementDesignation ?? "";
+            get => _courseYear ?? "";
         }
 
         /// <summary>
-        ///     If TransferCourse is true, then have the CourseModel obj own a SJSU<CourseModel>.
+        /// The list of ExcelCells that made up of this Course object.
         /// </summary>
-        public bool IsTransferCourse { set; get; }
+        public List<ExcelCell> ExcelCellsList { set; get; }
 
         public string Institution
         {
             set
             {
-                if (_institution == null)
+                if ( _institution == null )
                 {
                     _institution = value;
                 }
-                else if (_institution != value)
+                else if ( _institution != value )
                 {
                     _institution = value;
-                    RaisePropertyChanged("Institution");
+                    RaisePropertyChanged( "Institution" );
                 }
             }
             get => _institution ?? "";
         }
 
+        /// <summary> If TransferCourse is true, then have the CourseModel obj own a
+        /// SJSU<CourseModel>. </summary>
+        public bool IsTransferCourse { set; get; }
+
         public CourseModel SjsuCourse { set; get; }
 
-        /// <summary>
-        ///     The list of ExcelCells that made up of this Course object.
-        /// </summary>
-        public List<ExcelCell> ExcelCellsList { set; get; }
-
-        public static void BuildTransferCourseRow(ref CourseModel cm, ref List<ExcelCell> currentRowCells,
-            ref Dictionary<string, CourseModel> courses)
+        public static Dictionary<string, CourseModel> BuildCourseDictionary( List<ExcelCell> cells )
         {
-            cm.SjsuCourse = new CourseModel();
+            var courses = new Dictionary<string, CourseModel>();
+            var maxNumOfRows = cells.Max(c => c.Row);
+            for ( var i = 0; i < maxNumOfRows; i++ )
+            {
+                // group columns by their row #.
+                var currentRowCells = cells.Where(c => c.Row == i).OrderBy(c => c.Column).ToList();
+                if ( currentRowCells.Count == 0 )
+                    continue;
+                var cm = new CourseModel
+                {
+                    ExcelCellsList = currentRowCells,
+                    IsTransferCourse = currentRowCells.Any(cell => cell.HeaderName.Contains("Transfer"))
+                };
+                // need to distinguish between transfer & non-transfer course excel files & handle
+                // them separately.
+                if ( cm.IsTransferCourse )
+                    BuildTransferCourseRow( ref cm, ref currentRowCells, ref courses );
+                else
+                    BuildSjsuCourseRow( ref cm, ref currentRowCells, ref courses );
+            }
+            foreach ( var entry in courses )
+                if ( CoursesDictionary.ContainsKey( entry.Key ) )
+                    CoursesDictionary[entry.Key] = entry.Value;
+                else
+                    CoursesDictionary.Add( entry.Key, entry.Value );
+            return courses;
+        }
+
+        public static void BuildSjsuCourseRow( ref CourseModel cm, ref List<ExcelCell> cells,
+            ref Dictionary<string, CourseModel> courses )
+        {
+            //Course	Description	Term	Grade	Units	Grd Points	Repeat Code	Reqmnt Desig	Status	Transcript Note
+            var courseNameNum = cells.Where(c => c.HeaderName == "Course").Select(c => c.Value).FirstOrDefault()?.Split(' ');
+
+            if ( courseNameNum != null )
+            {
+                cm.CourseAbbreviation = courseNameNum[0];
+                cm.CourseNumber = courseNameNum[1];
+            }
+
+            cm.CourseTitle = cells.Where( c => c.HeaderName == "Description" ).Select( c => c.Value ).FirstOrDefault( );
+            cm.CourseGrade = cells.Where( c => c.HeaderName == "Grade" ).Select( c => c.Value ).FirstOrDefault( );
+            cm.CourseUnit = cells.Where( c => c.HeaderName == "Units" ).Select( c => c.Value ).FirstOrDefault( );
+            cm.IsTransferCourse = false;
+            cm.Institution = "SJSU";
+
+            if ( !courses.ContainsKey( cm.ToString( ) ) )
+                courses.Add( cm.ToString( ), cm );
+        }
+
+        public static void BuildTransferCourseRow( ref CourseModel cm, ref List<ExcelCell> currentRowCells,
+                            ref Dictionary<string, CourseModel> courses )
+        {
+            cm.SjsuCourse = new CourseModel( );
             var transferCourseVal = currentRowCells
                 .Where(c => c.HeaderName == "Transfer Course")
                 .Select(c => c.Value)
@@ -246,12 +297,12 @@ namespace GradHelperWPF.Models
                 .Select(c => c.Value)
                 .FirstOrDefault();
             // not a valid course...
-            if (string.IsNullOrEmpty(transferCourseVal) || string.IsNullOrEmpty(sjsuCourseVal))
+            if ( string.IsNullOrEmpty( transferCourseVal ) || string.IsNullOrEmpty( sjsuCourseVal ) )
                 return;
 
             var split = transferCourseVal.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             var split2 = sjsuCourseVal.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-            if (split.Length == 2)
+            if ( split.Length == 2 )
             {
                 cm.CourseAbbreviation = split[0];
                 cm.CourseNumber = split[1];
@@ -260,8 +311,7 @@ namespace GradHelperWPF.Models
                 cm.SjsuCourse.CourseNumber = split2[1];
             }
 
-            // going to query like this because a simple for loop causes too much issues.
-            // same column names
+            // going to query like this because a simple for loop causes too much issues. same column names
             var unitsFromTransferCollege = currentRowCells.FirstOrDefault(c => c.HeaderName == "Units");
             var unitsAtSJSU = currentRowCells.LastOrDefault(c => c.HeaderName == "Units");
             cm.CourseUnit = unitsFromTransferCollege != null ? unitsFromTransferCollege.Value : "";
@@ -288,7 +338,7 @@ namespace GradHelperWPF.Models
             var sjsuCourseExcelCell = currentRowCells.FirstOrDefault(c => c.HeaderName == "SJSU Course");
             //assign its neighbors.
             var startingIndexOfSjsuCourse = currentRowCells.IndexOf(sjsuCourseExcelCell);
-            if (startingIndexOfSjsuCourse > 0 && startingIndexOfSjsuCourse < currentRowCells.Count)
+            if ( startingIndexOfSjsuCourse > 0 && startingIndexOfSjsuCourse < currentRowCells.Count )
             {
                 var listForCM = currentRowCells.GetRange(0, startingIndexOfSjsuCourse - 1);
                 var listForSJSU = currentRowCells.Where(c => !listForCM.Contains(c)).ToList();
@@ -296,115 +346,72 @@ namespace GradHelperWPF.Models
                 cm.ExcelCellsList = listForCM;
                 cm.SjsuCourse.ExcelCellsList = listForSJSU;
             }
-            if (!courses.ContainsKey(cm.ToString()))
-                courses.Add(cm.ToString(), cm);
-            if (!courses.ContainsKey(cm.SjsuCourse.ToString()))
-                courses.Add(cm.SjsuCourse.ToString(), cm.SjsuCourse);
-        }
-
-        public static void BuildSjsuCourseRow(ref CourseModel cm, ref List<ExcelCell> cells,
-            ref Dictionary<string, CourseModel> courses)
-        {
-            //Course	Description	Term	Grade	Units	Grd Points	Repeat Code	Reqmnt Desig	Status	Transcript Note
-            var courseNameNum = cells.Where(c => c.HeaderName == "Course").Select(c => c.Value).FirstOrDefault()?.Split(' ');
-
-            if (courseNameNum != null)
-            {
-                cm.CourseAbbreviation = courseNameNum[0];
-                cm.CourseNumber = courseNameNum[1];
-            }
-
-            cm.CourseTitle = cells.Where(c => c.HeaderName == "Description").Select(c => c.Value).FirstOrDefault();
-            cm.CourseGrade = cells.Where(c => c.HeaderName == "Grade").Select(c => c.Value).FirstOrDefault();
-            cm.CourseUnit = cells.Where(c => c.HeaderName == "Units").Select(c => c.Value).FirstOrDefault();
-            cm.IsTransferCourse = false;
-            cm.Institution = "SJSU";
-
-            if (!courses.ContainsKey(cm.ToString()))
-                courses.Add(cm.ToString(), cm);
-        }
-
-        public static Dictionary<string, CourseModel> BuildCourseDictionary(List<ExcelCell> cells)
-        {
-            var courses = new Dictionary<string, CourseModel>();
-            var maxNumOfRows = cells.Max(c => c.Row);
-            for (var i = 0; i < maxNumOfRows; i++)
-            {
-                // group columns by their row #.
-                var currentRowCells = cells.Where(c => c.Row == i).OrderBy(c => c.Column).ToList();
-                if (currentRowCells.Count == 0)
-                    continue;
-                var cm = new CourseModel
-                {
-                    ExcelCellsList = currentRowCells,
-                    IsTransferCourse = currentRowCells.Any(cell => cell.HeaderName.Contains("Transfer"))
-                };
-                // need to distinguish between transfer & non-transfer course excel files & handle them separately.
-                if (cm.IsTransferCourse)
-                    BuildTransferCourseRow(ref cm, ref currentRowCells, ref courses);
-                else
-                    BuildSjsuCourseRow(ref cm, ref currentRowCells, ref courses);
-            }
-            foreach (var entry in courses)
-                if (CoursesDictionary.ContainsKey(entry.Key))
-                    CoursesDictionary[entry.Key] = entry.Value;
-                else
-                    CoursesDictionary.Add(entry.Key, entry.Value);
-            return courses;
+            if ( !courses.ContainsKey( cm.ToString( ) ) )
+                courses.Add( cm.ToString( ), cm );
+            if ( !courses.ContainsKey( cm.SjsuCourse.ToString( ) ) )
+                courses.Add( cm.SjsuCourse.ToString( ), cm.SjsuCourse );
         }
 
         /// <summary>
-        ///     Assign the value to the best matching string properties.
+        /// Assign the value to the best matching string properties.
         /// </summary>
         /// <param name="data"></param>
-        public void AssignData(KeyValuePair<string, string> data)
+        public void AssignData( KeyValuePair<string, string> data )
         {
             var key = data.Key.ToLower();
 
-            if (key.Contains("abbr"))
+            if ( key.Contains( "abbr" ) )
                 key = "CourseAbbreviation";
-            else if (key.Contains("number") || key.Contains("no"))
+            else if ( key.Contains( "number" ) || key.Contains( "no" ) )
                 key = "CourseNumber";
-            else if (key.Contains("title") || key.Contains("description"))
+            else if ( key.Contains( "title" ) || key.Contains( "description" ) )
                 key = "CourseTitle";
-            else if (key.Contains("semester") || key.Contains("fall") || key.Contains("spring") ||
-                     key.Contains("summer"))
+            else if ( key.Contains( "semester" ) || key.Contains( "fall" ) || key.Contains( "spring" ) ||
+                     key.Contains( "summer" ) )
                 key = "CourseSemester";
-            else if (key.Contains("year") || key.StartsWith("20") && key.Length == 4)
+            else if ( key.Contains( "year" ) || key.StartsWith( "20" ) && key.Length == 4 )
                 key = "CourseYear";
-            else if (key.Contains("unit") || key.Contains(".") && float.TryParse(key, out var f))
+            else if ( key.Contains( "unit" ) || key.Contains( "." ) && float.TryParse( key, out var f ) )
                 key = "CourseUnit";
-            else if (key.Contains("grade"))
+            else if ( key.Contains( "grade" ) )
                 key = "CourseGrade";
-            else if (key.Contains("req"))
+            else if ( key.Contains( "req" ) )
                 key = "CourseRequirementDesignation";
 
-            switch (key)
+            switch ( key )
             {
                 case "CourseAbbreviation":
                     CourseAbbreviation = data.Value;
                     break;
+
                 case "CourseNumber":
                     CourseNumber = data.Value;
                     break;
+
                 case "CourseTitle":
                     CourseTitle = data.Value;
                     break;
+
                 case "CourseSemester":
                     CourseSemester = data.Value;
                     break;
+
                 case "CourseYear":
                     CourseYear = data.Value;
                     break;
+
                 case "CourseGrade":
                     CourseGrade = data.Value;
                     break;
+
                 case "CourseUnit":
                     CourseUnit = data.Value;
                     break;
+
                 case "CourseGradePoint":
                     CourseGradePoint = data.Value;
                     break;
+
                 case "CourseRequirementDesignation":
                     CourseRequirementDesignation = data.Value;
                     break;
@@ -415,7 +422,7 @@ namespace GradHelperWPF.Models
             }
         }
 
-        public override string ToString()
+        public override string ToString( )
         {
             return CourseAbbreviation + " " + CourseNumber + " " + CourseTitle;
         }

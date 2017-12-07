@@ -11,15 +11,14 @@
 	<StackPanel>
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 			<!--<Button Grid.Column="1" Name="TextBtn" Content="Test" Click="TextBtn_Click" ></Button>-->
-			<!--<StackPanel 
+			<!--<StackPanel
                 AllowDrop="True"
                 PreviewDragOver="TransferCoursesGrid_PreviewDragOver"
                 Drop="TransferCoursesGrid_Drop"
-                Grid.Column="1" Grid.Row="1" 
-                Width="100" Height="100" >
+                Grid.Column="1" Grid.Row="1"
+                Width="100" Height="100">
             </StackPanel>-->
 		</StackPanel>
-
 
 		<Grid x:Name="TableGridStackPanel">
 			<Grid.RowDefinitions>
@@ -31,7 +30,6 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Label Grid.Column="0" Content="Drag and drop or click Import SJSU Courses" />
-
 		</Grid>
 
 		<Grid>

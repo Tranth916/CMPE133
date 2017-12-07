@@ -7,88 +7,87 @@ namespace GradHelperWPF.Utils
     {
         private static readonly StringBuilder _strBuilder = new StringBuilder();
 
-        public static string CapFirstLetterRemoveNums(string str)
+        public static string CapFirstLetterRemoveNums( string str )
         {
-            _strBuilder.Clear();
+            _strBuilder.Clear( );
 
-            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+            if ( string.IsNullOrEmpty( str ) || string.IsNullOrWhiteSpace( str ) )
                 return "";
 
-            if (str.ToLower() == "to")
+            if ( str.ToLower( ) == "to" )
                 return "to";
 
             var letters = str.Where(letter => char.IsLetter(letter) || letter == ' ').ToArray();
 
             var nextLetterNeedsCap = 1;
 
-            for (var i = 0; i < letters.Length; i++)
-                if (letters[i] == ' ')
+            for ( var i = 0; i < letters.Length; i++ )
+                if ( letters[i] == ' ' )
                 {
-                    _strBuilder.Append(letters[i]);
+                    _strBuilder.Append( letters[i] );
                     nextLetterNeedsCap = 1;
                 }
-
-                else if (nextLetterNeedsCap == 1)
+                else if ( nextLetterNeedsCap == 1 )
                 {
-                    _strBuilder.Append(letters[i].ToString().ToUpper());
+                    _strBuilder.Append( letters[i].ToString( ).ToUpper( ) );
                     nextLetterNeedsCap = 0;
                 }
                 else
                 {
-                    _strBuilder.Append(letters[i]);
+                    _strBuilder.Append( letters[i] );
                 }
 
             var value = _strBuilder.ToString().Trim();
 
-            _strBuilder.Clear();
+            _strBuilder.Clear( );
 
             return value;
         }
 
-        public static string FormatPhoneNumber(string str)
+        public static string FormatPhoneNumber( string str )
         {
-            _strBuilder.Clear();
+            _strBuilder.Clear( );
 
             var numbers = str.Where(n => char.IsDigit(n)).ToArray();
 
-            if (numbers == null || numbers.Count() == 0)
+            if ( numbers == null || numbers.Count( ) == 0 )
                 return "";
 
-            _strBuilder.Append("(");
+            _strBuilder.Append( "(" );
 
-            // ( n n n )   n n n - n n n n 
-            // 0 1 2 3 4 5 6 7 8 9 
-            for (var i = 0; i < numbers.Length; i++)
+            // ( n n n )   n n n - n n n n
+            // 0 1 2 3 4 5 6 7 8 9
+            for ( var i = 0; i < numbers.Length; i++ )
             {
-                if (i == 3)
-                    _strBuilder.Append(") ");
+                if ( i == 3 )
+                    _strBuilder.Append( ") " );
 
-                if (i == 6)
-                    _strBuilder.Append("-");
+                if ( i == 6 )
+                    _strBuilder.Append( "-" );
 
-                _strBuilder.Append(numbers[i]);
+                _strBuilder.Append( numbers[i] );
             }
 
             var val = _strBuilder.ToString().Trim();
 
-            _strBuilder.Clear();
+            _strBuilder.Clear( );
 
-            if (val == "(")
+            if ( val == "(" )
                 return "";
 
             return val;
         }
 
-        public static string RemoveAllLetters(string str)
+        public static string RemoveAllLetters( string str )
         {
             var nums = str.Where(n => char.IsDigit(n)).ToArray();
 
-            for (var i = 0; i < nums.Length; i++)
-                _strBuilder.Append($"{nums[i]}");
+            for ( var i = 0; i < nums.Length; i++ )
+                _strBuilder.Append( $"{nums[i]}" );
 
             var val = _strBuilder.ToString();
 
-            _strBuilder.Clear();
+            _strBuilder.Clear( );
 
             return val;
         }

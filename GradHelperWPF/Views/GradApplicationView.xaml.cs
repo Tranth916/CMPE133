@@ -1,13 +1,13 @@
-﻿using System;
+﻿using GradHelperWPF.Utils;
+using GradHelperWPF.ViewModel;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using GradHelperWPF.Utils;
-using GradHelperWPF.ViewModel;
-using Microsoft.Win32;
 
 namespace GradHelperWPF.Views
 {
@@ -21,9 +21,9 @@ namespace GradHelperWPF.Views
         /// </summary>
         public static GradAppViewModel gradAppViewModelStatic = new GradAppViewModel();
 
-        public GradApplicationView()
+        public GradApplicationView( )
         {
-            InitializeComponent();
+            InitializeComponent( );
             DataContext = gradAppViewModelStatic;
         }
 
@@ -70,8 +70,7 @@ namespace GradHelperWPF.Views
             }
         }
 
-
-        private void ExportToPDf_OnClick(object sender, RoutedEventArgs e)
+        private void ExportToPDf_OnClick( object sender, RoutedEventArgs e )
         {
             var sfd = new SaveFileDialog
             {
@@ -80,77 +79,79 @@ namespace GradHelperWPF.Views
             };
 
             var result = sfd.ShowDialog();
-            if (result.Value)
+            if ( result.Value )
             {
             }
         }
 
-        public Dictionary<string, string> GetAllEntries()
+        public Dictionary<string, string> GetAllEntries( )
         {
             var data = new Dictionary<string, string>();
 
             try
             {
-                foreach (var tb in TextBoxes)
+                foreach ( var tb in TextBoxes )
                 {
-                    if (string.IsNullOrEmpty(tb.Name) || data.ContainsKey(tb.Name))
+                    if ( string.IsNullOrEmpty( tb.Name ) || data.ContainsKey( tb.Name ) )
                         continue;
-                    data.Add(tb.Name, tb.Text);
+                    data.Add( tb.Name, tb.Text );
                 }
             }
-            catch (Exception exx)
+            catch ( Exception exx )
             {
-                throw new Exception(exx.StackTrace);
+                throw new Exception( exx.StackTrace );
             }
             try
             {
-                if (degreeObjectiveCBox != null && degreeObjectiveCBox.SelectedItem != null)
-                    if (degreeObjectiveCBox.SelectedItem is ComboBoxItem)
+                if ( degreeObjectiveCBox != null && degreeObjectiveCBox.SelectedItem != null )
+                    if ( degreeObjectiveCBox.SelectedItem is ComboBoxItem )
                     {
                         var citem = degreeObjectiveCBox.SelectedItem as ComboBoxItem;
 
-                        if (!data.ContainsKey(degreeObjectiveCBox.Name))
-                            data.Add(degreeObjectiveCBox.Name, citem.Content.ToString());
+                        if ( !data.ContainsKey( degreeObjectiveCBox.Name ) )
+                            data.Add( degreeObjectiveCBox.Name, citem.Content.ToString( ) );
                     }
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
-                throw new Exception(ex.StackTrace);
+                throw new Exception( ex.StackTrace );
             }
             try
             {
-                if (springCheckBox.IsChecked.Value)
-                    data.Add(springCheckBox.Name, "Checked");
-                else if (summerCheckBox.IsChecked.Value)
-                    data.Add(summerCheckBox.Name, "Checked");
-                else if (fallCheckBox.IsChecked.Value)
-                    data.Add(fallCheckBox.Name, "Checked");
+                if ( springCheckBox.IsChecked.Value )
+                    data.Add( springCheckBox.Name, "Checked" );
+                else if ( summerCheckBox.IsChecked.Value )
+                    data.Add( summerCheckBox.Name, "Checked" );
+                else if ( fallCheckBox.IsChecked.Value )
+                    data.Add( fallCheckBox.Name, "Checked" );
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
-                throw new Exception(ex.StackTrace);
+                throw new Exception( ex.StackTrace );
             }
 
             return data;
         }
 
-        private void Checkbox_OnCheck(object sender, RoutedEventArgs e)
+        private void Checkbox_OnCheck( object sender, RoutedEventArgs e )
         {
-            if (sender is CheckBox)
+            if ( sender is CheckBox )
             {
                 var cb = sender as CheckBox;
-                switch (cb.Name)
+                switch ( cb.Name )
                 {
                     case "springCheckBox":
                         summerCheckBox.IsChecked = false;
                         fallCheckBox.IsChecked = false;
                         gradAppViewModelStatic.GradSemester = "Spring";
                         break;
+
                     case "summerCheckBox":
                         springCheckBox.IsChecked = false;
                         fallCheckBox.IsChecked = false;
                         gradAppViewModelStatic.GradSemester = "Summer";
                         break;
+
                     case "fallCheckBox":
                         springCheckBox.IsChecked = false;
                         summerCheckBox.IsChecked = false;
@@ -160,24 +161,24 @@ namespace GradHelperWPF.Views
             }
         }
 
-        private void PopulateTextBoxes(Dictionary<string, string> data)
+        private void PopulateTextBoxes( Dictionary<string, string> data )
         {
             var tbs = TextBoxes.ToDictionary(k => k.Name);
 
-            foreach (var entry in data)
-                if (tbs.ContainsKey(entry.Key))
+            foreach ( var entry in data )
+                if ( tbs.ContainsKey( entry.Key ) )
                     tbs[entry.Key].Text = entry.Value;
         }
 
-        private void LoadSaveResetBtn_OnClick(object sender, RoutedEventArgs e)
+        private void LoadSaveResetBtn_OnClick( object sender, RoutedEventArgs e )
         {
-            if (!(sender is Button))
+            if ( !( sender is Button ) )
                 return;
 
             var btn = sender as Button;
             try
             {
-                if (btn.Name.StartsWith("Save"))
+                if ( btn.Name.StartsWith( "Save" ) )
                 {
                     var sfd = new SaveFileDialog
                     {
@@ -188,15 +189,15 @@ namespace GradHelperWPF.Views
 
                     var okayToSave = sfd.ShowDialog();
 
-                    if (okayToSave.Value)
+                    if ( okayToSave.Value )
                     {
                         var resultFile = XmlUtil.SaveXMLConfiguration(sfd.FileName, GetAllEntries());
 
-                        if (!string.IsNullOrEmpty(resultFile))
-                            Process.Start("explorer.exe", resultFile);
+                        if ( !string.IsNullOrEmpty( resultFile ) )
+                            Process.Start( "explorer.exe", resultFile );
                     }
                 }
-                else if (btn.Name.StartsWith("Load"))
+                else if ( btn.Name.StartsWith( "Load" ) )
                 {
                     var ofd = new OpenFileDialog
                     {
@@ -207,49 +208,49 @@ namespace GradHelperWPF.Views
 
                     var opened = ofd.ShowDialog();
 
-                    if (opened.Value && File.Exists(ofd.FileName))
+                    if ( opened.Value && File.Exists( ofd.FileName ) )
                     {
                         var data = XmlUtil.LoadXMLConfiguration(ofd.FileName);
-                        PopulateTextBoxes(data);
+                        PopulateTextBoxes( data );
                     }
                 }
-                else if (btn.Name.StartsWith("Reset"))
+                else if ( btn.Name.StartsWith( "Reset" ) )
                 {
                     var mb = MessageBox.Show(" Clear all current entries? ", "Reset", MessageBoxButton.YesNo,
                         MessageBoxImage.Question, MessageBoxResult.No);
-                    if (mb == MessageBoxResult.Yes)
-                        foreach (var tb in TextBoxes)
+                    if ( mb == MessageBoxResult.Yes )
+                        foreach ( var tb in TextBoxes )
                             tb.Text = "";
                 }
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
             }
         }
 
-        private void ButtonsGroupBox_PreviewDragOver(object sender, DragEventArgs e)
+        private void ButtonsGroupBox_PreviewDragOver( object sender, DragEventArgs e )
         {
             e.Handled = true;
         }
 
-        private void ButtonsGroupBox_Drop(object sender, DragEventArgs e)
+        private void ButtonsGroupBox_Drop( object sender, DragEventArgs e )
         {
             var hasData = e != null && e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
-            if (hasData)
+            if ( hasData )
             {
                 var files = e.Data.GetData(DataFormats.FileDrop) as string[];
                 var xmlFile = files != null ? files.Where(f => f.ToLower().Contains(".xml")).FirstOrDefault() : null;
                 try
                 {
-                    if (xmlFile != null)
+                    if ( xmlFile != null )
                     {
                         var data = XmlUtil.LoadXMLConfiguration(xmlFile);
-                        PopulateTextBoxes(data);
+                        PopulateTextBoxes( data );
                     }
                 }
-                catch (Exception ex)
+                catch ( Exception ex )
                 {
-                    throw new Exception(ex.StackTrace);
+                    throw new Exception( ex.StackTrace );
                 }
             }
         }

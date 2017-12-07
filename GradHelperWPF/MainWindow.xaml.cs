@@ -6,9 +6,9 @@
     public partial class MainWindow
     {
         // All Views here.
-        public MainWindow()
+        public MainWindow( )
         {
-            InitializeComponent();
+            InitializeComponent( );
 
             var f = FlipView.GroupStyleSelector;
         }

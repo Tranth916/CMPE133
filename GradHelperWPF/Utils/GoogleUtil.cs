@@ -10,20 +10,20 @@ namespace GradHelperWPF.Google
     internal static class CompatibilityExtensions
     {
         // JScript splice function
-        public static List<T> Splice<T>(this List<T> input, int start, int count,
-            params T[] objects)
+        public static List<T> Splice<T>( this List<T> input, int start, int count,
+            params T[] objects )
         {
             var deletedRange = input.GetRange(start, count);
-            input.RemoveRange(start, count);
-            input.InsertRange(start, objects);
+            input.RemoveRange( start, count );
+            input.InsertRange( start, objects );
 
             return deletedRange;
         }
 
         // Java substring function
-        public static string JavaSubstring(this string s, int begin, int end)
+        public static string JavaSubstring( this string s, int begin, int end )
         {
-            return s.Substring(begin, end - begin);
+            return s.Substring( begin, end - begin );
         }
     }
 
@@ -33,6 +33,7 @@ namespace GradHelperWPF.Google
 	 *  Diff(Operation.EQUAL, " world.")}
 	 * which means: delete "Hello", add "Goodbye" and keep " world."
 	 */
+
     public enum Operation
     {
         DELETE,
@@ -40,16 +41,17 @@ namespace GradHelperWPF.Google
         EQUAL
     }
 
-
     /**
 	 * Class representing one diff operation.
 	 */
+
     public class Diff
     {
         public Operation operation;
 
         // One of: INSERT, DELETE or EQUAL.
         public string text;
+
         // The text associated with this diff operation.
 
         /**
@@ -57,7 +59,8 @@ namespace GradHelperWPF.Google
 		 * @param operation One of INSERT, DELETE or EQUAL.
 		 * @param text The text being applied.
 		 */
-        public Diff(Operation operation, string text)
+
+        public Diff( Operation operation, string text )
         {
             // Construct a diff with the specified operation and text.
             this.operation = operation;
@@ -68,7 +71,8 @@ namespace GradHelperWPF.Google
 		 * Display a human-readable version of this Diff.
 		 * @return text version.
 		 */
-        public override string ToString()
+
+        public override string ToString( )
         {
             var prettyText = text.Replace('\n', '\u00b6');
             return "Diff(" + operation + ",\"" + prettyText + "\")";
@@ -79,41 +83,42 @@ namespace GradHelperWPF.Google
 		 * @param d Another Diff to compare against.
 		 * @return true or false.
 		 */
-        public override bool Equals(object obj)
+
+        public override bool Equals( object obj )
         {
             // If parameter is null return false.
-            if (obj == null)
+            if ( obj == null )
                 return false;
 
             // If parameter cannot be cast to Diff return false.
             var p = obj as Diff;
-            if (p == null)
+            if ( p == null )
                 return false;
 
             // Return true if the fields match.
             return p.operation == operation && p.text == text;
         }
 
-        public bool Equals(Diff obj)
+        public bool Equals( Diff obj )
         {
             // If parameter is null return false.
-            if (obj == null)
+            if ( obj == null )
                 return false;
 
             // Return true if the fields match.
             return obj.operation == operation && obj.text == text;
         }
 
-        public override int GetHashCode()
+        public override int GetHashCode( )
         {
-            return text.GetHashCode() ^ operation.GetHashCode();
+            return text.GetHashCode( ) ^ operation.GetHashCode( );
         }
     }
-
 
     /**
 	 * Class representing one patch operation.
 	 */
+
     public class Patch
     {
         public List<Diff> diffs = new List<Diff>();
@@ -128,54 +133,57 @@ namespace GradHelperWPF.Google
 		 * Indicies are printed as 1-based, not 0-based.
 		 * @return The GNU diff string.
 		 */
-        public override string ToString()
+
+        public override string ToString( )
         {
             string coords1, coords2;
-            if (length1 == 0)
+            if ( length1 == 0 )
                 coords1 = start1 + ",0";
-            else if (length1 == 1)
-                coords1 = Convert.ToString(start1 + 1);
+            else if ( length1 == 1 )
+                coords1 = Convert.ToString( start1 + 1 );
             else
                 coords1 = start1 + 1 + "," + length1;
-            if (length2 == 0)
+            if ( length2 == 0 )
                 coords2 = start2 + ",0";
-            else if (length2 == 1)
-                coords2 = Convert.ToString(start2 + 1);
+            else if ( length2 == 1 )
+                coords2 = Convert.ToString( start2 + 1 );
             else
                 coords2 = start2 + 1 + "," + length2;
             var text = new StringBuilder();
-            text.Append("@@ -").Append(coords1).Append(" +").Append(coords2)
-                .Append(" @@\n");
+            text.Append( "@@ -" ).Append( coords1 ).Append( " +" ).Append( coords2 )
+                .Append( " @@\n" );
             // Escape the body of the patch with %xx notation.
-            foreach (var aDiff in diffs)
+            foreach ( var aDiff in diffs )
             {
-                switch (aDiff.operation)
+                switch ( aDiff.operation )
                 {
                     case Operation.INSERT:
-                        text.Append('+');
+                        text.Append( '+' );
                         break;
+
                     case Operation.DELETE:
-                        text.Append('-');
+                        text.Append( '-' );
                         break;
+
                     case Operation.EQUAL:
-                        text.Append(' ');
+                        text.Append( ' ' );
                         break;
                 }
 
-                text.Append(HttpUtility.UrlEncode(aDiff.text,
-                    new UTF8Encoding()).Replace('+', ' ')).Append("\n");
+                text.Append( HttpUtility.UrlEncode( aDiff.text,
+                    new UTF8Encoding( ) ).Replace( '+', ' ' ) ).Append( "\n" );
             }
 
             return diff_match_patch.unescapeForEncodeUriCompatability(
-                text.ToString());
+                text.ToString( ) );
         }
     }
-
 
     /**
 	 * Class containing the diff, match and patch methods.
 	 * Also Contains the behaviour settings.
 	 */
+
     public class diff_match_patch
     {
         // Define some regex patterns for matching boundaries.
@@ -185,6 +193,7 @@ namespace GradHelperWPF.Google
 
         // Cost of an empty edit operation in terms of edit characters.
         public short Diff_EditCost = 4;
+
         // Defaults.
         // Set these on your diff_match_patch instance to override the defaults.
 
@@ -211,9 +220,7 @@ namespace GradHelperWPF.Google
         // Chunk size for context length.
         public short Patch_Margin = 4;
 
-
         //  DIFF FUNCTIONS
-
 
         /**
 		 * Find the differences between two texts.
@@ -224,9 +231,10 @@ namespace GradHelperWPF.Google
 		 * @param text2 New string to be diffed.
 		 * @return List of Diff objects.
 		 */
-        public List<Diff> diff_main(string text1, string text2)
+
+        public List<Diff> diff_main( string text1, string text2 )
         {
-            return diff_main(text1, text2, true);
+            return diff_main( text1, text2, true );
         }
 
         /**
@@ -238,16 +246,17 @@ namespace GradHelperWPF.Google
 		 *     If true, then run a faster slightly less optimal diff.
 		 * @return List of Diff objects.
 		 */
-        public List<Diff> diff_main(string text1, string text2, bool checklines)
+
+        public List<Diff> diff_main( string text1, string text2, bool checklines )
         {
             // Set a deadline by which time the diff must be complete.
             DateTime deadline;
-            if (Diff_Timeout <= 0)
+            if ( Diff_Timeout <= 0 )
                 deadline = DateTime.MaxValue;
             else
                 deadline = DateTime.Now +
-                           new TimeSpan((long) (Diff_Timeout * 1000) * 10000);
-            return diff_main(text1, text2, checklines, deadline);
+                           new TimeSpan( ( long ) ( Diff_Timeout * 1000 ) * 10000 );
+            return diff_main( text1, text2, checklines, deadline );
         }
 
         /**
@@ -263,43 +272,44 @@ namespace GradHelperWPF.Google
 		 *     instead.
 		 * @return List of Diff objects.
 		 */
-        private List<Diff> diff_main(string text1, string text2, bool checklines,
-            DateTime deadline)
+
+        private List<Diff> diff_main( string text1, string text2, bool checklines,
+            DateTime deadline )
         {
             // Check for null inputs not needed since null can't be passed in C#.
 
             // Check for equality (speedup).
             List<Diff> diffs;
-            if (text1 == text2)
+            if ( text1 == text2 )
             {
-                diffs = new List<Diff>();
-                if (text1.Length != 0)
-                    diffs.Add(new Diff(Operation.EQUAL, text1));
+                diffs = new List<Diff>( );
+                if ( text1.Length != 0 )
+                    diffs.Add( new Diff( Operation.EQUAL, text1 ) );
                 return diffs;
             }
 
             // Trim off common prefix (speedup).
             var commonlength = diff_commonPrefix(text1, text2);
             var commonprefix = text1.Substring(0, commonlength);
-            text1 = text1.Substring(commonlength);
-            text2 = text2.Substring(commonlength);
+            text1 = text1.Substring( commonlength );
+            text2 = text2.Substring( commonlength );
 
             // Trim off common suffix (speedup).
-            commonlength = diff_commonSuffix(text1, text2);
+            commonlength = diff_commonSuffix( text1, text2 );
             var commonsuffix = text1.Substring(text1.Length - commonlength);
-            text1 = text1.Substring(0, text1.Length - commonlength);
-            text2 = text2.Substring(0, text2.Length - commonlength);
+            text1 = text1.Substring( 0, text1.Length - commonlength );
+            text2 = text2.Substring( 0, text2.Length - commonlength );
 
             // Compute the diff on the middle block.
-            diffs = diff_compute(text1, text2, checklines, deadline);
+            diffs = diff_compute( text1, text2, checklines, deadline );
 
             // Restore the prefix and suffix.
-            if (commonprefix.Length != 0)
-                diffs.Insert(0, new Diff(Operation.EQUAL, commonprefix));
-            if (commonsuffix.Length != 0)
-                diffs.Add(new Diff(Operation.EQUAL, commonsuffix));
+            if ( commonprefix.Length != 0 )
+                diffs.Insert( 0, new Diff( Operation.EQUAL, commonprefix ) );
+            if ( commonsuffix.Length != 0 )
+                diffs.Add( new Diff( Operation.EQUAL, commonsuffix ) );
 
-            diff_cleanupMerge(diffs);
+            diff_cleanupMerge( diffs );
             return diffs;
         }
 
@@ -314,50 +324,51 @@ namespace GradHelperWPF.Google
 		 * @param deadline Time when the diff should be complete by.
 		 * @return List of Diff objects.
 		 */
-        private List<Diff> diff_compute(string text1, string text2,
-            bool checklines, DateTime deadline)
+
+        private List<Diff> diff_compute( string text1, string text2,
+            bool checklines, DateTime deadline )
         {
             var diffs = new List<Diff>();
 
-            if (text1.Length == 0)
+            if ( text1.Length == 0 )
             {
                 // Just add some text (speedup).
-                diffs.Add(new Diff(Operation.INSERT, text2));
+                diffs.Add( new Diff( Operation.INSERT, text2 ) );
                 return diffs;
             }
 
-            if (text2.Length == 0)
+            if ( text2.Length == 0 )
             {
                 // Just delete some text (speedup).
-                diffs.Add(new Diff(Operation.DELETE, text1));
+                diffs.Add( new Diff( Operation.DELETE, text1 ) );
                 return diffs;
             }
 
             var longtext = text1.Length > text2.Length ? text1 : text2;
             var shorttext = text1.Length > text2.Length ? text2 : text1;
             var i = longtext.IndexOf(shorttext, StringComparison.Ordinal);
-            if (i != -1)
+            if ( i != -1 )
             {
                 // Shorter text is inside the longer text (speedup).
                 var op = text1.Length > text2.Length ? Operation.DELETE : Operation.INSERT;
-                diffs.Add(new Diff(op, longtext.Substring(0, i)));
-                diffs.Add(new Diff(Operation.EQUAL, shorttext));
-                diffs.Add(new Diff(op, longtext.Substring(i + shorttext.Length)));
+                diffs.Add( new Diff( op, longtext.Substring( 0, i ) ) );
+                diffs.Add( new Diff( Operation.EQUAL, shorttext ) );
+                diffs.Add( new Diff( op, longtext.Substring( i + shorttext.Length ) ) );
                 return diffs;
             }
 
-            if (shorttext.Length == 1)
+            if ( shorttext.Length == 1 )
             {
                 // Single character string.
                 // After the previous speedup, the character can't be an equality.
-                diffs.Add(new Diff(Operation.DELETE, text1));
-                diffs.Add(new Diff(Operation.INSERT, text2));
+                diffs.Add( new Diff( Operation.DELETE, text1 ) );
+                diffs.Add( new Diff( Operation.INSERT, text2 ) );
                 return diffs;
             }
 
             // Check to see if the problem can be split in two.
             var hm = diff_halfMatch(text1, text2);
-            if (hm != null)
+            if ( hm != null )
             {
                 // A half-match was found, sort out the return data.
                 var text1_a = hm[0];
@@ -370,15 +381,15 @@ namespace GradHelperWPF.Google
                 var diffs_b = diff_main(text1_b, text2_b, checklines, deadline);
                 // Merge the results.
                 diffs = diffs_a;
-                diffs.Add(new Diff(Operation.EQUAL, mid_common));
-                diffs.AddRange(diffs_b);
+                diffs.Add( new Diff( Operation.EQUAL, mid_common ) );
+                diffs.AddRange( diffs_b );
                 return diffs;
             }
 
-            if (checklines && text1.Length > 100 && text2.Length > 100)
-                return diff_lineMode(text1, text2, deadline);
+            if ( checklines && text1.Length > 100 && text2.Length > 100 )
+                return diff_lineMode( text1, text2, deadline );
 
-            return diff_bisect(text1, text2, deadline);
+            return diff_bisect( text1, text2, deadline );
         }
 
         /**
@@ -390,53 +401,56 @@ namespace GradHelperWPF.Google
 		 * @param deadline Time when the diff should be complete by.
 		 * @return List of Diff objects.
 		 */
-        private List<Diff> diff_lineMode(string text1, string text2,
-            DateTime deadline)
+
+        private List<Diff> diff_lineMode( string text1, string text2,
+            DateTime deadline )
         {
             // Scan the text on a line-by-line basis first.
             var b = diff_linesToChars(text1, text2);
-            text1 = (string) b[0];
-            text2 = (string) b[1];
+            text1 = ( string ) b[0];
+            text2 = ( string ) b[1];
             var linearray = (List<string>) b[2];
 
             var diffs = diff_main(text1, text2, false, deadline);
 
             // Convert the diff back to original text.
-            diff_charsToLines(diffs, linearray);
+            diff_charsToLines( diffs, linearray );
             // Eliminate freak matches (e.g. blank lines)
-            diff_cleanupSemantic(diffs);
+            diff_cleanupSemantic( diffs );
 
             // Rediff any replacement blocks, this time character-by-character.
             // Add a dummy entry at the end.
-            diffs.Add(new Diff(Operation.EQUAL, string.Empty));
+            diffs.Add( new Diff( Operation.EQUAL, string.Empty ) );
             var pointer = 0;
             var count_delete = 0;
             var count_insert = 0;
             var text_delete = string.Empty;
             var text_insert = string.Empty;
-            while (pointer < diffs.Count)
+            while ( pointer < diffs.Count )
             {
-                switch (diffs[pointer].operation)
+                switch ( diffs[pointer].operation )
                 {
                     case Operation.INSERT:
                         count_insert++;
                         text_insert += diffs[pointer].text;
                         break;
+
                     case Operation.DELETE:
                         count_delete++;
                         text_delete += diffs[pointer].text;
                         break;
+
                     case Operation.EQUAL:
                         // Upon reaching an equality, check for prior redundancies.
-                        if (count_delete >= 1 && count_insert >= 1)
+                        if ( count_delete >= 1 && count_insert >= 1 )
                         {
                             // Delete the offending records and add the merged ones.
-                            diffs.RemoveRange(pointer - count_delete - count_insert,
-                                count_delete + count_insert);
+                            diffs.RemoveRange( pointer - count_delete - count_insert,
+                                count_delete + count_insert );
                             pointer = pointer - count_delete - count_insert;
                             var a =
                                 diff_main(text_delete, text_insert, false, deadline);
-                            diffs.InsertRange(pointer, a);
+                            diffs.InsertRange( pointer, a );
                             pointer = pointer + a.Count;
                         }
                         count_insert = 0;
@@ -447,7 +461,7 @@ namespace GradHelperWPF.Google
                 }
                 pointer++;
             }
-            diffs.RemoveAt(diffs.Count - 1); // Remove the dummy entry at the end.
+            diffs.RemoveAt( diffs.Count - 1 ); // Remove the dummy entry at the end.
 
             return diffs;
         }
@@ -461,8 +475,9 @@ namespace GradHelperWPF.Google
 		 * @param deadline Time at which to bail if not yet complete.
 		 * @return List of Diff objects.
 		 */
-        protected List<Diff> diff_bisect(string text1, string text2,
-            DateTime deadline)
+
+        protected List<Diff> diff_bisect( string text1, string text2,
+            DateTime deadline )
         {
             // Cache the text lengths to prevent multiple calls.
             var text1_length = text1.Length;
@@ -472,7 +487,7 @@ namespace GradHelperWPF.Google
             var v_length = 2 * max_d;
             var v1 = new int[v_length];
             var v2 = new int[v_length];
-            for (var x = 0; x < v_length; x++)
+            for ( var x = 0; x < v_length; x++ )
             {
                 v1[x] = -1;
                 v2[x] = -1;
@@ -489,91 +504,91 @@ namespace GradHelperWPF.Google
             var k1end = 0;
             var k2start = 0;
             var k2end = 0;
-            for (var d = 0; d < max_d; d++)
+            for ( var d = 0; d < max_d; d++ )
             {
                 // Bail out if deadline is reached.
-                if (DateTime.Now > deadline)
+                if ( DateTime.Now > deadline )
                     break;
 
                 // Walk the front path one step.
-                for (var k1 = -d + k1start; k1 <= d - k1end; k1 += 2)
+                for ( var k1 = -d + k1start; k1 <= d - k1end; k1 += 2 )
                 {
                     var k1_offset = v_offset + k1;
                     int x1;
-                    if (k1 == -d || k1 != d && v1[k1_offset - 1] < v1[k1_offset + 1])
+                    if ( k1 == -d || k1 != d && v1[k1_offset - 1] < v1[k1_offset + 1] )
                         x1 = v1[k1_offset + 1];
                     else
                         x1 = v1[k1_offset - 1] + 1;
                     var y1 = x1 - k1;
-                    while (x1 < text1_length && y1 < text2_length
-                           && text1[x1] == text2[y1])
+                    while ( x1 < text1_length && y1 < text2_length
+                           && text1[x1] == text2[y1] )
                     {
                         x1++;
                         y1++;
                     }
                     v1[k1_offset] = x1;
-                    if (x1 > text1_length)
+                    if ( x1 > text1_length )
                     {
                         // Ran off the right of the graph.
                         k1end += 2;
                     }
-                    else if (y1 > text2_length)
+                    else if ( y1 > text2_length )
                     {
                         // Ran off the bottom of the graph.
                         k1start += 2;
                     }
-                    else if (front)
+                    else if ( front )
                     {
                         var k2_offset = v_offset + delta - k1;
-                        if (k2_offset >= 0 && k2_offset < v_length && v2[k2_offset] != -1)
+                        if ( k2_offset >= 0 && k2_offset < v_length && v2[k2_offset] != -1 )
                         {
                             // Mirror x2 onto top-left coordinate system.
                             var x2 = text1_length - v2[k2_offset];
-                            if (x1 >= x2)
-                                return diff_bisectSplit(text1, text2, x1, y1, deadline);
+                            if ( x1 >= x2 )
+                                return diff_bisectSplit( text1, text2, x1, y1, deadline );
                         }
                     }
                 }
 
                 // Walk the reverse path one step.
-                for (var k2 = -d + k2start; k2 <= d - k2end; k2 += 2)
+                for ( var k2 = -d + k2start; k2 <= d - k2end; k2 += 2 )
                 {
                     var k2_offset = v_offset + k2;
                     int x2;
-                    if (k2 == -d || k2 != d && v2[k2_offset - 1] < v2[k2_offset + 1])
+                    if ( k2 == -d || k2 != d && v2[k2_offset - 1] < v2[k2_offset + 1] )
                         x2 = v2[k2_offset + 1];
                     else
                         x2 = v2[k2_offset - 1] + 1;
                     var y2 = x2 - k2;
-                    while (x2 < text1_length && y2 < text2_length
+                    while ( x2 < text1_length && y2 < text2_length
                            && text1[text1_length - x2 - 1]
-                           == text2[text2_length - y2 - 1])
+                           == text2[text2_length - y2 - 1] )
                     {
                         x2++;
                         y2++;
                     }
                     v2[k2_offset] = x2;
-                    if (x2 > text1_length)
+                    if ( x2 > text1_length )
                     {
                         // Ran off the left of the graph.
                         k2end += 2;
                     }
-                    else if (y2 > text2_length)
+                    else if ( y2 > text2_length )
                     {
                         // Ran off the top of the graph.
                         k2start += 2;
                     }
-                    else if (!front)
+                    else if ( !front )
                     {
                         var k1_offset = v_offset + delta - k2;
-                        if (k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] != -1)
+                        if ( k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] != -1 )
                         {
                             var x1 = v1[k1_offset];
                             var y1 = v_offset + x1 - k1_offset;
                             // Mirror x2 onto top-left coordinate system.
                             x2 = text1_length - v2[k2_offset];
-                            if (x1 >= x2)
-                                return diff_bisectSplit(text1, text2, x1, y1, deadline);
+                            if ( x1 >= x2 )
+                                return diff_bisectSplit( text1, text2, x1, y1, deadline );
                         }
                     }
                 }
@@ -581,8 +596,8 @@ namespace GradHelperWPF.Google
             // Diff took too long and hit the deadline or
             // number of diffs equals number of characters, no commonality at all.
             var diffs = new List<Diff>();
-            diffs.Add(new Diff(Operation.DELETE, text1));
-            diffs.Add(new Diff(Operation.INSERT, text2));
+            diffs.Add( new Diff( Operation.DELETE, text1 ) );
+            diffs.Add( new Diff( Operation.INSERT, text2 ) );
             return diffs;
         }
 
@@ -596,8 +611,9 @@ namespace GradHelperWPF.Google
 		 * @param deadline Time at which to bail if not yet complete.
 		 * @return LinkedList of Diff objects.
 		 */
-        private List<Diff> diff_bisectSplit(string text1, string text2,
-            int x, int y, DateTime deadline)
+
+        private List<Diff> diff_bisectSplit( string text1, string text2,
+            int x, int y, DateTime deadline )
         {
             var text1a = text1.Substring(0, x);
             var text2a = text2.Substring(0, y);
@@ -608,7 +624,7 @@ namespace GradHelperWPF.Google
             var diffs = diff_main(text1a, text2a, false, deadline);
             var diffsb = diff_main(text1b, text2b, false, deadline);
 
-            diffs.AddRange(diffsb);
+            diffs.AddRange( diffsb );
             return diffs;
         }
 
@@ -621,7 +637,8 @@ namespace GradHelperWPF.Google
 		 *     encoded text2 and the List of unique strings.  The zeroth element
 		 *     of the List of unique strings is intentionally blank.
 		 */
-        protected object[] diff_linesToChars(string text1, string text2)
+
+        protected object[] diff_linesToChars( string text1, string text2 )
         {
             var lineArray = new List<string>();
             var lineHash = new Dictionary<string, int>();
@@ -630,11 +647,11 @@ namespace GradHelperWPF.Google
 
             // "\x00" is a valid character, but various debuggers don't like it.
             // So we'll insert a junk entry to avoid generating a null character.
-            lineArray.Add(string.Empty);
+            lineArray.Add( string.Empty );
 
             var chars1 = diff_linesToCharsMunge(text1, lineArray, lineHash);
             var chars2 = diff_linesToCharsMunge(text2, lineArray, lineHash);
-            return new object[] {chars1, chars2, lineArray};
+            return new object[] { chars1, chars2, lineArray };
         }
 
         /**
@@ -645,8 +662,9 @@ namespace GradHelperWPF.Google
 		 * @param lineHash Map of strings to indices.
 		 * @return Encoded string.
 		 */
-        private string diff_linesToCharsMunge(string text, List<string> lineArray,
-            Dictionary<string, int> lineHash)
+
+        private string diff_linesToCharsMunge( string text, List<string> lineArray,
+            Dictionary<string, int> lineHash )
         {
             var lineStart = 0;
             var lineEnd = -1;
@@ -655,26 +673,26 @@ namespace GradHelperWPF.Google
             // Walk the text, pulling out a Substring for each line.
             // text.split('\n') would would temporarily double our memory footprint.
             // Modifying text would create many large strings to garbage collect.
-            while (lineEnd < text.Length - 1)
+            while ( lineEnd < text.Length - 1 )
             {
-                lineEnd = text.IndexOf('\n', lineStart);
-                if (lineEnd == -1)
+                lineEnd = text.IndexOf( '\n', lineStart );
+                if ( lineEnd == -1 )
                     lineEnd = text.Length - 1;
-                line = text.JavaSubstring(lineStart, lineEnd + 1);
+                line = text.JavaSubstring( lineStart, lineEnd + 1 );
                 lineStart = lineEnd + 1;
 
-                if (lineHash.ContainsKey(line))
+                if ( lineHash.ContainsKey( line ) )
                 {
-                    chars.Append((char) lineHash[line]);
+                    chars.Append( ( char ) lineHash[line] );
                 }
                 else
                 {
-                    lineArray.Add(line);
-                    lineHash.Add(line, lineArray.Count - 1);
-                    chars.Append((char) (lineArray.Count - 1));
+                    lineArray.Add( line );
+                    lineHash.Add( line, lineArray.Count - 1 );
+                    chars.Append( ( char ) ( lineArray.Count - 1 ) );
                 }
             }
-            return chars.ToString();
+            return chars.ToString( );
         }
 
         /**
@@ -683,16 +701,17 @@ namespace GradHelperWPF.Google
 		 * @param diffs List of Diff objects.
 		 * @param lineArray List of unique strings.
 		 */
-        protected void diff_charsToLines(ICollection<Diff> diffs,
-            List<string> lineArray)
+
+        protected void diff_charsToLines( ICollection<Diff> diffs,
+            List<string> lineArray )
         {
             StringBuilder text;
-            foreach (var diff in diffs)
+            foreach ( var diff in diffs )
             {
-                text = new StringBuilder();
-                for (var y = 0; y < diff.text.Length; y++)
-                    text.Append(lineArray[diff.text[y]]);
-                diff.text = text.ToString();
+                text = new StringBuilder( );
+                for ( var y = 0; y < diff.text.Length; y++ )
+                    text.Append( lineArray[diff.text[y]] );
+                diff.text = text.ToString( );
             }
         }
 
@@ -702,12 +721,13 @@ namespace GradHelperWPF.Google
 		 * @param text2 Second string.
 		 * @return The number of characters common to the start of each string.
 		 */
-        public int diff_commonPrefix(string text1, string text2)
+
+        public int diff_commonPrefix( string text1, string text2 )
         {
             // Performance analysis: http://neil.fraser.name/news/2007/10/09/
             var n = Math.Min(text1.Length, text2.Length);
-            for (var i = 0; i < n; i++)
-                if (text1[i] != text2[i])
+            for ( var i = 0; i < n; i++ )
+                if ( text1[i] != text2[i] )
                     return i;
             return n;
         }
@@ -718,14 +738,15 @@ namespace GradHelperWPF.Google
 		 * @param text2 Second string.
 		 * @return The number of characters common to the end of each string.
 		 */
-        public int diff_commonSuffix(string text1, string text2)
+
+        public int diff_commonSuffix( string text1, string text2 )
         {
             // Performance analysis: http://neil.fraser.name/news/2007/10/09/
             var text1_length = text1.Length;
             var text2_length = text2.Length;
             var n = Math.Min(text1.Length, text2.Length);
-            for (var i = 1; i <= n; i++)
-                if (text1[text1_length - i] != text2[text2_length - i])
+            for ( var i = 1; i <= n; i++ )
+                if ( text1[text1_length - i] != text2[text2_length - i] )
                     return i - 1;
             return n;
         }
@@ -737,22 +758,23 @@ namespace GradHelperWPF.Google
 		 * @return The number of characters common to the end of the first
 		 *     string and the start of the second string.
 		 */
-        protected int diff_commonOverlap(string text1, string text2)
+
+        protected int diff_commonOverlap( string text1, string text2 )
         {
             // Cache the text lengths to prevent multiple calls.
             var text1_length = text1.Length;
             var text2_length = text2.Length;
             // Eliminate the null case.
-            if (text1_length == 0 || text2_length == 0)
+            if ( text1_length == 0 || text2_length == 0 )
                 return 0;
             // Truncate the longer string.
-            if (text1_length > text2_length)
-                text1 = text1.Substring(text1_length - text2_length);
-            else if (text1_length < text2_length)
-                text2 = text2.Substring(0, text1_length);
+            if ( text1_length > text2_length )
+                text1 = text1.Substring( text1_length - text2_length );
+            else if ( text1_length < text2_length )
+                text2 = text2.Substring( 0, text1_length );
             var text_length = Math.Min(text1_length, text2_length);
             // Quick check for the worst case.
-            if (text1 == text2)
+            if ( text1 == text2 )
                 return text_length;
 
             // Start by looking for a single character match
@@ -760,15 +782,15 @@ namespace GradHelperWPF.Google
             // Performance analysis: http://neil.fraser.name/news/2010/11/04/
             var best = 0;
             var length = 1;
-            while (true)
+            while ( true )
             {
                 var pattern = text1.Substring(text_length - length);
                 var found = text2.IndexOf(pattern, StringComparison.Ordinal);
-                if (found == -1)
+                if ( found == -1 )
                     return best;
                 length += found;
-                if (found == 0 || text1.Substring(text_length - length) ==
-                    text2.Substring(0, length))
+                if ( found == 0 || text1.Substring( text_length - length ) ==
+                    text2.Substring( 0, length ) )
                 {
                     best = length;
                     length++;
@@ -787,13 +809,13 @@ namespace GradHelperWPF.Google
 		 *     common middle.  Or null if there was no match.
 		 */
 
-        protected string[] diff_halfMatch(string text1, string text2)
+        protected string[] diff_halfMatch( string text1, string text2 )
         {
-            if (Diff_Timeout <= 0)
+            if ( Diff_Timeout <= 0 )
                 return null;
             var longtext = text1.Length > text2.Length ? text1 : text2;
             var shorttext = text1.Length > text2.Length ? text2 : text1;
-            if (longtext.Length < 4 || shorttext.Length * 2 < longtext.Length)
+            if ( longtext.Length < 4 || shorttext.Length * 2 < longtext.Length )
                 return null; // Pointless.
 
             // First check if the second quarter is the seed for a half-match.
@@ -803,19 +825,19 @@ namespace GradHelperWPF.Google
             var hm2 = diff_halfMatchI(longtext, shorttext,
                 (longtext.Length + 1) / 2);
             string[] hm;
-            if (hm1 == null && hm2 == null)
+            if ( hm1 == null && hm2 == null )
                 return null;
-            if (hm2 == null)
+            if ( hm2 == null )
                 hm = hm1;
-            else if (hm1 == null)
+            else if ( hm1 == null )
                 hm = hm2;
             else
                 hm = hm1[4].Length > hm2[4].Length ? hm1 : hm2;
 
             // A half-match was found, sort out the return data.
-            if (text1.Length > text2.Length)
+            if ( text1.Length > text2.Length )
                 return hm;
-            return new[] {hm[2], hm[3], hm[0], hm[1], hm[4]};
+            return new[] { hm[2], hm[3], hm[0], hm[1], hm[4] };
         }
 
         /**
@@ -828,7 +850,8 @@ namespace GradHelperWPF.Google
 		 *     suffix of longtext, the prefix of shorttext, the suffix of shorttext
 		 *     and the common middle.  Or null if there was no match.
 		 */
-        private string[] diff_halfMatchI(string longtext, string shorttext, int i)
+
+        private string[] diff_halfMatchI( string longtext, string shorttext, int i )
         {
             // Start with a 1/4 length Substring at position i as a seed.
             var seed = longtext.Substring(i, longtext.Length / 4);
@@ -836,24 +859,24 @@ namespace GradHelperWPF.Google
             var best_common = string.Empty;
             string best_longtext_a = string.Empty, best_longtext_b = string.Empty;
             string best_shorttext_a = string.Empty, best_shorttext_b = string.Empty;
-            while (j < shorttext.Length && (j = shorttext.IndexOf(seed, j + 1,
-                       StringComparison.Ordinal)) != -1)
+            while ( j < shorttext.Length && ( j = shorttext.IndexOf( seed, j + 1,
+                       StringComparison.Ordinal ) ) != -1 )
             {
                 var prefixLength = diff_commonPrefix(longtext.Substring(i),
                     shorttext.Substring(j));
                 var suffixLength = diff_commonSuffix(longtext.Substring(0, i),
                     shorttext.Substring(0, j));
-                if (best_common.Length < suffixLength + prefixLength)
+                if ( best_common.Length < suffixLength + prefixLength )
                 {
-                    best_common = shorttext.Substring(j - suffixLength, suffixLength)
-                                  + shorttext.Substring(j, prefixLength);
-                    best_longtext_a = longtext.Substring(0, i - suffixLength);
-                    best_longtext_b = longtext.Substring(i + prefixLength);
-                    best_shorttext_a = shorttext.Substring(0, j - suffixLength);
-                    best_shorttext_b = shorttext.Substring(j + prefixLength);
+                    best_common = shorttext.Substring( j - suffixLength, suffixLength )
+                                  + shorttext.Substring( j, prefixLength );
+                    best_longtext_a = longtext.Substring( 0, i - suffixLength );
+                    best_longtext_b = longtext.Substring( i + prefixLength );
+                    best_shorttext_a = shorttext.Substring( 0, j - suffixLength );
+                    best_shorttext_b = shorttext.Substring( j + prefixLength );
                 }
             }
-            if (best_common.Length * 2 >= longtext.Length)
+            if ( best_common.Length * 2 >= longtext.Length )
                 return new[]
                 {
                     best_longtext_a, best_longtext_b,
@@ -867,7 +890,8 @@ namespace GradHelperWPF.Google
 		 * equalities.
 		 * @param diffs List of Diff objects.
 		 */
-        public void diff_cleanupSemantic(List<Diff> diffs)
+
+        public void diff_cleanupSemantic( List<Diff> diffs )
         {
             var changes = false;
             // Stack of indices where equalities are found.
@@ -881,12 +905,12 @@ namespace GradHelperWPF.Google
             // Number of characters that changed after the equality.
             var length_insertions2 = 0;
             var length_deletions2 = 0;
-            while (pointer < diffs.Count)
+            while ( pointer < diffs.Count )
             {
-                if (diffs[pointer].operation == Operation.EQUAL)
+                if ( diffs[pointer].operation == Operation.EQUAL )
                 {
                     // Equality found.
-                    equalities.Push(pointer);
+                    equalities.Push( pointer );
                     length_insertions1 = length_insertions2;
                     length_deletions1 = length_deletions2;
                     length_insertions2 = 0;
@@ -896,27 +920,27 @@ namespace GradHelperWPF.Google
                 else
                 {
                     // an insertion or deletion
-                    if (diffs[pointer].operation == Operation.INSERT)
+                    if ( diffs[pointer].operation == Operation.INSERT )
                         length_insertions2 += diffs[pointer].text.Length;
                     else
                         length_deletions2 += diffs[pointer].text.Length;
                     // Eliminate an equality that is smaller or equal to the edits on both
                     // sides of it.
-                    if (lastequality != null && lastequality.Length
-                        <= Math.Max(length_insertions1, length_deletions1)
+                    if ( lastequality != null && lastequality.Length
+                        <= Math.Max( length_insertions1, length_deletions1 )
                         && lastequality.Length
-                        <= Math.Max(length_insertions2, length_deletions2))
+                        <= Math.Max( length_insertions2, length_deletions2 ) )
                     {
                         // Duplicate record.
-                        diffs.Insert(equalities.Peek(),
-                            new Diff(Operation.DELETE, lastequality));
+                        diffs.Insert( equalities.Peek( ),
+                            new Diff( Operation.DELETE, lastequality ) );
                         // Change second copy to insert.
-                        diffs[equalities.Peek() + 1].operation = Operation.INSERT;
+                        diffs[equalities.Peek( ) + 1].operation = Operation.INSERT;
                         // Throw away the equality we just deleted.
-                        equalities.Pop();
-                        if (equalities.Count > 0)
-                            equalities.Pop();
-                        pointer = equalities.Count > 0 ? equalities.Peek() : -1;
+                        equalities.Pop( );
+                        if ( equalities.Count > 0 )
+                            equalities.Pop( );
+                        pointer = equalities.Count > 0 ? equalities.Peek( ) : -1;
                         length_insertions1 = 0; // Reset the counters.
                         length_deletions1 = 0;
                         length_insertions2 = 0;
@@ -929,9 +953,9 @@ namespace GradHelperWPF.Google
             }
 
             // Normalize the diff.
-            if (changes)
-                diff_cleanupMerge(diffs);
-            diff_cleanupSemanticLossless(diffs);
+            if ( changes )
+                diff_cleanupMerge( diffs );
+            diff_cleanupSemanticLossless( diffs );
 
             // Find any overlaps between deletions and insertions.
             // e.g: <del>abcxxx</del><ins>xxxdef</ins>
@@ -940,44 +964,44 @@ namespace GradHelperWPF.Google
             //   -> <ins>def</ins>xxx<del>abc</del>
             // Only extract an overlap if it is as big as the edit ahead or behind it.
             pointer = 1;
-            while (pointer < diffs.Count)
+            while ( pointer < diffs.Count )
             {
-                if (diffs[pointer - 1].operation == Operation.DELETE &&
-                    diffs[pointer].operation == Operation.INSERT)
+                if ( diffs[pointer - 1].operation == Operation.DELETE &&
+                    diffs[pointer].operation == Operation.INSERT )
                 {
                     var deletion = diffs[pointer - 1].text;
                     var insertion = diffs[pointer].text;
                     var overlap_length1 = diff_commonOverlap(deletion, insertion);
                     var overlap_length2 = diff_commonOverlap(insertion, deletion);
-                    if (overlap_length1 >= overlap_length2)
+                    if ( overlap_length1 >= overlap_length2 )
                     {
-                        if (overlap_length1 >= deletion.Length / 2.0 ||
-                            overlap_length1 >= insertion.Length / 2.0)
+                        if ( overlap_length1 >= deletion.Length / 2.0 ||
+                            overlap_length1 >= insertion.Length / 2.0 )
                         {
                             // Overlap found.
                             // Insert an equality and trim the surrounding edits.
-                            diffs.Insert(pointer, new Diff(Operation.EQUAL,
-                                insertion.Substring(0, overlap_length1)));
+                            diffs.Insert( pointer, new Diff( Operation.EQUAL,
+                                insertion.Substring( 0, overlap_length1 ) ) );
                             diffs[pointer - 1].text =
-                                deletion.Substring(0, deletion.Length - overlap_length1);
-                            diffs[pointer + 1].text = insertion.Substring(overlap_length1);
+                                deletion.Substring( 0, deletion.Length - overlap_length1 );
+                            diffs[pointer + 1].text = insertion.Substring( overlap_length1 );
                             pointer++;
                         }
                     }
                     else
                     {
-                        if (overlap_length2 >= deletion.Length / 2.0 ||
-                            overlap_length2 >= insertion.Length / 2.0)
+                        if ( overlap_length2 >= deletion.Length / 2.0 ||
+                            overlap_length2 >= insertion.Length / 2.0 )
                         {
                             // Reverse overlap found.
                             // Insert an equality and swap and trim the surrounding edits.
-                            diffs.Insert(pointer, new Diff(Operation.EQUAL,
-                                deletion.Substring(0, overlap_length2)));
+                            diffs.Insert( pointer, new Diff( Operation.EQUAL,
+                                deletion.Substring( 0, overlap_length2 ) ) );
                             diffs[pointer - 1].operation = Operation.INSERT;
                             diffs[pointer - 1].text =
-                                insertion.Substring(0, insertion.Length - overlap_length2);
+                                insertion.Substring( 0, insertion.Length - overlap_length2 );
                             diffs[pointer + 1].operation = Operation.DELETE;
-                            diffs[pointer + 1].text = deletion.Substring(overlap_length2);
+                            diffs[pointer + 1].text = deletion.Substring( overlap_length2 );
                             pointer++;
                         }
                     }
@@ -993,14 +1017,15 @@ namespace GradHelperWPF.Google
 		 * e.g: The c<ins>at c</ins>ame. -> The <ins>cat </ins>came.
 		 * @param diffs List of Diff objects.
 		 */
-        public void diff_cleanupSemanticLossless(List<Diff> diffs)
+
+        public void diff_cleanupSemanticLossless( List<Diff> diffs )
         {
             var pointer = 1;
             // Intentionally ignore the first and last element (don't need checking).
-            while (pointer < diffs.Count - 1)
+            while ( pointer < diffs.Count - 1 )
             {
-                if (diffs[pointer - 1].operation == Operation.EQUAL &&
-                    diffs[pointer + 1].operation == Operation.EQUAL)
+                if ( diffs[pointer - 1].operation == Operation.EQUAL &&
+                    diffs[pointer + 1].operation == Operation.EQUAL )
                 {
                     // This is a single edit surrounded by equalities.
                     var equality1 = diffs[pointer - 1].text;
@@ -1009,11 +1034,11 @@ namespace GradHelperWPF.Google
 
                     // First, shift the edit as far left as possible.
                     var commonOffset = diff_commonSuffix(equality1, edit);
-                    if (commonOffset > 0)
+                    if ( commonOffset > 0 )
                     {
                         var commonString = edit.Substring(edit.Length - commonOffset);
-                        equality1 = equality1.Substring(0, equality1.Length - commonOffset);
-                        edit = commonString + edit.Substring(0, edit.Length - commonOffset);
+                        equality1 = equality1.Substring( 0, equality1.Length - commonOffset );
+                        edit = commonString + edit.Substring( 0, edit.Length - commonOffset );
                         equality2 = commonString + equality2;
                     }
 
@@ -1024,17 +1049,17 @@ namespace GradHelperWPF.Google
                     var bestEquality2 = equality2;
                     var bestScore = diff_cleanupSemanticScore(equality1, edit) +
                                     diff_cleanupSemanticScore(edit, equality2);
-                    while (edit.Length != 0 && equality2.Length != 0
-                           && edit[0] == equality2[0])
+                    while ( edit.Length != 0 && equality2.Length != 0
+                           && edit[0] == equality2[0] )
                     {
                         equality1 += edit[0];
-                        edit = edit.Substring(1) + equality2[0];
-                        equality2 = equality2.Substring(1);
+                        edit = edit.Substring( 1 ) + equality2[0];
+                        equality2 = equality2.Substring( 1 );
                         var score = diff_cleanupSemanticScore(equality1, edit) +
                                     diff_cleanupSemanticScore(edit, equality2);
                         // The >= encourages trailing rather than leading whitespace on
                         // edits.
-                        if (score >= bestScore)
+                        if ( score >= bestScore )
                         {
                             bestScore = score;
                             bestEquality1 = equality1;
@@ -1043,26 +1068,26 @@ namespace GradHelperWPF.Google
                         }
                     }
 
-                    if (diffs[pointer - 1].text != bestEquality1)
+                    if ( diffs[pointer - 1].text != bestEquality1 )
                     {
                         // We have an improvement, save it back to the diff.
-                        if (bestEquality1.Length != 0)
+                        if ( bestEquality1.Length != 0 )
                         {
                             diffs[pointer - 1].text = bestEquality1;
                         }
                         else
                         {
-                            diffs.RemoveAt(pointer - 1);
+                            diffs.RemoveAt( pointer - 1 );
                             pointer--;
                         }
                         diffs[pointer].text = bestEdit;
-                        if (bestEquality2.Length != 0)
+                        if ( bestEquality2.Length != 0 )
                         {
                             diffs[pointer + 1].text = bestEquality2;
                         }
                         else
                         {
-                            diffs.RemoveAt(pointer + 1);
+                            diffs.RemoveAt( pointer + 1 );
                             pointer--;
                         }
                     }
@@ -1079,9 +1104,10 @@ namespace GradHelperWPF.Google
 		 * @param two Second string.
 		 * @return The score.
 		 */
-        private int diff_cleanupSemanticScore(string one, string two)
+
+        private int diff_cleanupSemanticScore( string one, string two )
         {
-            if (one.Length == 0 || two.Length == 0)
+            if ( one.Length == 0 || two.Length == 0 )
                 return 6;
 
             // Each port of this function behaves slightly differently due to
@@ -1100,15 +1126,15 @@ namespace GradHelperWPF.Google
             var blankLine1 = lineBreak1 && BLANKLINEEND.IsMatch(one);
             var blankLine2 = lineBreak2 && BLANKLINESTART.IsMatch(two);
 
-            if (blankLine1 || blankLine2)
+            if ( blankLine1 || blankLine2 )
                 return 5;
-            if (lineBreak1 || lineBreak2)
+            if ( lineBreak1 || lineBreak2 )
                 return 4;
-            if (nonAlphaNumeric1 && !whitespace1 && whitespace2)
+            if ( nonAlphaNumeric1 && !whitespace1 && whitespace2 )
                 return 3;
-            if (whitespace1 || whitespace2)
+            if ( whitespace1 || whitespace2 )
                 return 2;
-            if (nonAlphaNumeric1 || nonAlphaNumeric2)
+            if ( nonAlphaNumeric1 || nonAlphaNumeric2 )
                 return 1;
             return 0;
         }
@@ -1118,7 +1144,8 @@ namespace GradHelperWPF.Google
 		 * equalities.
 		 * @param diffs List of Diff objects.
 		 */
-        public void diff_cleanupEfficiency(List<Diff> diffs)
+
+        public void diff_cleanupEfficiency( List<Diff> diffs )
         {
             var changes = false;
             // Stack of indices where equalities are found.
@@ -1134,16 +1161,16 @@ namespace GradHelperWPF.Google
             var post_ins = false;
             // Is there a deletion operation after the last equality.
             var post_del = false;
-            while (pointer < diffs.Count)
+            while ( pointer < diffs.Count )
             {
-                if (diffs[pointer].operation == Operation.EQUAL)
+                if ( diffs[pointer].operation == Operation.EQUAL )
                 {
                     // Equality found.
-                    if (diffs[pointer].text.Length < Diff_EditCost
-                        && (post_ins || post_del))
+                    if ( diffs[pointer].text.Length < Diff_EditCost
+                        && ( post_ins || post_del ) )
                     {
                         // Candidate found.
-                        equalities.Push(pointer);
+                        equalities.Push( pointer );
                         pre_ins = post_ins;
                         pre_del = post_del;
                         lastequality = diffs[pointer].text;
@@ -1151,7 +1178,7 @@ namespace GradHelperWPF.Google
                     else
                     {
                         // Not a candidate, and can never become one.
-                        equalities.Clear();
+                        equalities.Clear( );
                         lastequality = string.Empty;
                     }
                     post_ins = post_del = false;
@@ -1159,7 +1186,7 @@ namespace GradHelperWPF.Google
                 else
                 {
                     // An insertion or deletion.
-                    if (diffs[pointer].operation == Operation.DELETE)
+                    if ( diffs[pointer].operation == Operation.DELETE )
                         post_del = true;
                     else
                         post_ins = true;
@@ -1171,31 +1198,31 @@ namespace GradHelperWPF.Google
 					 * <ins>A</del>X<ins>C</ins><del>D</del>
 					 * <ins>A</ins><del>B</del>X<del>C</del>
 					 */
-                    if (lastequality.Length != 0
-                        && (pre_ins && pre_del && post_ins && post_del
+                    if ( lastequality.Length != 0
+                        && ( pre_ins && pre_del && post_ins && post_del
                             || lastequality.Length < Diff_EditCost / 2
-                            && (pre_ins ? 1 : 0) + (pre_del ? 1 : 0) + (post_ins ? 1 : 0)
-                            + (post_del ? 1 : 0) == 3))
+                            && ( pre_ins ? 1 : 0 ) + ( pre_del ? 1 : 0 ) + ( post_ins ? 1 : 0 )
+                            + ( post_del ? 1 : 0 ) == 3 ) )
                     {
                         // Duplicate record.
-                        diffs.Insert(equalities.Peek(),
-                            new Diff(Operation.DELETE, lastequality));
+                        diffs.Insert( equalities.Peek( ),
+                            new Diff( Operation.DELETE, lastequality ) );
                         // Change second copy to insert.
-                        diffs[equalities.Peek() + 1].operation = Operation.INSERT;
-                        equalities.Pop(); // Throw away the equality we just deleted.
+                        diffs[equalities.Peek( ) + 1].operation = Operation.INSERT;
+                        equalities.Pop( ); // Throw away the equality we just deleted.
                         lastequality = string.Empty;
-                        if (pre_ins && pre_del)
+                        if ( pre_ins && pre_del )
                         {
                             // No changes made which could affect previous entry, keep going.
                             post_ins = post_del = true;
-                            equalities.Clear();
+                            equalities.Clear( );
                         }
                         else
                         {
-                            if (equalities.Count > 0)
-                                equalities.Pop();
+                            if ( equalities.Count > 0 )
+                                equalities.Pop( );
 
-                            pointer = equalities.Count > 0 ? equalities.Peek() : -1;
+                            pointer = equalities.Count > 0 ? equalities.Peek( ) : -1;
                             post_ins = post_del = false;
                         }
                         changes = true;
@@ -1204,8 +1231,8 @@ namespace GradHelperWPF.Google
                 pointer++;
             }
 
-            if (changes)
-                diff_cleanupMerge(diffs);
+            if ( changes )
+                diff_cleanupMerge( diffs );
         }
 
         /**
@@ -1213,90 +1240,93 @@ namespace GradHelperWPF.Google
 		 * Any edit section can move as long as it doesn't cross an equality.
 		 * @param diffs List of Diff objects.
 		 */
-        public void diff_cleanupMerge(List<Diff> diffs)
+
+        public void diff_cleanupMerge( List<Diff> diffs )
         {
             // Add a dummy entry at the end.
-            diffs.Add(new Diff(Operation.EQUAL, string.Empty));
+            diffs.Add( new Diff( Operation.EQUAL, string.Empty ) );
             var pointer = 0;
             var count_delete = 0;
             var count_insert = 0;
             var text_delete = string.Empty;
             var text_insert = string.Empty;
             int commonlength;
-            while (pointer < diffs.Count)
-                switch (diffs[pointer].operation)
+            while ( pointer < diffs.Count )
+                switch ( diffs[pointer].operation )
                 {
                     case Operation.INSERT:
                         count_insert++;
                         text_insert += diffs[pointer].text;
                         pointer++;
                         break;
+
                     case Operation.DELETE:
                         count_delete++;
                         text_delete += diffs[pointer].text;
                         pointer++;
                         break;
+
                     case Operation.EQUAL:
                         // Upon reaching an equality, check for prior redundancies.
-                        if (count_delete + count_insert > 1)
+                        if ( count_delete + count_insert > 1 )
                         {
-                            if (count_delete != 0 && count_insert != 0)
+                            if ( count_delete != 0 && count_insert != 0 )
                             {
                                 // Factor out any common prefixies.
-                                commonlength = diff_commonPrefix(text_insert, text_delete);
-                                if (commonlength != 0)
+                                commonlength = diff_commonPrefix( text_insert, text_delete );
+                                if ( commonlength != 0 )
                                 {
-                                    if (pointer - count_delete - count_insert > 0 &&
+                                    if ( pointer - count_delete - count_insert > 0 &&
                                         diffs[pointer - count_delete - count_insert - 1].operation
-                                        == Operation.EQUAL)
+                                        == Operation.EQUAL )
                                     {
                                         diffs[pointer - count_delete - count_insert - 1].text
-                                            += text_insert.Substring(0, commonlength);
+                                            += text_insert.Substring( 0, commonlength );
                                     }
                                     else
                                     {
-                                        diffs.Insert(0, new Diff(Operation.EQUAL,
-                                            text_insert.Substring(0, commonlength)));
+                                        diffs.Insert( 0, new Diff( Operation.EQUAL,
+                                            text_insert.Substring( 0, commonlength ) ) );
                                         pointer++;
                                     }
-                                    text_insert = text_insert.Substring(commonlength);
-                                    text_delete = text_delete.Substring(commonlength);
+                                    text_insert = text_insert.Substring( commonlength );
+                                    text_delete = text_delete.Substring( commonlength );
                                 }
                                 // Factor out any common suffixies.
-                                commonlength = diff_commonSuffix(text_insert, text_delete);
-                                if (commonlength != 0)
+                                commonlength = diff_commonSuffix( text_insert, text_delete );
+                                if ( commonlength != 0 )
                                 {
-                                    diffs[pointer].text = text_insert.Substring(text_insert.Length
-                                                                                - commonlength) + diffs[pointer].text;
-                                    text_insert = text_insert.Substring(0, text_insert.Length
-                                                                           - commonlength);
-                                    text_delete = text_delete.Substring(0, text_delete.Length
-                                                                           - commonlength);
+                                    diffs[pointer].text = text_insert.Substring( text_insert.Length
+                                                                                - commonlength ) + diffs[pointer].text;
+                                    text_insert = text_insert.Substring( 0, text_insert.Length
+                                                                           - commonlength );
+                                    text_delete = text_delete.Substring( 0, text_delete.Length
+                                                                           - commonlength );
                                 }
                             }
                             // Delete the offending records and add the merged ones.
-                            if (count_delete == 0)
-                                diffs.Splice(pointer - count_insert,
+                            if ( count_delete == 0 )
+                                diffs.Splice( pointer - count_insert,
                                     count_delete + count_insert,
-                                    new Diff(Operation.INSERT, text_insert));
-                            else if (count_insert == 0)
-                                diffs.Splice(pointer - count_delete,
+                                    new Diff( Operation.INSERT, text_insert ) );
+                            else if ( count_insert == 0 )
+                                diffs.Splice( pointer - count_delete,
                                     count_delete + count_insert,
-                                    new Diff(Operation.DELETE, text_delete));
+                                    new Diff( Operation.DELETE, text_delete ) );
                             else
-                                diffs.Splice(pointer - count_delete - count_insert,
+                                diffs.Splice( pointer - count_delete - count_insert,
                                     count_delete + count_insert,
-                                    new Diff(Operation.DELETE, text_delete),
-                                    new Diff(Operation.INSERT, text_insert));
+                                    new Diff( Operation.DELETE, text_delete ),
+                                    new Diff( Operation.INSERT, text_insert ) );
                             pointer = pointer - count_delete - count_insert +
-                                      (count_delete != 0 ? 1 : 0) + (count_insert != 0 ? 1 : 0) + 1;
+                                      ( count_delete != 0 ? 1 : 0 ) + ( count_insert != 0 ? 1 : 0 ) + 1;
                         }
-                        else if (pointer != 0
-                                 && diffs[pointer - 1].operation == Operation.EQUAL)
+                        else if ( pointer != 0
+                                 && diffs[pointer - 1].operation == Operation.EQUAL )
                         {
                             // Merge this equality with the previous one.
                             diffs[pointer - 1].text += diffs[pointer].text;
-                            diffs.RemoveAt(pointer);
+                            diffs.RemoveAt( pointer );
                         }
                         else
                         {
@@ -1308,8 +1338,8 @@ namespace GradHelperWPF.Google
                         text_insert = string.Empty;
                         break;
                 }
-            if (diffs[diffs.Count - 1].text.Length == 0)
-                diffs.RemoveAt(diffs.Count - 1); // Remove the dummy entry at the end.
+            if ( diffs[diffs.Count - 1].text.Length == 0 )
+                diffs.RemoveAt( diffs.Count - 1 ); // Remove the dummy entry at the end.
 
             // Second pass: look for single edits surrounded on both sides by
             // equalities which can be shifted sideways to eliminate an equality.
@@ -1317,38 +1347,38 @@ namespace GradHelperWPF.Google
             var changes = false;
             pointer = 1;
             // Intentionally ignore the first and last element (don't need checking).
-            while (pointer < diffs.Count - 1)
+            while ( pointer < diffs.Count - 1 )
             {
-                if (diffs[pointer - 1].operation == Operation.EQUAL &&
-                    diffs[pointer + 1].operation == Operation.EQUAL)
-                    if (diffs[pointer].text.EndsWith(diffs[pointer - 1].text,
-                        StringComparison.Ordinal))
+                if ( diffs[pointer - 1].operation == Operation.EQUAL &&
+                    diffs[pointer + 1].operation == Operation.EQUAL )
+                    if ( diffs[pointer].text.EndsWith( diffs[pointer - 1].text,
+                        StringComparison.Ordinal ) )
                     {
                         // Shift the edit over the previous equality.
                         diffs[pointer].text = diffs[pointer - 1].text +
-                                              diffs[pointer].text.Substring(0, diffs[pointer].text.Length -
-                                                                               diffs[pointer - 1].text.Length);
+                                              diffs[pointer].text.Substring( 0, diffs[pointer].text.Length -
+                                                                               diffs[pointer - 1].text.Length );
                         diffs[pointer + 1].text = diffs[pointer - 1].text
                                                   + diffs[pointer + 1].text;
-                        diffs.Splice(pointer - 1, 1);
+                        diffs.Splice( pointer - 1, 1 );
                         changes = true;
                     }
-                    else if (diffs[pointer].text.StartsWith(diffs[pointer + 1].text,
-                        StringComparison.Ordinal))
+                    else if ( diffs[pointer].text.StartsWith( diffs[pointer + 1].text,
+                        StringComparison.Ordinal ) )
                     {
                         // Shift the edit over the next equality.
                         diffs[pointer - 1].text += diffs[pointer + 1].text;
                         diffs[pointer].text =
-                            diffs[pointer].text.Substring(diffs[pointer + 1].text.Length)
+                            diffs[pointer].text.Substring( diffs[pointer + 1].text.Length )
                             + diffs[pointer + 1].text;
-                        diffs.Splice(pointer + 1, 1);
+                        diffs.Splice( pointer + 1, 1 );
                         changes = true;
                     }
                 pointer++;
             }
             // If shifts were made, the diff needs reordering and another shift sweep.
-            if (changes)
-                diff_cleanupMerge(diffs);
+            if ( changes )
+                diff_cleanupMerge( diffs );
         }
 
         /**
@@ -1359,20 +1389,21 @@ namespace GradHelperWPF.Google
 		 * @param loc Location within text1.
 		 * @return Location within text2.
 		 */
-        public int diff_xIndex(List<Diff> diffs, int loc)
+
+        public int diff_xIndex( List<Diff> diffs, int loc )
         {
             var chars1 = 0;
             var chars2 = 0;
             var last_chars1 = 0;
             var last_chars2 = 0;
             Diff lastDiff = null;
-            foreach (var aDiff in diffs)
+            foreach ( var aDiff in diffs )
             {
-                if (aDiff.operation != Operation.INSERT)
+                if ( aDiff.operation != Operation.INSERT )
                     chars1 += aDiff.text.Length;
-                if (aDiff.operation != Operation.DELETE)
+                if ( aDiff.operation != Operation.DELETE )
                     chars2 += aDiff.text.Length;
-                if (chars1 > loc)
+                if ( chars1 > loc )
                 {
                     // Overshot the location.
                     lastDiff = aDiff;
@@ -1381,10 +1412,10 @@ namespace GradHelperWPF.Google
                 last_chars1 = chars1;
                 last_chars2 = chars2;
             }
-            if (lastDiff != null && lastDiff.operation == Operation.DELETE)
+            if ( lastDiff != null && lastDiff.operation == Operation.DELETE )
                 return last_chars2;
             // Add the remaining character length.
-            return last_chars2 + (loc - last_chars1);
+            return last_chars2 + ( loc - last_chars1 );
         }
 
         /**
@@ -1392,29 +1423,32 @@ namespace GradHelperWPF.Google
 		 * @param diffs List of Diff objects.
 		 * @return HTML representation.
 		 */
-        public string diff_prettyHtml(List<Diff> diffs)
+
+        public string diff_prettyHtml( List<Diff> diffs )
         {
             var html = new StringBuilder();
-            foreach (var aDiff in diffs)
+            foreach ( var aDiff in diffs )
             {
                 var text = aDiff.text.Replace("&", "&amp;").Replace("<", "&lt;")
                     .Replace(">", "&gt;").Replace("\n", "&para;<br>");
-                switch (aDiff.operation)
+                switch ( aDiff.operation )
                 {
                     case Operation.INSERT:
-                        html.Append("<ins style=\"background:#e6ffe6;\">").Append(text)
-                            .Append("</ins>");
+                        html.Append( "<ins style=\"background:#e6ffe6;\">" ).Append( text )
+                            .Append( "</ins>" );
                         break;
+
                     case Operation.DELETE:
-                        html.Append("<del style=\"background:#ffe6e6;\">").Append(text)
-                            .Append("</del>");
+                        html.Append( "<del style=\"background:#ffe6e6;\">" ).Append( text )
+                            .Append( "</del>" );
                         break;
+
                     case Operation.EQUAL:
-                        html.Append("<span>").Append(text).Append("</span>");
+                        html.Append( "<span>" ).Append( text ).Append( "</span>" );
                         break;
                 }
             }
-            return html.ToString();
+            return html.ToString( );
         }
 
         /**
@@ -1422,13 +1456,14 @@ namespace GradHelperWPF.Google
 		 * @param diffs List of Diff objects.
 		 * @return Source text.
 		 */
-        public string diff_text1(List<Diff> diffs)
+
+        public string diff_text1( List<Diff> diffs )
         {
             var text = new StringBuilder();
-            foreach (var aDiff in diffs)
-                if (aDiff.operation != Operation.INSERT)
-                    text.Append(aDiff.text);
-            return text.ToString();
+            foreach ( var aDiff in diffs )
+                if ( aDiff.operation != Operation.INSERT )
+                    text.Append( aDiff.text );
+            return text.ToString( );
         }
 
         /**
@@ -1436,13 +1471,14 @@ namespace GradHelperWPF.Google
 		 * @param diffs List of Diff objects.
 		 * @return Destination text.
 		 */
-        public string diff_text2(List<Diff> diffs)
+
+        public string diff_text2( List<Diff> diffs )
         {
             var text = new StringBuilder();
-            foreach (var aDiff in diffs)
-                if (aDiff.operation != Operation.DELETE)
-                    text.Append(aDiff.text);
-            return text.ToString();
+            foreach ( var aDiff in diffs )
+                if ( aDiff.operation != Operation.DELETE )
+                    text.Append( aDiff.text );
+            return text.ToString( );
         }
 
         /**
@@ -1451,28 +1487,31 @@ namespace GradHelperWPF.Google
 		 * @param diffs List of Diff objects.
 		 * @return Number of changes.
 		 */
-        public int diff_levenshtein(List<Diff> diffs)
+
+        public int diff_levenshtein( List<Diff> diffs )
         {
             var levenshtein = 0;
             var insertions = 0;
             var deletions = 0;
-            foreach (var aDiff in diffs)
-                switch (aDiff.operation)
+            foreach ( var aDiff in diffs )
+                switch ( aDiff.operation )
                 {
                     case Operation.INSERT:
                         insertions += aDiff.text.Length;
                         break;
+
                     case Operation.DELETE:
                         deletions += aDiff.text.Length;
                         break;
+
                     case Operation.EQUAL:
                         // A deletion and an insertion is one substitution.
-                        levenshtein += Math.Max(insertions, deletions);
+                        levenshtein += Math.Max( insertions, deletions );
                         insertions = 0;
                         deletions = 0;
                         break;
                 }
-            levenshtein += Math.Max(insertions, deletions);
+            levenshtein += Math.Max( insertions, deletions );
             return levenshtein;
         }
 
@@ -1485,29 +1524,32 @@ namespace GradHelperWPF.Google
 		 * @param diffs Array of Diff objects.
 		 * @return Delta text.
 		 */
-        public string diff_toDelta(List<Diff> diffs)
+
+        public string diff_toDelta( List<Diff> diffs )
         {
             var text = new StringBuilder();
-            foreach (var aDiff in diffs)
-                switch (aDiff.operation)
+            foreach ( var aDiff in diffs )
+                switch ( aDiff.operation )
                 {
                     case Operation.INSERT:
-                        text.Append("+").Append(HttpUtility.UrlEncode(aDiff.text,
-                            new UTF8Encoding()).Replace('+', ' ')).Append("\t");
+                        text.Append( "+" ).Append( HttpUtility.UrlEncode( aDiff.text,
+                            new UTF8Encoding( ) ).Replace( '+', ' ' ) ).Append( "\t" );
                         break;
+
                     case Operation.DELETE:
-                        text.Append("-").Append(aDiff.text.Length).Append("\t");
+                        text.Append( "-" ).Append( aDiff.text.Length ).Append( "\t" );
                         break;
+
                     case Operation.EQUAL:
-                        text.Append("=").Append(aDiff.text.Length).Append("\t");
+                        text.Append( "=" ).Append( aDiff.text.Length ).Append( "\t" );
                         break;
                 }
             var delta = text.ToString();
-            if (delta.Length != 0)
+            if ( delta.Length != 0 )
             {
                 // Strip off trailing tab character.
-                delta = delta.Substring(0, delta.Length - 1);
-                delta = unescapeForEncodeUriCompatability(delta);
+                delta = delta.Substring( 0, delta.Length - 1 );
+                delta = unescapeForEncodeUriCompatability( delta );
             }
             return delta;
         }
@@ -1520,26 +1562,27 @@ namespace GradHelperWPF.Google
 		 * @return Array of Diff objects or null if invalid.
 		 * @throws ArgumentException If invalid input.
 		 */
-        public List<Diff> diff_fromDelta(string text1, string delta)
+
+        public List<Diff> diff_fromDelta( string text1, string delta )
         {
             var diffs = new List<Diff>();
             var pointer = 0; // Cursor in text1
             var tokens = delta.Split(new[] {"\t"},
                 StringSplitOptions.None);
-            foreach (var token in tokens)
+            foreach ( var token in tokens )
             {
-                if (token.Length == 0)
+                if ( token.Length == 0 )
                     continue;
                 // Each token begins with a one character parameter which specifies the
                 // operation of this token (delete, insert, equality).
                 var param = token.Substring(1);
-                switch (token[0])
+                switch ( token[0] )
                 {
                     case '+':
                         // decode would change all "+" to " "
-                        param = param.Replace("+", "%2b");
+                        param = param.Replace( "+", "%2b" );
 
-                        param = HttpUtility.UrlDecode(param, new UTF8Encoding(false, true));
+                        param = HttpUtility.UrlDecode( param, new UTF8Encoding( false, true ) );
                         //} catch (UnsupportedEncodingException e) {
                         //  // Not likely on modern system.
                         //  throw new Error("This system does not support UTF-8.", e);
@@ -1548,56 +1591,56 @@ namespace GradHelperWPF.Google
                         //  throw new IllegalArgumentException(
                         //      "Illegal escape in diff_fromDelta: " + param, e);
                         //}
-                        diffs.Add(new Diff(Operation.INSERT, param));
+                        diffs.Add( new Diff( Operation.INSERT, param ) );
                         break;
+
                     case '-':
                     // Fall through.
                     case '=':
                         int n;
                         try
                         {
-                            n = Convert.ToInt32(param);
+                            n = Convert.ToInt32( param );
                         }
-                        catch (FormatException e)
+                        catch ( FormatException e )
                         {
                             throw new ArgumentException(
-                                "Invalid number in diff_fromDelta: " + param, e);
+                                "Invalid number in diff_fromDelta: " + param, e );
                         }
-                        if (n < 0)
+                        if ( n < 0 )
                             throw new ArgumentException(
-                                "Negative number in diff_fromDelta: " + param);
+                                "Negative number in diff_fromDelta: " + param );
                         string text;
                         try
                         {
-                            text = text1.Substring(pointer, n);
+                            text = text1.Substring( pointer, n );
                             pointer += n;
                         }
-                        catch (ArgumentOutOfRangeException e)
+                        catch ( ArgumentOutOfRangeException e )
                         {
-                            throw new ArgumentException("Delta length (" + pointer
+                            throw new ArgumentException( "Delta length (" + pointer
                                                         + ") larger than source text length (" + text1.Length
-                                                        + ").", e);
+                                                        + ").", e );
                         }
-                        if (token[0] == '=')
-                            diffs.Add(new Diff(Operation.EQUAL, text));
+                        if ( token[0] == '=' )
+                            diffs.Add( new Diff( Operation.EQUAL, text ) );
                         else
-                            diffs.Add(new Diff(Operation.DELETE, text));
+                            diffs.Add( new Diff( Operation.DELETE, text ) );
                         break;
+
                     default:
                         // Anything else is an error.
                         throw new ArgumentException(
-                            "Invalid diff operation in diff_fromDelta: " + token[0]);
+                            "Invalid diff operation in diff_fromDelta: " + token[0] );
                 }
             }
-            if (pointer != text1.Length)
-                throw new ArgumentException("Delta length (" + pointer
-                                            + ") smaller than source text length (" + text1.Length + ").");
+            if ( pointer != text1.Length )
+                throw new ArgumentException( "Delta length (" + pointer
+                                            + ") smaller than source text length (" + text1.Length + ")." );
             return diffs;
         }
 
-
         //  MATCH FUNCTIONS
-
 
         /**
 		 * Locate the best instance of 'pattern' in 'text' near 'loc'.
@@ -1607,20 +1650,21 @@ namespace GradHelperWPF.Google
 		 * @param loc The location to search around.
 		 * @return Best match index or -1.
 		 */
-        public int match_main(string text, string pattern, int loc)
+
+        public int match_main( string text, string pattern, int loc )
         {
             // Check for null inputs not needed since null can't be passed in C#.
 
-            loc = Math.Max(0, Math.Min(loc, text.Length));
-            if (text == pattern)
+            loc = Math.Max( 0, Math.Min( loc, text.Length ) );
+            if ( text == pattern )
                 return 0;
-            if (text.Length == 0)
+            if ( text.Length == 0 )
                 return -1;
-            if (loc + pattern.Length <= text.Length
-                && text.Substring(loc, pattern.Length) == pattern)
+            if ( loc + pattern.Length <= text.Length
+                && text.Substring( loc, pattern.Length ) == pattern )
                 return loc;
             // Do a fuzzy compare.
-            return match_bitap(text, pattern, loc);
+            return match_bitap( text, pattern, loc );
         }
 
         /**
@@ -1631,7 +1675,8 @@ namespace GradHelperWPF.Google
 		 * @param loc The location to search around.
 		 * @return Best match index or -1.
 		 */
-        protected int match_bitap(string text, string pattern, int loc)
+
+        protected int match_bitap( string text, string pattern, int loc )
         {
             // assert (Match_MaxBits == 0 || pattern.Length <= Match_MaxBits)
             //    : "Pattern too long for this application.";
@@ -1643,17 +1688,17 @@ namespace GradHelperWPF.Google
             double score_threshold = Match_Threshold;
             // Is there a nearby exact match? (speedup)
             var best_loc = text.IndexOf(pattern, loc, StringComparison.Ordinal);
-            if (best_loc != -1)
+            if ( best_loc != -1 )
             {
-                score_threshold = Math.Min(match_bitapScore(0, best_loc, loc,
-                    pattern), score_threshold);
+                score_threshold = Math.Min( match_bitapScore( 0, best_loc, loc,
+                    pattern ), score_threshold );
                 // What about in the other direction? (speedup)
-                best_loc = text.LastIndexOf(pattern,
-                    Math.Min(loc + pattern.Length, text.Length),
-                    StringComparison.Ordinal);
-                if (best_loc != -1)
-                    score_threshold = Math.Min(match_bitapScore(0, best_loc, loc,
-                        pattern), score_threshold);
+                best_loc = text.LastIndexOf( pattern,
+                    Math.Min( loc + pattern.Length, text.Length ),
+                    StringComparison.Ordinal );
+                if ( best_loc != -1 )
+                    score_threshold = Math.Min( match_bitapScore( 0, best_loc, loc,
+                        pattern ), score_threshold );
             }
 
             // Initialise the bit arrays.
@@ -1664,21 +1709,21 @@ namespace GradHelperWPF.Google
             var bin_max = pattern.Length + text.Length;
             // Empty initialization added to appease C# compiler.
             var last_rd = new int[0];
-            for (var d = 0; d < pattern.Length; d++)
+            for ( var d = 0; d < pattern.Length; d++ )
             {
                 // Scan for the best match; each iteration allows for one more error.
                 // Run a binary search to determine how far from 'loc' we can stray at
                 // this error level.
                 bin_min = 0;
                 bin_mid = bin_max;
-                while (bin_min < bin_mid)
+                while ( bin_min < bin_mid )
                 {
-                    if (match_bitapScore(d, loc + bin_mid, loc, pattern)
-                        <= score_threshold)
+                    if ( match_bitapScore( d, loc + bin_mid, loc, pattern )
+                        <= score_threshold )
                         bin_min = bin_mid;
                     else
                         bin_max = bin_mid;
-                    bin_mid = (bin_max - bin_min) / 2 + bin_min;
+                    bin_mid = ( bin_max - bin_min ) / 2 + bin_min;
                 }
                 // Use the result from this iteration as the maximum for the next.
                 bin_max = bin_mid;
@@ -1686,37 +1731,37 @@ namespace GradHelperWPF.Google
                 var finish = Math.Min(loc + bin_mid, text.Length) + pattern.Length;
 
                 var rd = new int[finish + 2];
-                rd[finish + 1] = (1 << d) - 1;
-                for (var j = finish; j >= start; j--)
+                rd[finish + 1] = ( 1 << d ) - 1;
+                for ( var j = finish; j >= start; j-- )
                 {
                     int charMatch;
-                    if (text.Length <= j - 1 || !s.ContainsKey(text[j - 1]))
+                    if ( text.Length <= j - 1 || !s.ContainsKey( text[j - 1] ) )
                         charMatch = 0;
                     else
                         charMatch = s[text[j - 1]];
-                    if (d == 0)
-                        rd[j] = ((rd[j + 1] << 1) | 1) & charMatch;
+                    if ( d == 0 )
+                        rd[j] = ( ( rd[j + 1] << 1 ) | 1 ) & charMatch;
                     else
-                        rd[j] = (((rd[j + 1] << 1) | 1) & charMatch) | ((last_rd[j + 1] | last_rd[j]) << 1) | 1 |
+                        rd[j] = ( ( ( rd[j + 1] << 1 ) | 1 ) & charMatch ) | ( ( last_rd[j + 1] | last_rd[j] ) << 1 ) | 1 |
                                 last_rd[j + 1];
-                    if ((rd[j] & matchmask) != 0)
+                    if ( ( rd[j] & matchmask ) != 0 )
                     {
                         var score = match_bitapScore(d, j - 1, loc, pattern);
                         // This match will almost certainly be better than any existing
                         // match.  But check anyway.
-                        if (score <= score_threshold)
+                        if ( score <= score_threshold )
                         {
                             // Told you so.
                             score_threshold = score;
                             best_loc = j - 1;
-                            if (best_loc > loc)
-                                start = Math.Max(1, 2 * loc - best_loc);
+                            if ( best_loc > loc )
+                                start = Math.Max( 1, 2 * loc - best_loc );
                             else
                                 break;
                         }
                     }
                 }
-                if (match_bitapScore(d + 1, loc, loc, pattern) > score_threshold)
+                if ( match_bitapScore( d + 1, loc, loc, pattern ) > score_threshold )
                     break;
                 last_rd = rd;
             }
@@ -1731,13 +1776,14 @@ namespace GradHelperWPF.Google
 		 * @param pattern Pattern being sought.
 		 * @return Overall score for match (0.0 = good, 1.0 = bad).
 		 */
-        private double match_bitapScore(int e, int x, int loc, string pattern)
+
+        private double match_bitapScore( int e, int x, int loc, string pattern )
         {
             var accuracy = (float) e / pattern.Length;
             var proximity = Math.Abs(loc - x);
-            if (Match_Distance == 0)
+            if ( Match_Distance == 0 )
                 return proximity == 0 ? accuracy : 1.0;
-            return accuracy + proximity / (float) Match_Distance;
+            return accuracy + proximity / ( float ) Match_Distance;
         }
 
         /**
@@ -1745,15 +1791,16 @@ namespace GradHelperWPF.Google
 		 * @param pattern The text to encode.
 		 * @return Hash of character locations.
 		 */
-        protected Dictionary<char, int> match_alphabet(string pattern)
+
+        protected Dictionary<char, int> match_alphabet( string pattern )
         {
             var s = new Dictionary<char, int>();
             var char_pattern = pattern.ToCharArray();
-            foreach (var c in char_pattern)
-                if (!s.ContainsKey(c))
-                    s.Add(c, 0);
+            foreach ( var c in char_pattern )
+                if ( !s.ContainsKey( c ) )
+                    s.Add( c, 0 );
             var i = 0;
-            foreach (var c in char_pattern)
+            foreach ( var c in char_pattern )
             {
                 var value = s[c] | (1 << (pattern.Length - i - 1));
                 s[c] = value;
@@ -1762,9 +1809,7 @@ namespace GradHelperWPF.Google
             return s;
         }
 
-
         //  PATCH FUNCTIONS
-
 
         /**
 		 * Increase the context until it is unique,
@@ -1772,22 +1817,23 @@ namespace GradHelperWPF.Google
 		 * @param patch The patch to grow.
 		 * @param text Source text.
 		 */
-        protected void patch_addContext(Patch patch, string text)
+
+        protected void patch_addContext( Patch patch, string text )
         {
-            if (text.Length == 0)
+            if ( text.Length == 0 )
                 return;
             var pattern = text.Substring(patch.start2, patch.length1);
             var padding = 0;
 
             // Look for the first and last matches of pattern in text.  If two
             // different matches are found, increase the pattern length.
-            while (text.IndexOf(pattern, StringComparison.Ordinal)
-                   != text.LastIndexOf(pattern, StringComparison.Ordinal)
-                   && pattern.Length < Match_MaxBits - Patch_Margin - Patch_Margin)
+            while ( text.IndexOf( pattern, StringComparison.Ordinal )
+                   != text.LastIndexOf( pattern, StringComparison.Ordinal )
+                   && pattern.Length < Match_MaxBits - Patch_Margin - Patch_Margin )
             {
                 padding += Patch_Margin;
-                pattern = text.JavaSubstring(Math.Max(0, patch.start2 - padding),
-                    Math.Min(text.Length, patch.start2 + patch.length1 + padding));
+                pattern = text.JavaSubstring( Math.Max( 0, patch.start2 - padding ),
+                    Math.Min( text.Length, patch.start2 + patch.length1 + padding ) );
             }
             // Add one chunk for good luck.
             padding += Patch_Margin;
@@ -1795,13 +1841,13 @@ namespace GradHelperWPF.Google
             // Add the prefix.
             string prefix = text.JavaSubstring(Math.Max(0, patch.start2 - padding),
                 patch.start2);
-            if (prefix.Length != 0)
-                patch.diffs.Insert(0, new Diff(Operation.EQUAL, prefix));
+            if ( prefix.Length != 0 )
+                patch.diffs.Insert( 0, new Diff( Operation.EQUAL, prefix ) );
             // Add the suffix.
             string suffix = text.JavaSubstring(patch.start2 + patch.length1,
                 Math.Min(text.Length, patch.start2 + patch.length1 + padding));
-            if (suffix.Length != 0)
-                patch.diffs.Add(new Diff(Operation.EQUAL, suffix));
+            if ( suffix.Length != 0 )
+                patch.diffs.Add( new Diff( Operation.EQUAL, suffix ) );
 
             // Roll back the start points.
             patch.start1 -= prefix.Length;
@@ -1818,17 +1864,18 @@ namespace GradHelperWPF.Google
 		 * @param text2 New text.
 		 * @return List of Patch objects.
 		 */
-        public List<Patch> patch_make(string text1, string text2)
+
+        public List<Patch> patch_make( string text1, string text2 )
         {
             // Check for null inputs not needed since null can't be passed in C#.
             // No diffs provided, comAdde our own.
             var diffs = diff_main(text1, text2, true);
-            if (diffs.Count > 2)
+            if ( diffs.Count > 2 )
             {
-                diff_cleanupSemantic(diffs);
-                diff_cleanupEfficiency(diffs);
+                diff_cleanupSemantic( diffs );
+                diff_cleanupEfficiency( diffs );
             }
-            return patch_make(text1, diffs);
+            return patch_make( text1, diffs );
         }
 
         /**
@@ -1837,12 +1884,13 @@ namespace GradHelperWPF.Google
 		 * @param diffs Array of Diff objects for text1 to text2.
 		 * @return List of Patch objects.
 		 */
-        public List<Patch> patch_make(List<Diff> diffs)
+
+        public List<Patch> patch_make( List<Diff> diffs )
         {
             // Check for null inputs not needed since null can't be passed in C#.
             // No origin string provided, comAdde our own.
             var text1 = diff_text1(diffs);
-            return patch_make(text1, diffs);
+            return patch_make( text1, diffs );
         }
 
         /**
@@ -1854,10 +1902,11 @@ namespace GradHelperWPF.Google
 		 * @return List of Patch objects.
 		 * @deprecated Prefer patch_make(string text1, List<Diff> diffs).
 		 */
-        public List<Patch> patch_make(string text1, string text2,
-            List<Diff> diffs)
+
+        public List<Patch> patch_make( string text1, string text2,
+            List<Diff> diffs )
         {
-            return patch_make(text1, diffs);
+            return patch_make( text1, diffs );
         }
 
         /**
@@ -1867,11 +1916,12 @@ namespace GradHelperWPF.Google
 		 * @param diffs Array of Diff objects for text1 to text2.
 		 * @return List of Patch objects.
 		 */
-        public List<Patch> patch_make(string text1, List<Diff> diffs)
+
+        public List<Patch> patch_make( string text1, List<Diff> diffs )
         {
             // Check for null inputs not needed since null can't be passed in C#.
             var patches = new List<Patch>();
-            if (diffs.Count == 0)
+            if ( diffs.Count == 0 )
                 return patches; // Get rid of the null case.
             var patch = new Patch();
             var char_count1 = 0; // Number of characters into the text1 string.
@@ -1881,44 +1931,46 @@ namespace GradHelperWPF.Google
             // context info.
             var prepatch_text = text1;
             var postpatch_text = text1;
-            foreach (var aDiff in diffs)
+            foreach ( var aDiff in diffs )
             {
-                if (patch.diffs.Count == 0 && aDiff.operation != Operation.EQUAL)
+                if ( patch.diffs.Count == 0 && aDiff.operation != Operation.EQUAL )
                 {
                     // A new patch starts here.
                     patch.start1 = char_count1;
                     patch.start2 = char_count2;
                 }
 
-                switch (aDiff.operation)
+                switch ( aDiff.operation )
                 {
                     case Operation.INSERT:
-                        patch.diffs.Add(aDiff);
+                        patch.diffs.Add( aDiff );
                         patch.length2 += aDiff.text.Length;
-                        postpatch_text = postpatch_text.Insert(char_count2, aDiff.text);
+                        postpatch_text = postpatch_text.Insert( char_count2, aDiff.text );
                         break;
+
                     case Operation.DELETE:
                         patch.length1 += aDiff.text.Length;
-                        patch.diffs.Add(aDiff);
-                        postpatch_text = postpatch_text.Remove(char_count2,
-                            aDiff.text.Length);
+                        patch.diffs.Add( aDiff );
+                        postpatch_text = postpatch_text.Remove( char_count2,
+                            aDiff.text.Length );
                         break;
+
                     case Operation.EQUAL:
-                        if (aDiff.text.Length <= 2 * Patch_Margin
-                            && patch.diffs.Count() != 0 && aDiff != diffs.Last())
+                        if ( aDiff.text.Length <= 2 * Patch_Margin
+                            && patch.diffs.Count( ) != 0 && aDiff != diffs.Last( ) )
                         {
                             // Small equality inside a patch.
-                            patch.diffs.Add(aDiff);
+                            patch.diffs.Add( aDiff );
                             patch.length1 += aDiff.text.Length;
                             patch.length2 += aDiff.text.Length;
                         }
 
-                        if (aDiff.text.Length >= 2 * Patch_Margin)
-                            if (patch.diffs.Count != 0)
+                        if ( aDiff.text.Length >= 2 * Patch_Margin )
+                            if ( patch.diffs.Count != 0 )
                             {
-                                patch_addContext(patch, prepatch_text);
-                                patches.Add(patch);
-                                patch = new Patch();
+                                patch_addContext( patch, prepatch_text );
+                                patches.Add( patch );
+                                patch = new Patch( );
                                 // Unlike Unidiff, our patch lists have a rolling context.
                                 // http://code.google.com/p/google-diff-match-patch/wiki/Unidiff
                                 // Update prepatch text & pos to reflect the application of the
@@ -1930,16 +1982,16 @@ namespace GradHelperWPF.Google
                 }
 
                 // Update the current character count.
-                if (aDiff.operation != Operation.INSERT)
+                if ( aDiff.operation != Operation.INSERT )
                     char_count1 += aDiff.text.Length;
-                if (aDiff.operation != Operation.DELETE)
+                if ( aDiff.operation != Operation.DELETE )
                     char_count2 += aDiff.text.Length;
             }
             // Pick up the leftover patch if not empty.
-            if (patch.diffs.Count != 0)
+            if ( patch.diffs.Count != 0 )
             {
-                patch_addContext(patch, prepatch_text);
-                patches.Add(patch);
+                patch_addContext( patch, prepatch_text );
+                patches.Add( patch );
             }
 
             return patches;
@@ -1950,22 +2002,23 @@ namespace GradHelperWPF.Google
 		 * @param patches Array of Patch objects.
 		 * @return Array of Patch objects.
 		 */
-        public List<Patch> patch_deepCopy(List<Patch> patches)
+
+        public List<Patch> patch_deepCopy( List<Patch> patches )
         {
             var patchesCopy = new List<Patch>();
-            foreach (var aPatch in patches)
+            foreach ( var aPatch in patches )
             {
                 var patchCopy = new Patch();
-                foreach (var aDiff in aPatch.diffs)
+                foreach ( var aDiff in aPatch.diffs )
                 {
                     var diffCopy = new Diff(aDiff.operation, aDiff.text);
-                    patchCopy.diffs.Add(diffCopy);
+                    patchCopy.diffs.Add( diffCopy );
                 }
                 patchCopy.start1 = aPatch.start1;
                 patchCopy.start2 = aPatch.start2;
                 patchCopy.length1 = aPatch.length1;
                 patchCopy.length2 = aPatch.length2;
-                patchesCopy.Add(patchCopy);
+                patchesCopy.Add( patchCopy );
             }
             return patchesCopy;
         }
@@ -1978,17 +2031,18 @@ namespace GradHelperWPF.Google
 		 * @return Two element Object array, containing the new text and an array of
 		 *      bool values.
 		 */
-        public object[] patch_apply(List<Patch> patches, string text)
+
+        public object[] patch_apply( List<Patch> patches, string text )
         {
-            if (patches.Count == 0)
-                return new object[] {text, new bool[0]};
+            if ( patches.Count == 0 )
+                return new object[] { text, new bool[0] };
 
             // Deep copy the patches so that no changes are made to originals.
-            patches = patch_deepCopy(patches);
+            patches = patch_deepCopy( patches );
 
             var nullPadding = patch_addPadding(patches);
             text = nullPadding + text + nullPadding;
-            patch_splitMax(patches);
+            patch_splitMax( patches );
 
             var x = 0;
             // delta keeps track of the offset between the expected and actual
@@ -1997,32 +2051,32 @@ namespace GradHelperWPF.Google
             // and the second patch has an effective expected position of 22.
             var delta = 0;
             var results = new bool[patches.Count];
-            foreach (var aPatch in patches)
+            foreach ( var aPatch in patches )
             {
                 var expected_loc = aPatch.start2 + delta;
                 var text1 = diff_text1(aPatch.diffs);
                 int start_loc;
                 var end_loc = -1;
-                if (text1.Length > Match_MaxBits)
+                if ( text1.Length > Match_MaxBits )
                 {
                     // patch_splitMax will only provide an oversized pattern
                     // in the case of a monster delete.
-                    start_loc = match_main(text,
-                        text1.Substring(0, Match_MaxBits), expected_loc);
-                    if (start_loc != -1)
+                    start_loc = match_main( text,
+                        text1.Substring( 0, Match_MaxBits ), expected_loc );
+                    if ( start_loc != -1 )
                     {
-                        end_loc = match_main(text,
-                            text1.Substring(text1.Length - Match_MaxBits),
-                            expected_loc + text1.Length - Match_MaxBits);
-                        if (end_loc == -1 || start_loc >= end_loc)
+                        end_loc = match_main( text,
+                            text1.Substring( text1.Length - Match_MaxBits ),
+                            expected_loc + text1.Length - Match_MaxBits );
+                        if ( end_loc == -1 || start_loc >= end_loc )
                             start_loc = -1;
                     }
                 }
                 else
                 {
-                    start_loc = match_main(text, text1, expected_loc);
+                    start_loc = match_main( text, text1, expected_loc );
                 }
-                if (start_loc == -1)
+                if ( start_loc == -1 )
                 {
                     // No match found.  :(
                     results[x] = false;
@@ -2035,47 +2089,47 @@ namespace GradHelperWPF.Google
                     results[x] = true;
                     delta = start_loc - expected_loc;
                     string text2;
-                    if (end_loc == -1)
-                        text2 = text.JavaSubstring(start_loc,
-                            Math.Min(start_loc + text1.Length, text.Length));
+                    if ( end_loc == -1 )
+                        text2 = text.JavaSubstring( start_loc,
+                            Math.Min( start_loc + text1.Length, text.Length ) );
                     else
-                        text2 = text.JavaSubstring(start_loc,
-                            Math.Min(end_loc + Match_MaxBits, text.Length));
-                    if (text1 == text2)
+                        text2 = text.JavaSubstring( start_loc,
+                            Math.Min( end_loc + Match_MaxBits, text.Length ) );
+                    if ( text1 == text2 )
                     {
                         // Perfect match, just shove the Replacement text in.
-                        text = text.Substring(0, start_loc) + diff_text2(aPatch.diffs)
-                               + text.Substring(start_loc + text1.Length);
+                        text = text.Substring( 0, start_loc ) + diff_text2( aPatch.diffs )
+                               + text.Substring( start_loc + text1.Length );
                     }
                     else
                     {
                         // Imperfect match.  Run a diff to get a framework of equivalent
                         // indices.
                         var diffs = diff_main(text1, text2, false);
-                        if (text1.Length > Match_MaxBits
-                            && diff_levenshtein(diffs) / (float) text1.Length
-                            > Patch_DeleteThreshold)
+                        if ( text1.Length > Match_MaxBits
+                            && diff_levenshtein( diffs ) / ( float ) text1.Length
+                            > Patch_DeleteThreshold )
                         {
                             // The end points match, but the content is unacceptably bad.
                             results[x] = false;
                         }
                         else
                         {
-                            diff_cleanupSemanticLossless(diffs);
+                            diff_cleanupSemanticLossless( diffs );
                             var index1 = 0;
-                            foreach (var aDiff in aPatch.diffs)
+                            foreach ( var aDiff in aPatch.diffs )
                             {
-                                if (aDiff.operation != Operation.EQUAL)
+                                if ( aDiff.operation != Operation.EQUAL )
                                 {
                                     var index2 = diff_xIndex(diffs, index1);
-                                    if (aDiff.operation == Operation.INSERT)
-                                        text = text.Insert(start_loc + index2, aDiff.text);
-                                    else if (aDiff.operation == Operation.DELETE)
-                                        text = text.Remove(start_loc + index2, diff_xIndex(diffs,
-                                                                                   index1 + aDiff.text.Length) -
-                                                                               index2);
+                                    if ( aDiff.operation == Operation.INSERT )
+                                        text = text.Insert( start_loc + index2, aDiff.text );
+                                    else if ( aDiff.operation == Operation.DELETE )
+                                        text = text.Remove( start_loc + index2, diff_xIndex( diffs,
+                                                                                   index1 + aDiff.text.Length ) -
+                                                                               index2 );
                                 }
-                                if (aDiff.operation != Operation.DELETE)
+                                if ( aDiff.operation != Operation.DELETE )
                                     index1 += aDiff.text.Length;
                             }
                         }
@@ -2084,9 +2138,9 @@ namespace GradHelperWPF.Google
                 x++;
             }
             // Strip the padding off.
-            text = text.Substring(nullPadding.Length, text.Length
-                                                      - 2 * nullPadding.Length);
-            return new object[] {text, results};
+            text = text.Substring( nullPadding.Length, text.Length
+                                                      - 2 * nullPadding.Length );
+            return new object[] { text, results };
         }
 
         /**
@@ -2095,15 +2149,16 @@ namespace GradHelperWPF.Google
 		 * @param patches Array of Patch objects.
 		 * @return The padding string added to each side.
 		 */
-        public string patch_addPadding(List<Patch> patches)
+
+        public string patch_addPadding( List<Patch> patches )
         {
             var paddingLength = Patch_Margin;
             var nullPadding = string.Empty;
-            for (short x = 1; x <= paddingLength; x++)
-                nullPadding += (char) x;
+            for ( short x = 1; x <= paddingLength; x++ )
+                nullPadding += ( char ) x;
 
             // Bump all the patches forward.
-            foreach (var aPatch in patches)
+            foreach ( var aPatch in patches )
             {
                 aPatch.start1 += paddingLength;
                 aPatch.start2 += paddingLength;
@@ -2112,21 +2167,21 @@ namespace GradHelperWPF.Google
             // Add some padding on start of first diff.
             var patch = patches.First();
             var diffs = patch.diffs;
-            if (diffs.Count == 0 || diffs.First().operation != Operation.EQUAL)
+            if ( diffs.Count == 0 || diffs.First( ).operation != Operation.EQUAL )
             {
                 // Add nullPadding equality.
-                diffs.Insert(0, new Diff(Operation.EQUAL, nullPadding));
+                diffs.Insert( 0, new Diff( Operation.EQUAL, nullPadding ) );
                 patch.start1 -= paddingLength; // Should be 0.
                 patch.start2 -= paddingLength; // Should be 0.
                 patch.length1 += paddingLength;
                 patch.length2 += paddingLength;
             }
-            else if (paddingLength > diffs.First().text.Length)
+            else if ( paddingLength > diffs.First( ).text.Length )
             {
                 // Grow first equality.
                 var firstDiff = diffs.First();
                 var extraLength = paddingLength - firstDiff.text.Length;
-                firstDiff.text = nullPadding.Substring(firstDiff.text.Length)
+                firstDiff.text = nullPadding.Substring( firstDiff.text.Length )
                                  + firstDiff.text;
                 patch.start1 -= extraLength;
                 patch.start2 -= extraLength;
@@ -2135,21 +2190,21 @@ namespace GradHelperWPF.Google
             }
 
             // Add some padding on end of last diff.
-            patch = patches.Last();
+            patch = patches.Last( );
             diffs = patch.diffs;
-            if (diffs.Count == 0 || diffs.Last().operation != Operation.EQUAL)
+            if ( diffs.Count == 0 || diffs.Last( ).operation != Operation.EQUAL )
             {
                 // Add nullPadding equality.
-                diffs.Add(new Diff(Operation.EQUAL, nullPadding));
+                diffs.Add( new Diff( Operation.EQUAL, nullPadding ) );
                 patch.length1 += paddingLength;
                 patch.length2 += paddingLength;
             }
-            else if (paddingLength > diffs.Last().text.Length)
+            else if ( paddingLength > diffs.Last( ).text.Length )
             {
                 // Grow last equality.
                 var lastDiff = diffs.Last();
                 var extraLength = paddingLength - lastDiff.text.Length;
-                lastDiff.text += nullPadding.Substring(0, extraLength);
+                lastDiff.text += nullPadding.Substring( 0, extraLength );
                 patch.length1 += extraLength;
                 patch.length2 += extraLength;
             }
@@ -2163,64 +2218,65 @@ namespace GradHelperWPF.Google
 		 * Intended to be called only from within patch_apply.
 		 * @param patches List of Patch objects.
 		 */
-        public void patch_splitMax(List<Patch> patches)
+
+        public void patch_splitMax( List<Patch> patches )
         {
             var patch_size = Match_MaxBits;
-            for (var x = 0; x < patches.Count; x++)
+            for ( var x = 0; x < patches.Count; x++ )
             {
-                if (patches[x].length1 <= patch_size)
+                if ( patches[x].length1 <= patch_size )
                     continue;
                 var bigpatch = patches[x];
                 // Remove the big old patch.
-                patches.Splice(x--, 1);
+                patches.Splice( x--, 1 );
                 var start1 = bigpatch.start1;
                 var start2 = bigpatch.start2;
                 var precontext = string.Empty;
-                while (bigpatch.diffs.Count != 0)
+                while ( bigpatch.diffs.Count != 0 )
                 {
                     // Create one of several smaller patches.
                     var patch = new Patch();
                     var empty = true;
                     patch.start1 = start1 - precontext.Length;
                     patch.start2 = start2 - precontext.Length;
-                    if (precontext.Length != 0)
+                    if ( precontext.Length != 0 )
                     {
                         patch.length1 = patch.length2 = precontext.Length;
-                        patch.diffs.Add(new Diff(Operation.EQUAL, precontext));
+                        patch.diffs.Add( new Diff( Operation.EQUAL, precontext ) );
                     }
-                    while (bigpatch.diffs.Count != 0
-                           && patch.length1 < patch_size - Patch_Margin)
+                    while ( bigpatch.diffs.Count != 0
+                           && patch.length1 < patch_size - Patch_Margin )
                     {
                         var diff_type = bigpatch.diffs[0].operation;
                         var diff_text = bigpatch.diffs[0].text;
-                        if (diff_type == Operation.INSERT)
+                        if ( diff_type == Operation.INSERT )
                         {
                             // Insertions are harmless.
                             patch.length2 += diff_text.Length;
                             start2 += diff_text.Length;
-                            patch.diffs.Add(bigpatch.diffs.First());
-                            bigpatch.diffs.RemoveAt(0);
+                            patch.diffs.Add( bigpatch.diffs.First( ) );
+                            bigpatch.diffs.RemoveAt( 0 );
                             empty = false;
                         }
-                        else if (diff_type == Operation.DELETE && patch.diffs.Count == 1
-                                 && patch.diffs.First().operation == Operation.EQUAL
-                                 && diff_text.Length > 2 * patch_size)
+                        else if ( diff_type == Operation.DELETE && patch.diffs.Count == 1
+                                 && patch.diffs.First( ).operation == Operation.EQUAL
+                                 && diff_text.Length > 2 * patch_size )
                         {
                             // This is a large deletion.  Let it pass in one chunk.
                             patch.length1 += diff_text.Length;
                             start1 += diff_text.Length;
                             empty = false;
-                            patch.diffs.Add(new Diff(diff_type, diff_text));
-                            bigpatch.diffs.RemoveAt(0);
+                            patch.diffs.Add( new Diff( diff_type, diff_text ) );
+                            bigpatch.diffs.RemoveAt( 0 );
                         }
                         else
                         {
                             // Deletion or equality.  Only take as much as we can stomach.
-                            diff_text = diff_text.Substring(0, Math.Min(diff_text.Length,
-                                patch_size - patch.length1 - Patch_Margin));
+                            diff_text = diff_text.Substring( 0, Math.Min( diff_text.Length,
+                                patch_size - patch.length1 - Patch_Margin ) );
                             patch.length1 += diff_text.Length;
                             start1 += diff_text.Length;
-                            if (diff_type == Operation.EQUAL)
+                            if ( diff_type == Operation.EQUAL )
                             {
                                 patch.length2 += diff_text.Length;
                                 start2 += diff_text.Length;
@@ -2229,40 +2285,40 @@ namespace GradHelperWPF.Google
                             {
                                 empty = false;
                             }
-                            patch.diffs.Add(new Diff(diff_type, diff_text));
-                            if (diff_text == bigpatch.diffs[0].text)
-                                bigpatch.diffs.RemoveAt(0);
+                            patch.diffs.Add( new Diff( diff_type, diff_text ) );
+                            if ( diff_text == bigpatch.diffs[0].text )
+                                bigpatch.diffs.RemoveAt( 0 );
                             else
                                 bigpatch.diffs[0].text =
-                                    bigpatch.diffs[0].text.Substring(diff_text.Length);
+                                    bigpatch.diffs[0].text.Substring( diff_text.Length );
                         }
                     }
                     // Compute the head context for the next patch.
-                    precontext = diff_text2(patch.diffs);
-                    precontext = precontext.Substring(Math.Max(0,
-                        precontext.Length - Patch_Margin));
+                    precontext = diff_text2( patch.diffs );
+                    precontext = precontext.Substring( Math.Max( 0,
+                        precontext.Length - Patch_Margin ) );
 
                     string postcontext = null;
                     // Append the end context for this patch.
-                    if (diff_text1(bigpatch.diffs).Length > Patch_Margin)
-                        postcontext = diff_text1(bigpatch.diffs)
-                            .Substring(0, Patch_Margin);
+                    if ( diff_text1( bigpatch.diffs ).Length > Patch_Margin )
+                        postcontext = diff_text1( bigpatch.diffs )
+                            .Substring( 0, Patch_Margin );
                     else
-                        postcontext = diff_text1(bigpatch.diffs);
+                        postcontext = diff_text1( bigpatch.diffs );
 
-                    if (postcontext.Length != 0)
+                    if ( postcontext.Length != 0 )
                     {
                         patch.length1 += postcontext.Length;
                         patch.length2 += postcontext.Length;
-                        if (patch.diffs.Count != 0
+                        if ( patch.diffs.Count != 0
                             && patch.diffs[patch.diffs.Count - 1].operation
-                            == Operation.EQUAL)
+                            == Operation.EQUAL )
                             patch.diffs[patch.diffs.Count - 1].text += postcontext;
                         else
-                            patch.diffs.Add(new Diff(Operation.EQUAL, postcontext));
+                            patch.diffs.Add( new Diff( Operation.EQUAL, postcontext ) );
                     }
-                    if (!empty)
-                        patches.Splice(++x, 0, patch);
+                    if ( !empty )
+                        patches.Splice( ++x, 0, patch );
                 }
             }
         }
@@ -2272,12 +2328,13 @@ namespace GradHelperWPF.Google
 		 * @param patches List of Patch objects.
 		 * @return Text representation of patches.
 		 */
-        public string patch_toText(List<Patch> patches)
+
+        public string patch_toText( List<Patch> patches )
         {
             var text = new StringBuilder();
-            foreach (var aPatch in patches)
-                text.Append(aPatch);
-            return text.ToString();
+            foreach ( var aPatch in patches )
+                text.Append( aPatch );
+            return text.ToString( );
         }
 
         /**
@@ -2287,10 +2344,11 @@ namespace GradHelperWPF.Google
 		 * @return List of Patch objects.
 		 * @throws ArgumentException If invalid input.
 		 */
-        public List<Patch> patch_fromText(string textline)
+
+        public List<Patch> patch_fromText( string textline )
         {
             var patches = new List<Patch>();
-            if (textline.Length == 0)
+            if ( textline.Length == 0 )
                 return patches;
             var text = textline.Split('\n');
             var textPointer = 0;
@@ -2300,73 +2358,73 @@ namespace GradHelperWPF.Google
             Match m;
             char sign;
             string line;
-            while (textPointer < text.Length)
+            while ( textPointer < text.Length )
             {
-                m = patchHeader.Match(text[textPointer]);
-                if (!m.Success)
-                    throw new ArgumentException("Invalid patch string: "
-                                                + text[textPointer]);
-                patch = new Patch();
-                patches.Add(patch);
-                patch.start1 = Convert.ToInt32(m.Groups[1].Value);
-                if (m.Groups[2].Length == 0)
+                m = patchHeader.Match( text[textPointer] );
+                if ( !m.Success )
+                    throw new ArgumentException( "Invalid patch string: "
+                                                + text[textPointer] );
+                patch = new Patch( );
+                patches.Add( patch );
+                patch.start1 = Convert.ToInt32( m.Groups[1].Value );
+                if ( m.Groups[2].Length == 0 )
                 {
                     patch.start1--;
                     patch.length1 = 1;
                 }
-                else if (m.Groups[2].Value == "0")
+                else if ( m.Groups[2].Value == "0" )
                 {
                     patch.length1 = 0;
                 }
                 else
                 {
                     patch.start1--;
-                    patch.length1 = Convert.ToInt32(m.Groups[2].Value);
+                    patch.length1 = Convert.ToInt32( m.Groups[2].Value );
                 }
 
-                patch.start2 = Convert.ToInt32(m.Groups[3].Value);
-                if (m.Groups[4].Length == 0)
+                patch.start2 = Convert.ToInt32( m.Groups[3].Value );
+                if ( m.Groups[4].Length == 0 )
                 {
                     patch.start2--;
                     patch.length2 = 1;
                 }
-                else if (m.Groups[4].Value == "0")
+                else if ( m.Groups[4].Value == "0" )
                 {
                     patch.length2 = 0;
                 }
                 else
                 {
                     patch.start2--;
-                    patch.length2 = Convert.ToInt32(m.Groups[4].Value);
+                    patch.length2 = Convert.ToInt32( m.Groups[4].Value );
                 }
                 textPointer++;
 
-                while (textPointer < text.Length)
+                while ( textPointer < text.Length )
                 {
                     try
                     {
                         sign = text[textPointer][0];
                     }
-                    catch (IndexOutOfRangeException)
+                    catch ( IndexOutOfRangeException )
                     {
                         // Blank line?  Whatever.
                         textPointer++;
                         continue;
                     }
-                    line = text[textPointer].Substring(1);
-                    line = line.Replace("+", "%2b");
-                    line = HttpUtility.UrlDecode(line, new UTF8Encoding(false, true));
-                    if (sign == '-')
-                        patch.diffs.Add(new Diff(Operation.DELETE, line));
-                    else if (sign == '+')
-                        patch.diffs.Add(new Diff(Operation.INSERT, line));
-                    else if (sign == ' ')
-                        patch.diffs.Add(new Diff(Operation.EQUAL, line));
-                    else if (sign == '@')
+                    line = text[textPointer].Substring( 1 );
+                    line = line.Replace( "+", "%2b" );
+                    line = HttpUtility.UrlDecode( line, new UTF8Encoding( false, true ) );
+                    if ( sign == '-' )
+                        patch.diffs.Add( new Diff( Operation.DELETE, line ) );
+                    else if ( sign == '+' )
+                        patch.diffs.Add( new Diff( Operation.INSERT, line ) );
+                    else if ( sign == ' ' )
+                        patch.diffs.Add( new Diff( Operation.EQUAL, line ) );
+                    else if ( sign == '@' )
                         break;
                     else
                         throw new ArgumentException(
-                            "Invalid patch mode '" + sign + "' in: " + line);
+                            "Invalid patch mode '" + sign + "' in: " + line );
                     textPointer++;
                 }
             }
@@ -2386,14 +2444,15 @@ namespace GradHelperWPF.Google
 		 * @param str The string to escape.
 		 * @return The escaped string.
 		 */
-        public static string unescapeForEncodeUriCompatability(string str)
+
+        public static string unescapeForEncodeUriCompatability( string str )
         {
-            return str.Replace("%21", "!").Replace("%7e", "~")
-                .Replace("%27", "'").Replace("%28", "(").Replace("%29", ")")
-                .Replace("%3b", ";").Replace("%2f", "/").Replace("%3f", "?")
-                .Replace("%3a", ":").Replace("%40", "@").Replace("%26", "&")
-                .Replace("%3d", "=").Replace("%2b", "+").Replace("%24", "$")
-                .Replace("%2c", ",").Replace("%23", "#");
+            return str.Replace( "%21", "!" ).Replace( "%7e", "~" )
+                .Replace( "%27", "'" ).Replace( "%28", "(" ).Replace( "%29", ")" )
+                .Replace( "%3b", ";" ).Replace( "%2f", "/" ).Replace( "%3f", "?" )
+                .Replace( "%3a", ":" ).Replace( "%40", "@" ).Replace( "%26", "&" )
+                .Replace( "%3d", "=" ).Replace( "%2b", "+" ).Replace( "%24", "$" )
+                .Replace( "%2c", "," ).Replace( "%23", "#" );
         }
     }
 }

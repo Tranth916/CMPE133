@@ -1,8 +1,8 @@
-﻿using System.Text;
-using GradHelperWPF.Models;
+﻿using GradHelperWPF.Models;
 using GradHelperWPF.Utils;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Text;
 
 namespace GradHelperWPF.ViewModel
 {
@@ -11,13 +11,13 @@ namespace GradHelperWPF.ViewModel
         private readonly GradAppModel _gradAppForm;
         public StringBuilder strBuilder = new StringBuilder();
 
-        public GradAppViewModel()
+        public GradAppViewModel( )
         {
-            _gradAppForm = GradAppModel.GetInstance();
+            _gradAppForm = GradAppModel.GetInstance( );
 
-            UpdateCommand = new DelegateCommand(Execute, CanExecute)
-                .ObservesProperty(() => FirstName)
-                .ObservesProperty(() => LastName);
+            UpdateCommand = new DelegateCommand( Execute, CanExecute )
+                .ObservesProperty( ( ) => FirstName )
+                .ObservesProperty( ( ) => LastName );
         }
 
         public DelegateCommand UpdateCommand { set; get; }
@@ -27,8 +27,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.firstName, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated)
-                    _gradAppForm.WriteField("First name", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "First name", value );
             }
             get => _gradAppForm.firstName;
         }
@@ -38,8 +38,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.lastName, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated)
-                    _gradAppForm.WriteField("Last name", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Last name", value );
             }
             get => _gradAppForm.lastName;
         }
@@ -49,8 +49,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.middleName, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated)
-                    _gradAppForm.WriteField("Middle name", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Middle name", value );
             }
             get => _gradAppForm.middleName;
         }
@@ -60,8 +60,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.studentID, StringUtils.RemoveAllLetters(value));
-                if (updated)
-                    _gradAppForm.WriteField("SJSU ID", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "SJSU ID", value );
             }
             get => _gradAppForm.studentID;
         }
@@ -71,8 +71,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.email, value);
-                if (updated)
-                    _gradAppForm.WriteField("E-mail address", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "E-mail address", value );
             }
             get => _gradAppForm.email;
         }
@@ -82,8 +82,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.phoneNumber, StringUtils.FormatPhoneNumber(value));
-                if (updated)
-                    _gradAppForm.WriteField("Home phone number", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Home phone number", value );
             }
             get => _gradAppForm.phoneNumber;
         }
@@ -93,8 +93,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.majorName, value);
-                if (updated)
-                    _gradAppForm.WriteField("Major");
+                if ( updated )
+                    _gradAppForm.WriteField( "Major" );
             }
             get => _gradAppForm.majorName;
         }
@@ -104,8 +104,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.gradYear, value);
-                if (updated)
-                    _gradAppForm.WriteField("Year", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Year", value );
             }
             get => _gradAppForm.gradYear;
         }
@@ -116,8 +116,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.gradSemester, value);
-                if (updated)
-                    _gradAppForm.WriteField("Semester", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Semester", value );
             }
             get => _gradAppForm.gradSemester;
         }
@@ -127,8 +127,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.streetNumber, value);
-                if (updated)
-                    _gradAppForm.WriteField("Street number", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Street number", value );
             }
             get => _gradAppForm.streetNumber;
         }
@@ -138,8 +138,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.streetName, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated)
-                    _gradAppForm.WriteField("Street name", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "Street name", value );
             }
             get => _gradAppForm.streetName;
         }
@@ -149,7 +149,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.apartmentNumber, value);
-                if (updated) _gradAppForm.WriteField("Apartment number", value);
+                if ( updated ) _gradAppForm.WriteField( "Apartment number", value );
             }
             get => _gradAppForm.apartmentNumber;
         }
@@ -159,7 +159,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.city, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated) _gradAppForm.WriteField("City", value);
+                if ( updated ) _gradAppForm.WriteField( "City", value );
             }
             get => _gradAppForm.city;
         }
@@ -169,7 +169,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.state, StringUtils.CapFirstLetterRemoveNums(value));
-                if (updated) _gradAppForm.WriteField("State", value);
+                if ( updated ) _gradAppForm.WriteField( "State", value );
             }
             get => _gradAppForm.state;
         }
@@ -179,7 +179,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.zipcode, value);
-                if (updated) _gradAppForm.WriteField("Zip code", value);
+                if ( updated ) _gradAppForm.WriteField( "Zip code", value );
             }
             get => _gradAppForm.zipcode;
         }
@@ -189,8 +189,8 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.degreeObjective, value);
-                if (updated)
-                    _gradAppForm.WriteField("", value);
+                if ( updated )
+                    _gradAppForm.WriteField( "", value );
             }
             get => _gradAppForm.degreeObjective;
         }
@@ -200,7 +200,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[0], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 1", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 1", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[0];
         }
@@ -210,7 +210,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[1], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 2", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 2", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[1];
         }
@@ -220,7 +220,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[2], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 3", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 3", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[2];
         }
@@ -230,7 +230,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[3], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 4", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 4", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[3];
         }
@@ -240,7 +240,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[4], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 5", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 5", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[4];
         }
@@ -250,7 +250,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[5], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 6", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 6", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[5];
         }
@@ -260,7 +260,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[6], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 7", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 7", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[6];
         }
@@ -270,7 +270,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.nonSJSUNotCompleted[7], value);
-                if (updated) _gradAppForm.WriteField("Non SJSU course 8", value);
+                if ( updated ) _gradAppForm.WriteField( "Non SJSU course 8", value );
             }
             get => _gradAppForm.nonSJSUNotCompleted[7];
         }
@@ -280,7 +280,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[0], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 1", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 1", value );
             }
             get => _gradAppForm.currentEnrolledCourses[0];
         }
@@ -290,7 +290,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[1], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 2", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 2", value );
             }
             get => _gradAppForm.currentEnrolledCourses[1];
         }
@@ -300,7 +300,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[2], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 3", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 3", value );
             }
             get => _gradAppForm.currentEnrolledCourses[2];
         }
@@ -310,7 +310,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[3], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 4", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 4", value );
             }
             get => _gradAppForm.currentEnrolledCourses[3];
         }
@@ -320,7 +320,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[4], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 5", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 5", value );
             }
             get => _gradAppForm.currentEnrolledCourses[4];
         }
@@ -330,7 +330,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[5], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 6", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 6", value );
             }
             get => _gradAppForm.currentEnrolledCourses[5];
         }
@@ -340,7 +340,7 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[6], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 7", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 7", value );
             }
             get => _gradAppForm.currentEnrolledCourses[6];
         }
@@ -350,22 +350,22 @@ namespace GradHelperWPF.ViewModel
             set
             {
                 var updated = SetProperty(ref _gradAppForm.currentEnrolledCourses[7], value);
-                if (updated) _gradAppForm.WriteField("current SJSU course 8", value);
+                if ( updated ) _gradAppForm.WriteField( "current SJSU course 8", value );
             }
             get => _gradAppForm.currentEnrolledCourses[7];
         }
 
-        public void CloseAndShowPDF()
+        public void CloseAndShowPDF( )
         {
-            _gradAppForm.Close();
+            _gradAppForm.Close( );
         }
 
-        private bool CanExecute()
+        private bool CanExecute( )
         {
             return true;
         }
 
-        private void Execute()
+        private void Execute( )
         {
             //System.Windows.MessageBox.Show("Excuted!");
         }
