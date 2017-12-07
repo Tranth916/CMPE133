@@ -12,6 +12,7 @@ namespace GradHelperWPF.ViewModel
     {
         public StringBuilder strBuilder = new StringBuilder();
         private readonly GradAppModel _gradAppForm;
+       
         public GradAppViewModel( )
         {
             _gradAppForm = GradAppModel.GetInstance( );
@@ -19,6 +20,13 @@ namespace GradHelperWPF.ViewModel
             UpdateCommand = new DelegateCommand( Execute, CanExecute )
                 .ObservesProperty( ( ) => FirstName )
                 .ObservesProperty( ( ) => LastName );
+        }
+
+        public void ExportToPDF(string output)
+        {
+            //if(_gradAppForm != null)
+            //    _gradAppForm.
+            
         }
 
         public string ApartmentNumber

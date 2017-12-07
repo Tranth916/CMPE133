@@ -79,8 +79,9 @@ namespace GradHelperWPF.Views
             };
 
             var result = sfd.ShowDialog();
-            if ( result.Value )
+            if ( result != null && result.Value )
             {
+                gradAppViewModelStatic.ExportToPDF(sfd.FileName);
             }
         }
 

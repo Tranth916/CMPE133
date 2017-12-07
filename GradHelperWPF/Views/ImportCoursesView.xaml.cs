@@ -57,19 +57,14 @@ namespace GradHelperWPF.Views
                 switch (status)
                 {
                     case FileUtil.FileStatus.TransferCourses:
-                        typeOfFix = "NotSjsuCourse"
+                        typeOfFix = "NotSjsuCourse";
                         break;
 
                     case FileUtil.FileStatus.Corrupted:
                         typeOfFix = "FixExcel";
                         break;
                 }
-
-
-
-
-
-
+                
                 if (string.IsNullOrEmpty(typeOfFix))
                     return;
 

@@ -38,8 +38,7 @@
 					</Border.BorderBrush>
 					<TextBlock Text="Drag and drop SJSU Course History Excel File Here!" Margin="5"/>
 				</Border>
-				<Button Width="100" Height="100" x:Name="ImportButton" Content="Import" Click="ImportBtn_OnClick" />
-			</Grid>
+		</Grid>
 		</StackPanel>
 		
 		<Grid Grid.Row="1" x:Name="TransferCourseGrid" VerticalAlignment="Stretch">
