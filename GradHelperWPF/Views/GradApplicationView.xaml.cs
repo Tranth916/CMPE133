@@ -86,6 +86,8 @@ namespace GradHelperWPF.Views
 		{
 			InitializeComponent();
 			DataContext = gradAppViewModelStatic;
+
+
 		}
 
 

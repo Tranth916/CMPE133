@@ -1,4 +1,6 @@
-﻿namespace GradHelperWPF
+﻿using GradHelperWPF.Views;
+
+namespace GradHelperWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -10,13 +12,13 @@
         public MainWindow()
         {
             InitializeComponent();
-            Init();            
-        }
 
-        private void Init()
-        {
+			Closing += (o, e) =>
+			{
+				GradApplicationView.gradAppViewModelStatic.CloseAndShowPDF();
+			};
 
-        }	
+		}		
 	}
 }
 

@@ -147,7 +147,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" Content="Graduation Year" />
-                        <TextBox Name="yearTextBox" Grid.Row="1" Grid.Column="0" />
+                        <TextBox Name="yearTextBox" Grid.Row="1" Grid.Column="0" Text="{Binding GradYear}" />
 
                         <Label Grid.Row="0" Grid.Column="1" Content="Graduating Semester" />
 

@@ -27,6 +27,10 @@ namespace GradHelperWPF.ViewModel
 								.ObservesProperty( () => LastName );
 
 		}
+		public void CloseAndShowPDF()
+		{
+			_gradAppForm.Close();
+		}
 
 		private bool CanExecute()
 		{
@@ -127,7 +131,7 @@ namespace GradHelperWPF.ViewModel
 			{
 				bool updated = SetProperty(ref _gradAppForm.gradYear, value);
 				if (updated)
-					_gradAppForm.WriteField("");
+					_gradAppForm.WriteField("Year", value);
 			}
 			get { return _gradAppForm.gradYear; }
 		}

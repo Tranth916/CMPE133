@@ -216,19 +216,48 @@ namespace GradHelperWPF.Models
 		public bool CheckSemester(string semester)
 		{
 			//Check Box for Summer
-			var checkBoxKey = Stamper.AcroFields.Fields.Keys.Where(k => k.Contains(semester)).FirstOrDefault();
+			if( semester.Contains("Spring") || semester.Contains("Fall") || semester.Contains("Summer"))
+			{
+				var checkBoxKey = Stamper.AcroFields.Fields.Keys.Where(k => k.Contains("Check Box for ")).ToList();
+				foreach (string key in checkBoxKey)
+				{
+					if (key.Contains(semester))
+						Stamper.AcroFields.SetField(key, "Yes", true);
+					else
+					{
+						if (key.EndsWith("Summer"))
+							Stamper.AcroFields.SetField("Year 1", "", true);
 
-			Stamper.AcroFields.SetField(checkBoxKey, "On", true);
+						else if (key.EndsWith("Fall"))
+							Stamper.AcroFields.SetField("Year 2", "", true);
 
+						else if (key.EndsWith("Spring"))
+							Stamper.AcroFields.SetField("Year 3", "", true);
 
-			Stamper.Close();
-			FStream.Close();
+						Stamper.AcroFields.SetField(key, "No", true);
+					}
+				}
+			}
 
+			// sum fall spr
+			if ( !string.IsNullOrEmpty(gradYear) )
+			{
+				string yearKey = "";
 
-
-
-
-
+				switch (gradSemester)
+				{
+					case "Summer":
+						yearKey = "Year 1";
+						break;
+					case "Fall":
+						yearKey = "Year 2";
+						break;
+					case "Spring":
+						yearKey = "Year 3";
+						break;
+				}
+				Stamper.AcroFields.SetField(yearKey, gradYear, true);
+			}
 
 			return true;
 		}
@@ -242,7 +271,7 @@ namespace GradHelperWPF.Models
 
 			string fieldValue = string.IsNullOrEmpty(val) ?  "" : val;
 
-			if( key == "Semester" )
+			if( key == "Semester" || (key == "Year" && !string.IsNullOrEmpty(gradSemester)))
 			{
 				return CheckSemester(val);
 			}
@@ -339,6 +368,7 @@ namespace GradHelperWPF.Models
 
             return true;
         }
+
         public void StampDataToPDF(string path, Dictionary<string, string> data)
         {
             var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.pdf", SearchOption.AllDirectories);
@@ -376,5 +406,22 @@ namespace GradHelperWPF.Models
             System.Diagnostics.Process.Start("explorer.exe", path);
         }
 
+		public void Close()
+		{
+
+			try
+			{
+				Stamper.Close();
+				FStream.Close();
+				Reader.Close();
+			}
+			catch(Exception ex)
+			{
+
+			}
+
+			//if (File.Exists(OutputFilePath))
+			//	System.Diagnostics.Process.Start("explorer.exe", OutputFilePath);
+		}
     }
 }
