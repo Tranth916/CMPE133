@@ -88,7 +88,7 @@ namespace GradHelperWPF.Utils
 
             //Text files (*.txt)|*.txt|All files (*.*)|*.*
             for ( var i = 0; i < filters.Length; i++ )
-                sb.Append( $" | {filters[i]} " );
+                sb.Append( $" | {i} " );
 
             var filePath = "";
 
@@ -96,7 +96,7 @@ namespace GradHelperWPF.Utils
 
             var selectedFile = ofd.ShowDialog();
 
-            if ( selectedFile.Value && !string.IsNullOrEmpty( ofd.FileName ) )
+            if ( selectedFile != null && (selectedFile.Value && !string.IsNullOrEmpty( ofd.FileName )) )
                 filePath = ofd.FileName;
 
             return filePath;

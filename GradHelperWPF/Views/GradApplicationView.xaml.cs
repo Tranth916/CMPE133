@@ -191,7 +191,7 @@ namespace GradHelperWPF.Views
 
                     if ( okayToSave.Value )
                     {
-                        var resultFile = XmlUtil.SaveXMLConfiguration(sfd.FileName, GetAllEntries());
+                        var resultFile = XmlUtil.SaveXmlConfiguration(sfd.FileName, GetAllEntries());
 
                         if ( !string.IsNullOrEmpty( resultFile ) )
                             Process.Start( "explorer.exe", resultFile );
@@ -210,7 +210,7 @@ namespace GradHelperWPF.Views
 
                     if ( opened.Value && File.Exists( ofd.FileName ) )
                     {
-                        var data = XmlUtil.LoadXMLConfiguration(ofd.FileName);
+                        var data = XmlUtil.LoadXmlConfiguration(ofd.FileName);
                         PopulateTextBoxes( data );
                     }
                 }
@@ -244,7 +244,7 @@ namespace GradHelperWPF.Views
                 {
                     if ( xmlFile != null )
                     {
-                        var data = XmlUtil.LoadXMLConfiguration(xmlFile);
+                        var data = XmlUtil.LoadXmlConfiguration(xmlFile);
                         PopulateTextBoxes( data );
                     }
                 }

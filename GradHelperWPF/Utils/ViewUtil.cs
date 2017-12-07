@@ -8,60 +8,6 @@ namespace GradHelperWPF.Utils
 {
     public class ViewUtil
     {
-        public static bool AddRowToGrid( ref Grid grid, RowDefinition toClone = null, string height = null )
-        {
-            var rowHeight = new GridLength();
-
-            if ( toClone != null )
-            {
-                rowHeight = toClone.Height;
-            }
-            else if ( !string.IsNullOrEmpty( height ) )
-            {
-                var converter = new GridLengthConverter();
-                rowHeight = ( GridLength ) converter.ConvertFromString( height );
-            }
-
-            var colDef = new ColumnDefinition();
-
-            grid.ColumnDefinitions.Add( colDef );
-
-            return false;
-        }
-
-        public static bool AddExcelCellToGrid( ref Grid grid, List<ExcelCell> cells )
-        {
-            var processed = 0;
-            foreach ( var cell in cells )
-            {
-                AddExcelCellToGrid( ref grid, cell );
-                processed++;
-            }
-            return processed > 0;
-        }
-
-        /// <summary>
-        ///     Creates a new textbox and add it into the grid.
-        /// </summary>
-        /// <param name="grid"></param>
-        /// <param name="cell"></param>
-        /// <returns></returns>
-        public static bool AddExcelCellToGrid( ref Grid grid, ExcelCell cell )
-        {
-            var tb = new TextBox
-            {
-                Text = cell.Value,
-                Width = 50f,
-                Tag = cell
-            };
-
-            grid.Children.Add( tb );
-            if ( cell.Column < grid.ColumnDefinitions.Count )
-                Grid.SetColumn( tb, cell.Column );
-
-            return true;
-        }
-
         public static bool AddCourseRowToGrid( ref Grid grid, List<CourseModel> data )
         {
             var processed = 0;
@@ -70,15 +16,14 @@ namespace GradHelperWPF.Utils
             grid.Children.CopyTo( children, 0 );
             grid.Children.Clear( );
 
-            var headerLabels = children.Where(c => c is Label).Select(c => c as Label);
+            var headerLabels = children.OfType<Label>();
             foreach ( var header in headerLabels )
             {
                 if ( string.IsNullOrEmpty( header.Name ) || !header.Name.Contains( "Header" ) )
                     continue;
                 var colIndex = header.Name.LastOrDefault().ToString();
-                int colInt;
 
-                if ( int.TryParse( colIndex, out colInt ) )
+                if ( int.TryParse( colIndex, out var colInt ) )
                 {
                     grid.Children.Add( header );
                     Grid.SetColumn( header, colInt );
@@ -136,6 +81,60 @@ namespace GradHelperWPF.Utils
             }
 
             return processed > 0;
+        }
+
+        public static bool AddExcelCellToGrid( ref Grid grid, List<ExcelCell> cells )
+        {
+            var processed = 0;
+            foreach ( var cell in cells )
+            {
+                AddExcelCellToGrid( ref grid, cell );
+                processed++;
+            }
+            return processed > 0;
+        }
+
+        /// <summary>
+        ///     Creates a new textbox and add it into the grid.
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        public static bool AddExcelCellToGrid( ref Grid grid, ExcelCell cell )
+        {
+            var tb = new TextBox
+            {
+                Text = cell.Value,
+                Width = 50f,
+                Tag = cell
+            };
+
+            grid.Children.Add( tb );
+            if ( cell.Column < grid.ColumnDefinitions.Count )
+                Grid.SetColumn( tb, cell.Column );
+
+            return true;
+        }
+
+        public static bool AddRowToGrid( ref Grid grid, RowDefinition toClone = null, string height = null )
+        {
+            var rowHeight = new GridLength();
+
+            if ( toClone != null )
+            {
+                rowHeight = toClone.Height;
+            }
+            else if ( !string.IsNullOrEmpty( height ) )
+            {
+                var converter = new GridLengthConverter();
+                rowHeight = ( GridLength ) converter.ConvertFromString( height );
+            }
+
+            var colDef = new ColumnDefinition();
+
+            grid.ColumnDefinitions.Add( colDef );
+
+            return false;
         }
     }
 }
