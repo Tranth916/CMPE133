@@ -13,10 +13,10 @@ namespace GradHelperWPF
         {
             InitializeComponent();
 
-			Closing += (o, e) =>
-			{
-				GradApplicationView.gradAppViewModelStatic.CloseAndShowPDF();
-			};
+            var f = this.FlipView.GroupStyleSelector;
+
+
+
 
 		}		
 	}

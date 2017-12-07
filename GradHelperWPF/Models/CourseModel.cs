@@ -179,7 +179,7 @@ namespace GradHelperWPF.Models
                 else
                 {
                     _courseNumber = value;
-                    OnPropertyChanged("CourseNumber");
+                    RaisePropertyChanged("CourseNumber");
                 }
             }
             get { return _courseNumber ?? ""; }
@@ -224,7 +224,7 @@ namespace GradHelperWPF.Models
                 else if(_courseSemester != value)
                 {
                     _courseSemester = value;
-                    OnPropertyChanged("CourseSemester");
+                    RaisePropertyChanged("CourseSemester");
                 }
             }
             get { return _courseSemester ?? ""; }
@@ -238,7 +238,7 @@ namespace GradHelperWPF.Models
                 else if(_courseYear != value)
                 {
                     _courseYear = value;
-                    OnPropertyChanged("CourseYear");
+                    RaisePropertyChanged("CourseYear");
                 }
             }
             get { return _courseYear ?? ""; }
@@ -252,7 +252,7 @@ namespace GradHelperWPF.Models
                 else if(_courseGrade != value)
                 {
                     _courseGrade = value;
-                    OnPropertyChanged("CourseGrade");
+                    RaisePropertyChanged("CourseGrade");
                 }
             }
             get { return _courseGrade ?? ""; }
@@ -264,7 +264,7 @@ namespace GradHelperWPF.Models
                 else if(_courseUnit != value)
                 {
                     _courseUnit = value;
-                    OnPropertyChanged("CourseUnit");
+                    RaisePropertyChanged("CourseUnit");
                 }
             }
             get { return _courseUnit ?? ""; }
@@ -277,7 +277,7 @@ namespace GradHelperWPF.Models
                 else if(_courseGradePoint != value)
                 {
                     _courseGradePoint = value;
-                    OnPropertyChanged("CourseGradePoint");
+                    RaisePropertyChanged("CourseGradePoint");
                 }
             }
             get { return _courseGradePoint ?? ""; }
@@ -290,7 +290,7 @@ namespace GradHelperWPF.Models
                 else if( _courseRequirementDesignation != value)
                 {
                     _courseRequirementDesignation = value;
-                    OnPropertyChanged("CourseRequirementDesignation");
+                    RaisePropertyChanged("CourseRequirementDesignation");
                 }
             }
             get { return _courseRequirementDesignation ?? ""; }
@@ -316,7 +316,7 @@ namespace GradHelperWPF.Models
 				else if (_institution != value)
 				{
 					_institution = value;
-					OnPropertyChanged("Institution");
+					RaisePropertyChanged("Institution");
 				}
 			}
 			get { return _institution ?? ""; }

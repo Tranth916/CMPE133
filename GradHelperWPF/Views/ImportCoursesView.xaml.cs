@@ -198,7 +198,7 @@ namespace GradHelperWPF.Views
 
 		private void TestButton_Click(object sender, RoutedEventArgs e)
 		{
-		
+
 		}
 	}
 }

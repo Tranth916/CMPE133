@@ -154,7 +154,7 @@ namespace GradHelperWPF.Models
 
 
 
-			System.Diagnostics.Process.Start("explorer.exe", Directory.GetCurrentDirectory());
+		//	System.Diagnostics.Process.Start("explorer.exe", Directory.GetCurrentDirectory());
 		}
 
 		private void LoadStamper(string outputPath)

@@ -1,5 +1,5 @@
-﻿<Controls:MetroWindow 
-        x:Class="GradHelperWPF.MainWindow"
+﻿<Controls:MetroWindow	  
+		x:Class="GradHelperWPF.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,33 +11,40 @@
 		Title="Graduation Helper"        
         mc:Ignorable="d"
         Height="800" Width="900"
-		HorizontalContentAlignment="Center"
-        Padding="10 10 10 10"
-        Margin="10,10,10,10"
-        Name="MainFrame"
+		HorizontalContentAlignment="Stretch"
+        x:Name="MainFrame"
         WindowStartupLocation="CenterScreen"
         BorderThickness="0" 		
-        UseLayoutRounding="True"
-		Background="#82C9FC"
+        UseLayoutRounding="True" WindowTransitionsEnabled="True" 
+		EnableDWMDropShadow="True" 
+		VerticalContentAlignment="Stretch"	
 		>
-	<!--<i:Interaction.Behaviors>
+	<i:Interaction.Behaviors>
 		<Behaviours:BorderlessWindowBehavior />
-	</i:Interaction.Behaviors>-->
-	<ScrollViewer Name="TopGrid">
+	</i:Interaction.Behaviors>
+
+	<ScrollViewer
+		Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" 
+		Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}" 
+		x:Name="TopGrid">
+
 		<Controls:FlipView x:Name="FlipView" 
 		BorderThickness="0" 
 		MouseOverGlowEnabled="False" 
-		Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" 
-		Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" 
 		FontSize="14"
-		IsBannerEnabled="False">
-			<Controls:FlipView.Items>
-				<Views:IntroView />
-				<Views:GradApplicationView />
-				<Views:ImportCoursesView />
-				<Views:ImportTransferCoursesView />
-				<Views:MajorFormView />
-			</Controls:FlipView.Items>
+		IsBannerEnabled="False"
+		UpTransition="Left" 
+		HorizontalContentAlignment="Stretch" 
+		HorizontalAlignment="Stretch" 
+		ScrollViewer.CanContentScroll="True" 
+		ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+		ScrollViewer.VerticalScrollBarVisibility="Auto" 
+		IsNavigationEnabled="True" DownTransition="Right">
+			<Views:IntroView />
+			<Views:GradApplicationView />
+			<Views:ImportCoursesView />
+			<Views:ImportTransferCoursesView />
+			<Views:MajorFormView />
 		</Controls:FlipView>
 	</ScrollViewer>
 </Controls:MetroWindow>
