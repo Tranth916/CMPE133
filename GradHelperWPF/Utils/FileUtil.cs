@@ -118,7 +118,7 @@ namespace GradHelperWPF.Utils
                         // file exists, but cannot be opened?
                         if (excelReader == null) return FileStatus.FileIsLocked;
 
-                        if (excelReader.FieldCount == 0) return FileStatus.Empty;
+                        if (excelReader.FieldCount == 0 ) return FileStatus.Empty;
 
                         List<string> columnNames = new List<string>();
                         int rowCount = 0;
@@ -150,7 +150,10 @@ namespace GradHelperWPF.Utils
                             break;
                         } while (excelReader.NextResult());
 
-                        var hasCourseHeader = columnNames.Any(c => c.StartsWith("Course") && c != "Transfer Course PE");
+						if (columnNames.Count == 0)
+							return FileStatus.Empty;
+
+                        var hasCourseHeader = columnNames.Any(c => c.Contains("Course") && c != "Transfer Course PE");
 
 						var hasTransferHeader = columnNames.Any(c => c.StartsWith("Transfer"));
 

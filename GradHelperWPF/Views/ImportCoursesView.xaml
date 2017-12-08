@@ -6,7 +6,8 @@
 			CanVerticallyScroll="True"
 			mc:Ignorable="d"
             VerticalAlignment="Stretch" 
-			HorizontalAlignment="Stretch">
+			HorizontalAlignment="Stretch"
+            Name="ImportSJSUCoursesView">
 	<Grid VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="115" />
@@ -18,7 +19,29 @@
 					<ColumnDefinition Width="50*" />
 					<ColumnDefinition Width="50*" />
 				</Grid.ColumnDefinitions>
-				<Border MinHeight="100" AllowDrop="True" PreviewDragOver="Grid_PreviewDragOver" Drop="SjsuCourseExcel_OnDrop" Name="DashedRectangle" 
+
+               <Border MinHeight="100" Grid.Column="0" Margin="18,2,18,2" BorderThickness="1,1,1,1">
+                    <Border.BorderBrush>
+                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="DodgerBlue">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="50,0,50,50" />
+                                                <RectangleGeometry Rect="50,50,50,50" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Border.BorderBrush>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Load the courses you have completed at SJSU" Margin="5"/>
+                </Border>
+ 
+
+                <Border MinHeight="100" AllowDrop="True" PreviewDragOver="Grid_PreviewDragOver" Drop="SjsuCourseExcel_OnDrop" Name="DashedRectangle" 
 						Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
 					<Border.BorderBrush>
 						<DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
@@ -36,8 +59,8 @@
 							</DrawingBrush.Drawing>
 						</DrawingBrush>
 					</Border.BorderBrush>
-					<TextBlock Text="Drag and drop SJSU Course History Excel File Here!" Margin="5"/>
-				</Border>
+                    <TextBlock Name="DragDropInfoTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Drag and drop SJSU Course History Excel File Here!" Margin="5"/>
+                </Border>
 		</Grid>
 		</StackPanel>
 		

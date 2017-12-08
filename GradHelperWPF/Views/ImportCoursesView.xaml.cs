@@ -25,13 +25,15 @@ namespace GradHelperWPF.Views
         private void Init( )
         {
             DataContext = GradApplicationView.gradAppViewModelStatic;
-            //AllowDrop = true;
-            //PreviewDragOver += Grid_PreviewDragOver;
-            //Drop += SjsuCourseExcel_OnDrop;
         }
 
         private void Grid_PreviewDragOver( object sender, DragEventArgs e )
         {
+
+
+
+
+
             e.Handled = true;
         }
 
@@ -51,30 +53,28 @@ namespace GradHelperWPF.Views
             FileUtil.FileStatus status = FileUtil.CheckFileBeforeOpen(xlsFile);
 
             if (status != FileUtil.FileStatus.SjsuCourses )
-            {
-                string typeOfFix = "";
-
+			{                 
                 switch (status)
                 {
-                    case FileUtil.FileStatus.TransferCourses:
-                        typeOfFix = "NotSjsuCourse";
-                        break;
+					case FileUtil.FileStatus.Corrupted:
+						MessageBox.Show("This excel file is corrupted and it needs to be manually fixed! Fix it and then try again!", "Corrupted File",
+									MessageBoxButton.OK, MessageBoxImage.Stop);
+						break;
 
-                    case FileUtil.FileStatus.Corrupted:
-                        typeOfFix = "FixExcel";
-                        break;
-                }
-                
-                if (string.IsNullOrEmpty(typeOfFix))
-                    return;
+					case FileUtil.FileStatus.Empty:
+						MessageBox.Show("This excel file is empty! Load a file with your transfer courses!", "Empty File",
+									MessageBoxButton.OK, MessageBoxImage.Stop);
+						break;
 
-                ErrorWindowView mfx = new ErrorWindowView(typeOfFix)
-                {
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                };
-                mfx.ShowDialog();
+					case FileUtil.FileStatus.TransferCourses:
+						MessageBox.Show("This excel file does not have your SJSU courses!", "Wrong File",
+									MessageBoxButton.OK, MessageBoxImage.Warning);
+						break;
+				}                
                 return;
             }
+
+			DragDropInfoTextBlock.Text = xlsFile;
 
             var cells = ExcelModel.GetExcelDataCells(xlsFile);
 
@@ -131,8 +131,5 @@ namespace GradHelperWPF.Views
             }
         }
 
-        private void TestButton_Click( object sender, RoutedEventArgs e )
-        {
-        }
     }
 }

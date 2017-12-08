@@ -31,22 +31,26 @@
 		       Content=" Graduation Helper " />
 
 		<Label Name="subHeadingLabel"
-		       FontSize="20"
+		       FontSize="20"               
+		       FontWeight="SemiBold"
 		       HorizontalAlignment="Center"
 		       Grid.Row="2" Grid.Column="0"
 		       Content="by Thao Tran" />
 
 		<Label Name="subHeadingLabel2"
 		       FontSize="20"
-		       HorizontalAlignment="Center"
+		       FontWeight="SemiBold"               
+               HorizontalAlignment="Center"
 		       Grid.Row="3" Grid.Column="0"
 		       Content="CMPE 133 Fall 2017" />
 
 		<Label Name="subHeadingLabel3"
 		       FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="Magenta"               
 		       HorizontalAlignment="Center"
 		       Grid.Row="4" Grid.Column="0"
-		       Content="Professor Eswar" />
+		       Content="Professor Badari (Ishie) Eswar" />
 		
 		<Label Name="subHeadingLabel4"			   
 		       FontSize="20"

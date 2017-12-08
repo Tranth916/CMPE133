@@ -20,7 +20,28 @@
 					<ColumnDefinition Width="50*" />
 					<ColumnDefinition Width="50*" />
 				</Grid.ColumnDefinitions>
-				<Border MinHeight="100" AllowDrop="True" PreviewDragOver="TransferCoursesGrid_PreviewDragOver" Drop="TransferCoursesGrid_Drop" Name="DashedRectangle" Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
+
+                <Border MinHeight="100" Grid.Column="0" Margin="18,2,18,2" BorderThickness="1,1,1,1">
+                    <Border.BorderBrush>
+                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="DodgerBlue">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="50,0,50,50" />
+                                                <RectangleGeometry Rect="50,50,50,50" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Border.BorderBrush>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Load the courses that you completed at other colleges." Margin="5"/>
+                </Border>
+
+                <Border MinHeight="100" AllowDrop="True" PreviewDragEnter="DashedRectangle_PreviewDragEnter" PreviewDragOver="TransferCoursesGrid_PreviewDragOver" Drop="TransferCoursesGrid_Drop" Name="DashedRectangle" Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
 					<Border.BorderBrush>
 						<DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
 							<DrawingBrush.Drawing>
@@ -37,9 +58,8 @@
 							</DrawingBrush.Drawing>
 						</DrawingBrush>
 					</Border.BorderBrush>
-					<TextBlock Text="Drag and Drop Transfer Course History Excel File Here!" Margin="5"/>
+					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Name="DragDropTransferInstructTextBox" Text="Drag and Drop Transfer Course History Excel File Here!" Margin="5"/>
 				</Border>
-				<Label Grid.Column="0" Content="Drag and drop or click Import SJSU Courses" />
 			</Grid>
 		</StackPanel>
 		<Grid Grid.Row="1" Name="TransferCourseGrid">

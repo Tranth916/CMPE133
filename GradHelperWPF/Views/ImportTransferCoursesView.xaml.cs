@@ -7,9 +7,6 @@ using System.Windows.Controls;
 
 namespace GradHelperWPF.Views
 {
-    /// <summary>
-    ///     Interaction logic for ImportTransferCoursesView.xaml
-    /// </summary>
     public partial class ImportTransferCoursesView : StackPanel
     {
         public ImportTransferCoursesView( )
@@ -17,61 +14,67 @@ namespace GradHelperWPF.Views
             InitializeComponent( );
         }
 
-        private string[] ExcelExtensions => new[]
-            {"2003 Excel *.xls", "2007 Excel *.xlsx"};
-
-        private void TextBtn_Click( object sender, RoutedEventArgs e )
-        {
-            var wm = WordModel.GetInstance();
-
-            var engrCm = CourseModel.CoursesDictionary.Values
-                .FirstOrDefault(v => v.CourseAbbreviation == "CIS");
-
-            if ( engrCm == null )
-            {
-                wm.Close( );
-                return;
-            }
-
-            wm.WriteCourseToRow( engrCm );
-            wm.Close( );
-            wm.ShowDoc( );
-        }
-
-        private void TransferCourseImportBtn_Click( object sender, RoutedEventArgs e )
-        {
-            var filePath = FileUtil.ShowOpenFileDialog(ExcelExtensions);
-            if ( string.IsNullOrEmpty( filePath ) )
-                return;
-        }
-
         private void TransferCoursesGrid_Drop( object sender, DragEventArgs e )
         {
-            var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+			try
+			{
+				var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
 
-            if ( !hasData ) return;
+				if (!hasData)
+					return;
 
-            if ( !( e.Data.GetData( DataFormats.FileDrop ) is string[] files ) || files.Length == 0 )
-                return;
+				if (!(e.Data.GetData(DataFormats.FileDrop) is string[] files) || files.Length == 0)
+					return;
 
-            var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls"));
-            if ( xlsFile == null || !xlsFile.Any( ) )
-                xlsFile = files.FirstOrDefault( f => f.ToLower( ).Contains( ".xlsx" ) );
+				var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower().Contains(".xlsx"));
+				if (xlsFile == null || !xlsFile.Any())
+					return;
 
-            var cells = ExcelModel.GetExcelDataCells(xlsFile);
+				var fileStatus = FileUtil.CheckFileBeforeOpen(xlsFile);
+				
+				if( fileStatus != FileUtil.FileStatus.TransferCourses )
+				{
+					switch (fileStatus)
+					{
+						case FileUtil.FileStatus.Corrupted:
+							MessageBox.Show("This excel file is corrupted and it needs to be manually fixed! Fix it and then try again!","Corrupted File",
+										MessageBoxButton.OK,MessageBoxImage.Stop);
+							break;
 
-            if ( cells == null || cells.Count == 0 )
-                throw new Exception( "No data from excel file" );
+						case FileUtil.FileStatus.Empty:
+							MessageBox.Show("This excel file is empty! Load a file with your transfer courses!", "Empty File",
+										MessageBoxButton.OK, MessageBoxImage.Stop);
+							break;
 
-            // have data, now build the list of courses model
-            var courseDict = CourseModel.BuildCourseDictionary(cells);
+						case FileUtil.FileStatus.SjsuCourses:
+							MessageBox.Show("This excel file does not have your transfer courses!", "Wrong File",
+										MessageBoxButton.OK, MessageBoxImage.Warning);
+							break;
+					}
+					return;
+				}
 
-            if ( courseDict == null || courseDict.Count == 0 )
-                throw new Exception( "Exception throw while converting excel to course models" );
+				DragDropTransferInstructTextBox.Text = xlsFile;
 
-            var transferCouresOnly = courseDict.Where(c => c.Value.IsTransferCourse).Select(c => c.Value).ToList();
+				var cells = ExcelModel.GetExcelDataCells(xlsFile);
 
-            ViewUtil.AddCourseRowToGrid( ref TransferCourseGrid, transferCouresOnly );
+				if (cells == null || cells.Count == 0)
+					throw new Exception("No data from excel file");
+
+				// have data, now build the list of courses model
+				var courseDict = CourseModel.BuildCourseDictionary(cells);
+
+				if (courseDict == null || courseDict.Count == 0)
+					throw new Exception("Exception throw while converting excel to course models");
+
+				var transferCouresOnly = courseDict.Where(c => c.Value.IsTransferCourse).Select(c => c.Value).ToList();
+
+				ViewUtil.AddCourseRowToGrid(ref TransferCourseGrid, transferCouresOnly);
+			}
+			catch(Exception ex)
+			{
+
+			}
         }
 
         private void TransferCoursesGrid_PreviewDragOver( object sender, DragEventArgs e )
@@ -79,19 +82,40 @@ namespace GradHelperWPF.Views
             if ( e != null )
                 e.Handled = true;
 
-            var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+			var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
 
-            if ( !hasData ) return;
+			if (!hasData)
+				return;
 
-            if ( !( e.Data.GetData( DataFormats.FileDrop ) is string[] files ) || files.Length == 0 )
-                return;
+			if (!(e.Data.GetData(DataFormats.FileDrop) is string[] files) || files.Length == 0)
+				return;
 
-            var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower( ).Contains( ".xlsx" ) );
+			var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower().Contains(".xlsx"));
 
-            if (xlsFile == null || !xlsFile.Any())
-            {
-                System.Diagnostics.Debug.WriteLine("Excel File Detected!");
-            }
+			if (xlsFile == null || !xlsFile.Any())
+			{
+
+			}
+			//DragDropTransferInstructTextBox.Text = (DragDropTransferInstructTextBox.Tag as String) ?? "";
         }
-    }
+
+		private void DashedRectangle_PreviewDragEnter(object sender, DragEventArgs e)
+		{
+			//if (e != null)
+			//	e.Handled = true;
+
+			//var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
+
+			//if (!hasData)
+			//	return;
+
+			//if (!(e.Data.GetData(DataFormats.FileDrop) is string[] files) || files.Length == 0)
+			//	return;
+
+			//var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower().Contains(".xlsx"));
+
+			//DragDropTransferInstructTextBox.Tag = DragDropTransferInstructTextBox.Text;
+			//DragDropTransferInstructTextBox.Text = xlsFile;
+		}
+	}
 }
