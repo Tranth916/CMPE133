@@ -86,6 +86,7 @@ namespace GradHelperWPF.Models
         {
             try
             {
+				//open the template
                 if ( string.IsNullOrEmpty( FileLocation ) )
                 {
                     var docFiles = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.docx",
@@ -93,7 +94,7 @@ namespace GradHelperWPF.Models
 
                     foreach ( var file in docFiles )
                     {
-                        FileLocation = docFiles.FirstOrDefault( f => !f.Contains( "copy" ) );
+                        FileLocation = docFiles.FirstOrDefault( f => !f.Contains( "copy" ) && f.Contains("Resources") );
                         break;
                     }
                 }
@@ -132,16 +133,23 @@ namespace GradHelperWPF.Models
                 if ( _doc != null )
                 {
                     _doc.Close( );
-                    IsClosed = true;
-                    return true;
-                }
+
+					IsClosed = true;
+
+					_doc = null;
+
+					_wordModelSingleton = null;
+
+					if (File.Exists(WorkingPath))
+						File.Delete(WorkingPath);
+
+					return true;
+				}
             }
-            catch ( Exception )
+            catch ( Exception ex)
             {
-                // ignored
-            }
-            if ( WorkingPath != null )
-                Process.Start( "explorer.exe", Path.GetDirectoryName( FileLocation ) );
+				Debug.WriteLine(ex.StackTrace);
+            }            
             return false;
         }
 
@@ -153,6 +161,7 @@ namespace GradHelperWPF.Models
         {
             if ( _doc == null )
                 return false;
+			_modifiedCells = new List<OpenXmlElement>();
 
             _page1Table = _doc.MainDocumentPart
                 .Document.Body
@@ -182,7 +191,7 @@ namespace GradHelperWPF.Models
                     where run is Run
                     select run as Run;
 
-            //BuildWritableCellsTable();
+            BuildWritableCellsTable();
             return _page1Table != null && _tableRows != null && _cellsWithCourseName != null && _runs != null;
         }
 
@@ -285,81 +294,92 @@ namespace GradHelperWPF.Models
         /// <param name="tableRows"></param>
         private void PrepareMajorForm( ref IEnumerable<TableRow> tableRows )
         {
-            // Get a reference to a table row that does not have any text.
-            // Use that empty row to fix up the entire table.
-            var emptyStringTableRow = tableRows
-                .Where(ww => ww.PreviousSibling() != null
-                             && ww.PreviousSibling().InnerText != null
-                             && ww.PreviousSibling().InnerText.Contains("Introduction to Engineering"))
-                .FirstOrDefault(tt => tt.InnerText != null && tt.InnerText.Trim() == "");
+			try
+			{
+				// Get a reference to a table row that does not have any text.
+				// Use that empty row to fix up the entire table.
+				var emptyStringTableRow = tableRows
+					.Where(ww => ww.PreviousSibling() != null
+								 && ww.PreviousSibling().InnerText != null
+								 && ww.PreviousSibling().InnerText.Contains("Introduction to Engineering"))
+					.FirstOrDefault(tt => tt.InnerText != null && tt.InnerText.Trim() == "");
 
-            var introEngrRow = emptyStringTableRow.PreviousSibling<TableRow>();
+				var introEngrRow = emptyStringTableRow.PreviousSibling<TableRow>();
 
-            // The vertical gray separator on the page is different...
-            emptyStringTableRow = tableRows.Where( ww => ww.PreviousSibling( ) != null
-                                                         && ww.PreviousSibling( ).InnerText != null
-                                                         && ww.PreviousSibling( ).InnerText
-                                                             .Contains( "Assembly Language Programming" ) )
-                .FirstOrDefault( tt => tt.InnerText != null && tt.InnerText.Trim( ) == "" );
+				// The vertical gray separator on the page is different...
+				emptyStringTableRow = tableRows.Where(ww => ww.PreviousSibling() != null
+															&& ww.PreviousSibling().InnerText != null
+															&& ww.PreviousSibling().InnerText
+																.Contains("Assembly Language Programming"))
+					.FirstOrDefault(tt => tt.InnerText != null && tt.InnerText.Trim() == "");
 
-            var currentRow = introEngrRow;
-            while ( currentRow != null )
-            {
-                if ( !string.IsNullOrEmpty( currentRow.InnerText ) &&
-                    currentRow.NextSibling( ) != null )
-                {
-                    if ( currentRow.InnerText.ToUpper( ).Contains( "SIGNATURE" ) )
-                    {
-                        currentRow = null;
-                        break;
-                    }
+				var currentRow = introEngrRow;
 
-                    var nextRow = currentRow.NextSibling() as TableRow;
-                    if ( nextRow == null )
-                        break;
+				while (currentRow != null)
+				{
+					if (!string.IsNullOrEmpty(currentRow.InnerText) &&
+						currentRow.NextSibling() != null)
+					{
+						if (currentRow.InnerText.ToUpper().Contains("SIGNATURE"))
+						{
+							currentRow = null;
+							break;
+						}
 
-                    if ( string.IsNullOrEmpty( nextRow.InnerText ) || string.IsNullOrWhiteSpace( nextRow.InnerText ) )
-                    {
-                        currentRow = nextRow.NextSibling( ) as TableRow;
-                        continue;
-                    }
-                    if ( currentRow.InnerText.ToUpper( ).Contains( "REQUIRED COURSES" )
-                        || currentRow.InnerText.ToUpper( ).Contains( "TECHNICAL ELECTIVES" )
-                        || currentRow.InnerText.ToUpper( ).Contains( "COURSES REQUIRED IN PREPARATION FOR THE MAJOR" )
-                        || currentRow.InnerText.ToUpper( ).Contains( "TOTAL" ) )
-                    {
-                        currentRow = nextRow.NextSibling( ) as TableRow;
-                        continue;
-                    }
-                    currentRow.InsertAfterSelf( emptyStringTableRow.Clone( ) as TableRow );
-                    var tableRowHeight = from ro in currentRow.ChildElements
-                                         from rowPro in ro
-                                         where rowPro is TableRowProperties
-                                         from rowHeight in rowPro
-                                         where rowHeight is TableRowHeight
-                                         select rowHeight as TableRowHeight;
-                    foreach ( var rowHeight in tableRowHeight )
-                        if ( rowHeight.Val.HasValue )
-                            rowHeight.Val = RowHeight;
-                    var currentRowBorders = from ro in currentRow.ChildElements
-                                            where ro is TableCell
-                                            from tc in ro.ChildElements
-                                            where tc is TableCellProperties
-                                            from border in tc.ChildElements
-                                            where border is TableCellBorders
-                                            select border as TableCellBorders;
-                    foreach ( var border in currentRowBorders )
-                        border.BottomBorder = null;
-                    // remove the bottom black cell border.
-                    if ( currentRow.InnerText.Contains( "Argument" ) )
-                    {
-                        currentRow = null;
-                        break;
-                    }
-                    currentRow = currentRow.NextSibling( ) as TableRow;
-                }
-                currentRow = currentRow.NextSibling( ) as TableRow;
-            }
+						var nextRow = currentRow.NextSibling() as TableRow;
+
+						if (nextRow == null)
+							break;
+
+						if (string.IsNullOrEmpty(nextRow.InnerText) || string.IsNullOrWhiteSpace(nextRow.InnerText))
+						{
+							currentRow = nextRow.NextSibling() as TableRow;
+							continue;
+						}
+						if (currentRow.InnerText.ToUpper().Contains("REQUIRED COURSES")
+							|| currentRow.InnerText.ToUpper().Contains("TECHNICAL ELECTIVES")
+							|| currentRow.InnerText.ToUpper().Contains("COURSES REQUIRED IN PREPARATION FOR THE MAJOR")
+							|| currentRow.InnerText.ToUpper().Contains("TOTAL"))
+						{
+							currentRow = nextRow.NextSibling() as TableRow;
+							continue;
+						}
+
+						currentRow.InsertAfterSelf(emptyStringTableRow.CloneNode(true) as TableRow);
+
+						var tableRowHeight = from ro in currentRow.ChildElements
+											 from rowPro in ro
+											 where rowPro is TableRowProperties
+											 from rowHeight in rowPro
+											 where rowHeight is TableRowHeight
+											 select rowHeight as TableRowHeight;
+						foreach (var rowHeight in tableRowHeight)
+							if (rowHeight.Val.HasValue)
+								rowHeight.Val = RowHeight;
+						var currentRowBorders = from ro in currentRow.ChildElements
+												where ro is TableCell
+												from tc in ro.ChildElements
+												where tc is TableCellProperties
+												from border in tc.ChildElements
+												where border is TableCellBorders
+												select border as TableCellBorders;
+						foreach (var border in currentRowBorders)
+							border.BottomBorder = null;
+						// remove the bottom black cell border.
+						if (currentRow.InnerText.Contains("Argument"))
+						{
+							currentRow = null;
+							break;
+						}
+						currentRow = currentRow.NextSibling() as TableRow;
+					}
+					currentRow = currentRow.NextSibling() as TableRow;
+				}
+			}
+			catch(Exception ex)
+			{
+				//
+			}
         }
 
         /// <summary>
@@ -369,8 +389,7 @@ namespace GradHelperWPF.Models
         public bool BuildWritableCellsTable( )
         {
             if ( _cellsWithCourseName == null || !_cellsWithCourseName.Any( ) )
-                return false;
-
+                return false;		
             var result = false;
 
             _lookupGrids = new Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>>( );
@@ -438,7 +457,7 @@ namespace GradHelperWPF.Models
                     }
                     catch ( Exception ex )
                     {
-                        Console.WriteLine( ex.StackTrace );
+                        Debug.WriteLine( ex.StackTrace );
                     }
                 }
             }
@@ -660,30 +679,72 @@ namespace GradHelperWPF.Models
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private List<TableCell> GetNextTableRow( string key )
+        private List<TableCell> GetNextTableRow( string key , List<string> keys = null)
         {
-            var ret = new List<TableCell>();
+            var ret = new List<TableCell>();		
             try
             {
-                // select the empty row that follows this row.
-                var rowOfEmptyCells = (from rr in _tableRows
-                                       where !string.IsNullOrEmpty(rr.InnerText)
-                          && rr.InnerText.Replace(" ", "") == key
-                                       select rr.NextSibling() as TableRow
-                ).FirstOrDefault();
+				// select the empty row that follows this row.
+				var rowOfEmptyCells = from rr in _tableRows
+									  where !string.IsNullOrEmpty(rr.InnerText)
+									   && rr.InnerText.Replace(" ", "") == key
+									  select rr.NextSibling() as TableRow;
 
-                var emptyValueCells = from cell in rowOfEmptyCells.ChildElements
-                                      where cell is TableCell &&
-                          (string.IsNullOrEmpty(cell.InnerText)
-                           || string.IsNullOrWhiteSpace(cell.InnerText))
-                                      select cell as TableCell;
+				if (rowOfEmptyCells == null || rowOfEmptyCells.Count() == 0)
+				{
 
-                ret = emptyValueCells.ToList( );
+					var targetTableRow = from rowx in _tableRows
+										 where !string.IsNullOrEmpty(rowx.InnerText)
+										 let count = SearchInnerTextList(rowx.InnerText, keys)
+										 where count > 2 // need at least 3 of the 4 matching...
+										 orderby count descending
+										 select rowx;
+					
+					var tableRowsList = _tableRows.ToList();
+
+					//CS146Data Structures and Algorithms3AEngr195BGlobal and Social Issues in Engineering (V)1
+					if (key == "CS 146 Data Structures and Algorithms")
+						targetTableRow = _tableRows.Where(t => t.InnerText.Contains("CS146Data Structures and Algorithms3"));
+
+					if( key == "CmpE 187 Software Quality Engineering")
+						targetTableRow = _tableRows.Where(t => t.InnerText.Contains("CmpE187Software Quality Engineering3"));
+
+					int indexOfRow = -1;
+
+					if (targetTableRow != null && targetTableRow.FirstOrDefault() != null)
+						indexOfRow = tableRowsList.IndexOf(targetTableRow.FirstOrDefault()) + 1;
+					else
+					{
+						string rowInnerText; string keyNoSpace = key.Replace(" ","").ToLower();
+						for(int i = 0; i < tableRowsList.Count; i++)
+						{
+							rowInnerText = tableRowsList[i].InnerText.Replace(" ","").ToLower();
+							if (rowInnerText.Contains(keyNoSpace))
+								indexOfRow = i;
+						}
+					}
+
+					if (indexOfRow == tableRowsList.Count)
+						indexOfRow = tableRowsList.Count - 1;
+
+
+					var emptyCells = tableRowsList[indexOfRow];
+					ret = emptyCells.ChildElements.OfType<TableCell>().ToList();
+				}
+				else
+				{
+					var row = rowOfEmptyCells.FirstOrDefault();
+					var emptyValueCells = from cell in row.ChildElements
+										  where cell is TableCell &&
+										  (string.IsNullOrEmpty(cell.InnerText) || string.IsNullOrWhiteSpace(cell.InnerText))
+										  select cell as TableCell;
+					ret = emptyValueCells.ToList();
+				}
             }
             catch ( Exception ex )
             {
-                Console.WriteLine( ex.StackTrace );
-            }
+				Debug.WriteLine(ex.StackTrace);
+			}
             return ret;
         }
 
@@ -706,7 +767,19 @@ namespace GradHelperWPF.Models
 
             if ( targetTableRow != null && targetTableRow.Count( ) > 0 )
             {
-                innerTextOfRow = targetTableRow.FirstOrDefault( ).InnerText;
+				// if too many matching rows, then we have an issue!
+				if (targetTableRow.Count() > 3)
+				{
+					//CmpE187Software Quality Engineering3Engr195AGlobal and Social Issues in Engineering (S)1
+					//CS146Data Structures and Algorithms3Engr195BGlobal and Social Issues in Engineering (V)1
+					if (texts.Contains("187") && texts.Contains("Software Quality Engineering"))
+						targetTableRow = targetTableRow.Where(t => t.InnerText.Contains("CmpE187Software Quality Engineering3"));
+
+					else if (texts.Contains("146") && texts.Contains("Data Structures and Algorithms"))
+						targetTableRow = targetTableRow.Where(t => t.InnerText.Contains("CS146Data Structures and Algorithms"));
+				}
+
+				innerTextOfRow = targetTableRow.FirstOrDefault( ).InnerText;
                 //Get the columns of that row.
                 var rowColumns = targetTableRow
                     .FirstOrDefault().ChildElements
@@ -716,7 +789,19 @@ namespace GradHelperWPF.Models
                 if ( rowColumns != null && rowColumns.Count( ) > 0 )
                     list = rowColumns.ToList( );
             }
+			else
+			{
+				string key = "";
+				for (int i = 0; i < texts.Count; i++)
+					key += texts[i].ToLower().Replace(" ", "");
 
+				var secondTry = _tableRows
+					.Where(t => !string.IsNullOrEmpty(t.InnerText) &&
+								 t.InnerText.ToLower().Replace(" ", "").Contains(key));
+
+				if (secondTry != null && secondTry.Count() > 0)
+					list = secondTry.FirstOrDefault().ChildElements.Where(c=> c is TableCell).Select( c=> c as TableCell ).ToList();
+			}
             return list;
         }
 
@@ -792,9 +877,22 @@ namespace GradHelperWPF.Models
         /// <returns>Count of asterisks preappended to the name</returns>
         public int WriteFootNote( string value )
         {
+			if (_footNotesWritten == null)
+				_footNotesWritten = new List<string>();
+
+			if (_footNotesWritten.Contains(value))
+				return _footNotesWritten.IndexOf(value) + 1;
+
+			_footNotesWritten.Add(value);
+
             if ( _footNoteCells == null )
                 _footNoteCells = GetFootNoteCell( ref _page1Table );
+
             var name = value.Replace("*", ""); // remove existing asterisks.
+
+			if (name.EndsWith("Col"))
+				name = name + "lege";
+
             var count = 0;
             if ( _footNoteCells != null )
                 try
@@ -812,8 +910,9 @@ namespace GradHelperWPF.Models
                 }
                 catch ( Exception ex )
                 {
-                    throw new Exception( "Exception while writing to foot note. " + ex.StackTrace );
-                }
+					Debug.WriteLine(ex.StackTrace);
+					//throw new Exception( "Exception while writing to foot note. " + ex.StackTrace );
+				}
 
             return count;
         }
@@ -911,13 +1010,13 @@ namespace GradHelperWPF.Models
             return true;
         }
 
-        /// <summary>
-        ///     Write first, middle, last name.
-        /// </summary>
-        /// <param name="key">first, fn, middle, mi, last, ln</param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public bool WriteNameYear( string key, string value )
+		/// <summary>
+		///     Write first, middle, last name.
+		/// </summary>
+		/// <param name="key">first, fn, middle, mi, last, ln, year, studentid</param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool WriteNameYear( string key, string value )
         {
             var writtenCount = 0;
 
@@ -945,8 +1044,9 @@ namespace GradHelperWPF.Models
             }
             catch ( Exception ex )
             {
-                throw new Exception( ex.StackTrace );
-            }
+				Debug.WriteLine(ex.StackTrace);
+				//   throw new Exception( ex.StackTrace );
+			}
 
             return writtenCount > 0;
         }
@@ -1026,7 +1126,8 @@ namespace GradHelperWPF.Models
         {
             var textOfTargetRow = "";
             var processed = 0;
-            /* Cases
+
+			/* Cases
              * 1. SJSU course - if the CourseModel is not flagged as IsTransferCourse
              *		1.a Some CmpE & CS course abbreviation must be striked and SE written to the cell below it.
              *		1.b For all others, just write the grade in.
@@ -1035,16 +1136,24 @@ namespace GradHelperWPF.Models
              * 2. Transfer course -
              *
              */
-            var texts = new List<string>
+
+			var texts = new List<string>
             {
                 cm.CourseAbbreviation,
                 cm.CourseNumber,
                 cm.CourseTitle,
                 cm.CourseUnit
             };
+			bool seReplaceFlag = false;
+			if (cm.CourseAbbreviation == "SE")
+			{
+				seReplaceFlag = true;
+				texts.Add("CmpE");
+				texts.Add("CS");
+			}
 
-            //Find the target TableRow.
-            var rowColumns = GetTargetColumnCells(texts, out textOfTargetRow);
+			//Find the target TableRow.
+			var rowColumns = GetTargetColumnCells(texts, out textOfTargetRow);
             if ( rowColumns.Count == 0 && cm.IsTransferCourse )
             {
                 // did not find a match, then it could be a transfer course.
@@ -1055,19 +1164,36 @@ namespace GradHelperWPF.Models
                     sjsuCM.CourseNumber,
                     sjsuCM.CourseTitle,
                     sjsuCM.CourseUnit
-                };
+                };			
                 rowColumns = GetTargetColumnCells( texts, out textOfTargetRow );
             }
 
             if ( rowColumns.Count == 0 )
-                throw new Exception( "Failed to get column cells to write : " + cm );
+			{
+				//throw new Exception( "Failed to get column cells to write : " + cm );
+				//TODO handle this
+				return false;
+			}
 
-            //A row has 10 columns, need to select only the columns that belong to this CourseModel.
-            var startingIndexOfCourseName = -1;
+			//A row has 10 columns, need to select only the columns that belong to this CourseModel.
+			var startingIndexOfCourseName = -1;
             for ( var i = 0; i < rowColumns.Count; i++ )
             {
                 if ( string.IsNullOrEmpty( rowColumns[i].InnerText ) )
                     continue;
+
+				if( seReplaceFlag )
+				{
+					bool isCS = rowColumns[i].InnerText
+					.StartsWith("CS", StringComparison.CurrentCultureIgnoreCase);
+					bool isCMPE = rowColumns[i].InnerText
+					.StartsWith("CMPE", StringComparison.CurrentCultureIgnoreCase);
+					if (isCS || isCMPE)
+					{
+						startingIndexOfCourseName = i;
+						break;
+					}
+				}
 
                 if ( rowColumns[i].InnerText
                     .StartsWith( cm.CourseAbbreviation, StringComparison.CurrentCultureIgnoreCase ) )
@@ -1075,27 +1201,39 @@ namespace GradHelperWPF.Models
                     startingIndexOfCourseName = i;
                     break;
                 }
+
                 if ( cm.SjsuCourse != null && rowColumns[i].InnerText.StartsWith( cm.SjsuCourse.CourseAbbreviation,
                         StringComparison.CurrentCultureIgnoreCase ) )
                 {
                     startingIndexOfCourseName = i;
                     break;
                 }
-            }
 
-            if ( startingIndexOfCourseName < 0 )
-                throw new Exception( "Exception while searching for columns to insert " + cm );
+				if( cm.CourseAbbreviation.ToLower().Contains("phys") && rowColumns[i].InnerText.Contains("Phys"))
+				{
+					startingIndexOfCourseName = i;
+					break;
+				}
+			}
 
-            //If the startingIndexIs at the mid point, then the ending point is the count of columns.
-            startingIndexOfCourseName =
+			if (startingIndexOfCourseName < 0)
+			{
+				//throw new Exception( "Failed to get column cells to write : " + cm );
+				return false;
+			}
+			
+			//If the startingIndexIs at the mid point, then the ending point is the count of columns.
+			startingIndexOfCourseName =
                 startingIndexOfCourseName >= rowColumns.Count / 2 ? startingIndexOfCourseName : 0;
-            var end = startingIndexOfCourseName == 0 ? rowColumns.Count / 2 : rowColumns.Count - 1;
+
+			var end = startingIndexOfCourseName == 0 ? rowColumns.Count / 2 : rowColumns.Count - 1;
 
             //Have the target columns:
             var targetColumns = rowColumns
                 .Where(s => rowColumns.IndexOf(s) >= startingIndexOfCourseName && rowColumns.IndexOf(s) <= end)
                 .ToList();
-            //Need to write the course abbr, no, title, units, and grade into the row below the existing similar course.
+            
+			//Need to write the course abbr, no, title, units, and grade into the row below the existing similar course.
             if ( cm.IsTransferCourse )
             {
                 //write in the foot note.
@@ -1113,6 +1251,7 @@ namespace GradHelperWPF.Models
                     .ChildElements
                     .Where(c => c is TableCell)
                     .Select(c => c as TableCell).ToList();
+
                 var nextTableColumns = nextTableRow
                     .Where(c => nextTableRow.IndexOf(c) >= startingIndexOfCourseName &&
                                 nextTableRow.IndexOf(c) >= startingIndexOfCourseName).ToList();
@@ -1142,26 +1281,165 @@ namespace GradHelperWPF.Models
                             val = cm.CourseGrade;
                             break;
                     }
-
                     var paragraph = nextTableColumns[i].ChildElements.Where(c => c is Paragraph).FirstOrDefault();
-                    var run = GetRunForText(val);
-                    paragraph.Append( run );
+					
+					var run = GetRunForText(val);
 
-                    if ( targetColumns[i] != null )
-                    {
-                        // strike out the top row.
-                        var strikePara = targetColumns[i].ChildElements
-                            .Where(c => c is Paragraph)
-                            .Select(c => c as Paragraph)
-                            .FirstOrDefault();
-                        StrikeOutText( strikePara );
-                    }
+					paragraph.Append(run);
 
-                    processed++;
+					if (targetColumns[i] != null)
+					{
+						// strike out the top row.
+						var strikePara = targetColumns[i].ChildElements
+							.Where(c => c is Paragraph)
+							.Select(c => c as Paragraph)
+							.FirstOrDefault();
+
+						StrikeOutText(strikePara);
+					}
+					processed++;
                 }
             }
-            return processed > 0;
+
+			else
+			{
+				// Find the table cell of the grade.	
+				var gradeTableCell = targetColumns.FirstOrDefault(c => string.IsNullOrEmpty(c.InnerText));				
+				
+				// append a new run to this paragraph.
+				var gradeTCParagrah = gradeTableCell.ChildElements.OfType<Paragraph>().FirstOrDefault();
+				
+					// write the grade.
+					Text gradeText = new Text()
+					{
+						Text = cm.CourseGrade
+					};
+					Run gradeRunForPara = new Run(gradeText)
+					{
+						RunProperties = new RunProperties()
+						{
+							FontSize = new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = this.FontSize },
+							RunFonts = new RunFonts() { Ascii = this.FontFamily },
+						}
+					};
+					gradeTCParagrah.Append(gradeRunForPara);
+				/*	if the course abbreviation is SE then it was replaced & 'SE' must be written into the cell below.
+				 *		& the row cell above must be striked out.
+				 */
+
+				if (seReplaceFlag)
+				{
+					//patch need to fix this.
+					if (cm.CourseTitle.Equals("Assembly Language Programming"))
+						return true;
+
+					//strike the top row.
+					var topRowToStrike = targetColumns.FirstOrDefault().ChildElements.OfType<Paragraph>();
+
+					StrikeOutText(topRowToStrike.FirstOrDefault());
+
+					string 
+					keyOfTopRow = $"{targetColumns[startingIndexOfCourseName].InnerText} " +
+								  $"{targetColumns[startingIndexOfCourseName+1].InnerText} " +
+								  $"{targetColumns[startingIndexOfCourseName+2].InnerText}" ;
+
+					List<TableCell> rowBelow = GetNextTableRow(keyOfTopRow, texts)
+												.Where(c => string.IsNullOrEmpty(c.InnerText)).ToList();
+
+					if (rowBelow.Count == 0)
+						rowBelow = GetNextTableRow(keyOfTopRow + $" {targetColumns[startingIndexOfCourseName + 3].InnerText}", texts);
+
+					if (startingIndexOfCourseName > rowBelow.Count)
+						startingIndexOfCourseName = 0;
+
+					var tableCellToInsertSE = rowBelow[startingIndexOfCourseName];
+
+
+
+
+
+					var paragraphofSE = tableCellToInsertSE.ChildElements.OfType<Paragraph>().FirstOrDefault();
+
+					Run seRun = new Run(new Text() { Text = "SE" })
+					{
+						RunProperties = new RunProperties()
+						{
+							FontSize = new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = this.FontSize },
+							RunFonts = new RunFonts() { Ascii = this.FontFamily }
+						}
+					};
+					paragraphofSE.Append(seRun);
+					processed++;
+				}
+			}
+
+			return processed > 0;
         }
+
+		public bool WriteAllToFile(string fileName)
+		{
+			int processed = 0;
+			// todo clean this up 
+			var courseModels = CourseModel.CoursesDictionary;
+
+			var transferCourses = courseModels
+									.Where(c => c.Value.IsTransferCourse && !c.Value.IsOwnedByTransferCourse)
+									.Select(c => c.Value).ToList();
+
+			var sjsuCoursesFromTransfers = transferCourses.Where(c => c.SjsuCourse != null).Select(c => c.SjsuCourse).ToList();
+
+			var sjsuCourses = courseModels.Where( c => !c.Value.IsTransferCourse && !sjsuCoursesFromTransfers.Contains(c.Value))													  
+												.Select(c => c.Value).ToList();
+
+			foreach (var cm in transferCourses)
+			{
+				try
+				{
+					WriteCourseToRow(cm);
+					processed++;
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex.StackTrace);
+				}
+			}				
+			
+			foreach(var cm in sjsuCourses)
+			{
+				try
+				{
+					WriteCourseToRow(cm);
+					processed++;
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine(ex.StackTrace);
+				}
+			}
+
+
+			if(_doc != null)
+			{
+				try
+				{
+					string sourceWorkingFile = WorkingPath ?? "";
+					var copied  = _doc.SaveAs(fileName);
+					if(copied != null)
+					{
+						copied.Close();
+					}
+
+					Process.Start(fileName);
+				}
+				catch (Exception ex)
+				{
+
+				}
+			}
+			return processed > 0;
+		}
+
+
 
         private Run GetRunForText( string text )
         {
@@ -1189,7 +1467,6 @@ namespace GradHelperWPF.Models
         #endregion Constants
 
         #region Private Members
-
         private WordprocessingDocument _doc;
         private StringBuilder _courseFullNameSB;
         private OpenXmlElement _page1Table;
@@ -1201,6 +1478,8 @@ namespace GradHelperWPF.Models
         private Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>> _lookupGrids;
         private Dictionary<string, Text> _studentNameTable;
         private Dictionary<string, OpenXmlElement> _footNoteCells;
+		private List<OpenXmlElement> _modifiedCells;
+		private List<string> _footNotesWritten;
 
         #endregion Private Members
 

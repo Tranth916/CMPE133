@@ -18,10 +18,9 @@
 	UseLayoutRounding="True" WindowTransitionsEnabled="True"
 	EnableDWMDropShadow="True"
 	VerticalContentAlignment="Stretch">
-	<i:Interaction.Behaviors>
+	<!--<i:Interaction.Behaviors>
 		<Behaviours:BorderlessWindowBehavior />
-	</i:Interaction.Behaviors>
-
+	</i:Interaction.Behaviors>-->
 	<ScrollViewer
 		Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
 		Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
@@ -43,7 +42,7 @@
 			<Views:GradApplicationView />
 			<Views:ImportCoursesView />
 			<Views:ImportTransferCoursesView />
-			<Views:MajorFormView />
+			<Views:ExportMajorFormView />
 		</Controls:FlipView>
 	</ScrollViewer>
 </Controls:MetroWindow>

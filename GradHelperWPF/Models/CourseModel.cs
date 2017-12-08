@@ -238,6 +238,8 @@ namespace GradHelperWPF.Models
         /// SJSU<CourseModel>. </summary>
         public bool IsTransferCourse { set; get; }
 
+		public bool IsOwnedByTransferCourse { set; get; }
+
         public CourseModel SjsuCourse { set; get; }
 
         public static Dictionary<string, CourseModel> BuildCourseDictionary( List<ExcelCell> cells )
@@ -304,7 +306,8 @@ namespace GradHelperWPF.Models
             var sjsuCourseVal = currentRowCells.Where(c => c.HeaderName == "SJSU Course")
                 .Select(c => c.Value)
                 .FirstOrDefault();
-            // not a valid course...
+            
+			// not a valid course...
             if ( string.IsNullOrEmpty( transferCourseVal ) || string.IsNullOrEmpty( sjsuCourseVal ) )
                 return;
 
@@ -342,6 +345,7 @@ namespace GradHelperWPF.Models
             cm.Institution = tranfserInstitutionName != null ? tranfserInstitutionName.Value : "";
 
             cm.SjsuCourse.IsTransferCourse = false;
+			cm.SjsuCourse.IsOwnedByTransferCourse = true;
 
             var sjsuCourseExcelCell = currentRowCells.FirstOrDefault(c => c.HeaderName == "SJSU Course");
             //assign its neighbors.

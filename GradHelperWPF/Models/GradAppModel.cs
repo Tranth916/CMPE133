@@ -149,6 +149,67 @@ namespace GradHelperWPF.Models
             //	System.Diagnostics.Process.Start("explorer.exe", Directory.GetCurrentDirectory());
         }
 
+		public void ExportToPDF(string outputFile)
+		{
+			/* The working copy is already loaded.
+			 *  1. update the field
+			 *  2. close the stream.
+			 *  3. close the stamper.
+			 *  4. 
+			 */
+			string copiedDestinationPath = outputFile;			
+			if( File.Exists(outputFile) )
+			{
+				try
+				{
+					File.Delete(copiedDestinationPath);
+				}
+				catch(Exception ex)
+				{
+					//failed to delete the file.
+					string fileName = Path.GetFileName(copiedDestinationPath);
+					string fileExtension = Path.GetExtension(fileName);
+					fileName = fileName.Replace(fileExtension, "");
+					copiedDestinationPath = fileName.Replace(fileName, fileName + "(2)\\" + fileExtension);
+				}				
+			}
+			
+			try
+			{
+				if (FStream != null && Stamper != null)
+				{
+					// Write all the fields 
+					WriteAllFields();
+					Stamper.Close();
+					FStream.Close();
+					Reader.Close();
+				}
+				var sourceFile = OutputFilePath;				
+				if(!string.IsNullOrEmpty(sourceFile) && !File.Exists(copiedDestinationPath))
+				{
+					File.Copy(sourceFile, copiedDestinationPath);
+				}
+			}
+			catch(Exception ex)
+			{ 
+				throw new Exception(ex.StackTrace);
+			}
+			System.Diagnostics.Process.Start("explorer.exe", copiedDestinationPath);
+		}
+
+		private void CloseStamperSafe()
+		{
+			try
+			{
+				if (Stamper != null)
+					Stamper.Close();
+			}
+			catch(Exception ex)
+			{
+				throw new Exception(ex.StackTrace);
+			}
+		}
+
         private void LoadStamper( string outputPath )
         {
             if ( string.IsNullOrEmpty( outputPath ) )
@@ -208,51 +269,58 @@ namespace GradHelperWPF.Models
 
         public bool CheckSemester( string semester )
         {
-            //Check Box for Summer
-            if ( semester.Contains( "Spring" ) || semester.Contains( "Fall" ) || semester.Contains( "Summer" ) )
-            {
-                var checkBoxKey = Stamper.AcroFields.Fields.Keys.Where(k => k.Contains("Check Box for ")).ToList();
-                foreach ( var key in checkBoxKey )
-                    if ( key.Contains( semester ) )
-                    {
-                        Stamper.AcroFields.SetField( key, "Yes", true );
-                    }
-                    else
-                    {
-                        if ( key.EndsWith( "Summer" ) )
-                            Stamper.AcroFields.SetField( "Year 1", "", true );
-                        else if ( key.EndsWith( "Fall" ) )
-                            Stamper.AcroFields.SetField( "Year 2", "", true );
-                        else if ( key.EndsWith( "Spring" ) )
-                            Stamper.AcroFields.SetField( "Year 3", "", true );
+			try
+			{
+				//Check Box for Summer
+				if (semester.Contains("Spring") || semester.Contains("Fall") || semester.Contains("Summer"))
+				{
+					var checkBoxKey = Stamper.AcroFields.Fields.Keys.Where(k => k.Contains("Check Box for ")).ToList();
+					foreach (var key in checkBoxKey)
+						if (key.Contains(semester))
+						{
+							Stamper.AcroFields.SetField(key, "Yes", true);
+						}
+						else
+						{
+							if (key.EndsWith("Summer"))
+								Stamper.AcroFields.SetField("Year 1", "", true);
+							else if (key.EndsWith("Fall"))
+								Stamper.AcroFields.SetField("Year 2", "", true);
+							else if (key.EndsWith("Spring"))
+								Stamper.AcroFields.SetField("Year 3", "", true);
 
-                        Stamper.AcroFields.SetField( key, "No", true );
-                    }
-            }
+							Stamper.AcroFields.SetField(key, "No", true);
+						}
+				}
 
-            // sum fall spr
-            if ( !string.IsNullOrEmpty( gradYear ) )
-            {
-                var yearKey = "";
+				// sum fall spr
+				if (!string.IsNullOrEmpty(gradYear))
+				{
+					var yearKey = "";
 
-                switch ( gradSemester )
-                {
-                    case "Summer":
-                        yearKey = "Year 1";
-                        break;
+					switch (gradSemester)
+					{
+						case "Summer":
+							yearKey = "Year 1";
+							break;
 
-                    case "Fall":
-                        yearKey = "Year 2";
-                        break;
+						case "Fall":
+							yearKey = "Year 2";
+							break;
 
-                    case "Spring":
-                        yearKey = "Year 3";
-                        break;
-                }
-                Stamper.AcroFields.SetField( yearKey, gradYear, true );
-            }
-
-            return true;
+						case "Spring":
+							yearKey = "Year 3";
+							break;
+					}
+					Stamper.AcroFields.SetField(yearKey, gradYear, true);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.Windows.MessageBox.Show("Exception thrown while writing to PDF " + ex.StackTrace);
+			}
+			Init();
+			return true;
         }
 
         public bool WriteField( string key, string val = null )
@@ -429,6 +497,12 @@ namespace GradHelperWPF.Models
                 Stamper.AcroFields.SetField( key1, val1, true );
                 Stamper.AcroFields.SetField( key2, val2, true );
             }
+
+			if( !string.IsNullOrEmpty(degreeObjective) )
+			{
+				Stamper.AcroFields.SetField("Combo Box 1", degreeObjective);
+			}
+
 
             CheckSemester( gradSemester );
 

@@ -144,14 +144,15 @@ namespace GradHelperWPF.Utils
                                 }
                                 rowCount++;
 
-                                if (rowCount > 1)
+                                if (rowCount > 0)
                                     break;
                             }
                             break;
                         } while (excelReader.NextResult());
 
-                        var hasCourseHeader = columnNames.Any(c => c.StartsWith("Course"));
-                        var hasTransferHeader = columnNames.Any(c => c.StartsWith("Transfer"));
+                        var hasCourseHeader = columnNames.Any(c => c.StartsWith("Course") && c != "Transfer Course PE");
+
+						var hasTransferHeader = columnNames.Any(c => c.StartsWith("Transfer"));
 
                         if (hasCourseHeader)
                         {

@@ -159,7 +159,13 @@ namespace GradHelperWPF.Views
                         gradAppViewModelStatic.GradSemester = "Fall";
                         break;
                 }
-            }
+
+
+				if(cb.IsChecked != null && !cb.IsChecked.Value)
+				{
+					cb.IsChecked = true;					
+				}
+			}
         }
 
         private void PopulateTextBoxes( Dictionary<string, string> data )
@@ -167,9 +173,143 @@ namespace GradHelperWPF.Views
             var tbs = TextBoxes.ToDictionary(k => k.Name);
 
             foreach ( var entry in data )
-                if ( tbs.ContainsKey( entry.Key ) )
-                    tbs[entry.Key].Text = entry.Value;
+			{
+				if (tbs.ContainsKey(entry.Key))
+				{
+					switch (entry.Key)
+					{
+						//gradAppViewModelStatic
+						case "firstNameTextBox":
+							gradAppViewModelStatic.FirstName = entry.Value;
+							break;
+						case "middleNameTextBox":
+							gradAppViewModelStatic.MiddleName = entry.Value;
+							break;
+						case "lastNameTextBox":
+							gradAppViewModelStatic.LastName = entry.Value;
+							break;
+						case "emailTextBox":
+							gradAppViewModelStatic.Email = entry.Value;
+							break;
+						case "phoneTextBox":
+							gradAppViewModelStatic.PhoneNumber = entry.Value;
+							break;
+						case "sidNameTextBox":
+							gradAppViewModelStatic.StudentID = entry.Value;
+							break;
+						case "streetNumberTextBox":
+							gradAppViewModelStatic.StreetNumber = entry.Value;
+							break;
+						case "streetNameTextBox":
+							gradAppViewModelStatic.StreetName = entry.Value;
+							break;
+						case "apartmentTextBox":
+							gradAppViewModelStatic.ApartmentNumber = entry.Value;
+							break;
+						case "cityTextBox":
+							gradAppViewModelStatic.City = entry.Value;
+							break;
+						case "stateTextBox":
+							gradAppViewModelStatic.State = entry.Value;
+							break;
+						case "zipcodeTextBox":
+							gradAppViewModelStatic.Zipcode = entry.Value;
+							break;
+						case "majorTextBox":
+							gradAppViewModelStatic.MajorName = entry.Value;
+							break;
+						case "yearTextBox":
+							gradAppViewModelStatic.GradYear = entry.Value;
+							break;
+						case "uncompletedTextBox1":
+							gradAppViewModelStatic.NonSJSUCourseCompleted1 = entry.Value;
+							break;
+						case "uncompletedTextBox2":
+							gradAppViewModelStatic.NonSJSUCourseCompleted2 = entry.Value;
+							break;
+						case "uncompletedTextBox3":
+							gradAppViewModelStatic.NonSJSUCourseCompleted3 = entry.Value;
+							break;
+						case "uncompletedTextBox4":
+							gradAppViewModelStatic.NonSJSUCourseCompleted4 = entry.Value;
+							break;
+						case "uncompletedTextBox5":
+							gradAppViewModelStatic.NonSJSUCourseCompleted5 = entry.Value;
+							break;
+						case "uncompletedTextBox6":
+							gradAppViewModelStatic.NonSJSUCourseCompleted6 = entry.Value;
+							break;
+						case "uncompletedTextBox7":
+							gradAppViewModelStatic.NonSJSUCourseCompleted7 = entry.Value;
+							break;
+						case "uncompletedTextBox8":
+							gradAppViewModelStatic.NonSJSUCourseCompleted8 = entry.Value;
+							break;
+						case "currentEnrolled1":
+							gradAppViewModelStatic.CurrentEnrolledCourse1 = entry.Value;
+							break;
+						case "currentEnrolled2":
+							gradAppViewModelStatic.CurrentEnrolledCourse2 = entry.Value;
+							break;
+						case "currentEnrolled3":
+							gradAppViewModelStatic.CurrentEnrolledCourse3 = entry.Value;
+							break;
+						case "currentEnrolled4":
+							gradAppViewModelStatic.CurrentEnrolledCourse4 = entry.Value;
+							break;
+						case "currentEnrolled5":
+							gradAppViewModelStatic.CurrentEnrolledCourse5 = entry.Value;
+							break;
+						case "currentEnrolled6":
+							gradAppViewModelStatic.CurrentEnrolledCourse6 = entry.Value;
+							break;
+						case "currentEnrolled7":
+							gradAppViewModelStatic.CurrentEnrolledCourse7 = entry.Value;
+							break;
+						case "currentEnrolled8":
+							gradAppViewModelStatic.CurrentEnrolledCourse8 = entry.Value;
+							break;
+						case "DegreeObjective":
+							SelectDegreeObjective(entry.Value);
+							gradAppViewModelStatic.DegreeObjective = entry.Value;
+							break;
+
+						case "GradSemester":
+							if (entry.Value == "Spring")
+							{
+								Checkbox_OnCheck(springCheckBox, new RoutedEventArgs() { });
+							}
+							else if (entry.Value == "Summer")
+							{
+								Checkbox_OnCheck(summerCheckBox, new RoutedEventArgs() { });
+							}
+							else if (entry.Value == "Fall")
+							{
+								Checkbox_OnCheck(fallCheckBox, new RoutedEventArgs() { });
+							}
+							break;
+					}
+				}
+			}			
         }
+
+
+		private void SelectDegreeObjective(string key)
+		{
+			var cmBox = degreeObjectiveCBox;
+
+			int selectedIndex = -1;
+			for (int i = 0; i < cmBox.Items.Count; i++)
+			{
+				if (cmBox.Items[i].ToString().Contains(key))
+					selectedIndex = i;
+			}
+
+			if( selectedIndex >= 0)
+			{
+				cmBox.SelectedIndex = selectedIndex;
+			}
+		}
 
         private void LoadSaveResetBtn_OnClick( object sender, RoutedEventArgs e )
         {
@@ -220,8 +360,18 @@ namespace GradHelperWPF.Views
                     var mb = MessageBox.Show(" Clear all current entries? ", "Reset", MessageBoxButton.YesNo,
                         MessageBoxImage.Question, MessageBoxResult.No);
                     if ( mb == MessageBoxResult.Yes )
-                        foreach ( var tb in TextBoxes )
-                            tb.Text = "";
+					{
+						Dictionary<string, string> emptyData = new Dictionary<string, string>();
+						var textBoxNames = TextBoxes.Select(tb => tb.Name).ToList();
+						
+						foreach(var tb in textBoxNames)
+						{
+							if (!emptyData.ContainsKey(tb))
+								emptyData.Add(tb, "");
+						}
+
+						PopulateTextBoxes(emptyData);
+					}
                 }
             }
             catch ( Exception ex )

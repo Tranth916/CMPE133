@@ -24,12 +24,11 @@ namespace GradHelperWPF.ViewModel
 
         public void ExportToPDF(string output)
         {
-            //if(_gradAppForm != null)
-            //    _gradAppForm.
-            
-        }
+			if (_gradAppForm != null)
+				_gradAppForm.ExportToPDF(output);
+		}
 
-        public string ApartmentNumber
+		public string ApartmentNumber
         {
             set
             {
