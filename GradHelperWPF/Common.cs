@@ -13,7 +13,6 @@ namespace GradHelperWPF
                 SearchOption.AllDirectories);
 
             // if not found then lets create it.
-
             return false;
         }
     }

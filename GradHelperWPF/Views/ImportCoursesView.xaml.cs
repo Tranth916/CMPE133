@@ -29,11 +29,6 @@ namespace GradHelperWPF.Views
 
         private void Grid_PreviewDragOver( object sender, DragEventArgs e )
         {
-
-
-
-
-
             e.Handled = true;
         }
 

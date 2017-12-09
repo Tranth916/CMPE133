@@ -60,21 +60,9 @@ namespace GradHelperWPF.Views
 				IsTransferCourse = false,
 			};
 
-			//if (!CourseModel.CoursesDictionary.ContainsKey(tech1.ToString()))
-			//{
-			//	CourseModel.CoursesDictionary.Add(tech1.ToString(), tech1);
-			//}
-			//if (!CourseModel.CoursesDictionary.ContainsKey(tech2.ToString()))
-			//{
-			//	CourseModel.CoursesDictionary.Add(tech2.ToString(), tech2);
-	
-			//}
-
 			//refrence to the word model.
 			var sfdResult = sfd.ShowDialog();
-
-
-
+			
 			string outputFileName = "";
 			if( sfdResult.Value != null && sfdResult.Value )
 			{

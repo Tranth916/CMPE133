@@ -825,7 +825,6 @@ namespace GradHelperWPF.Models
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex.StackTrace);
-				//   throw new Exception( ex.StackTrace );
 			}
 
 			return writtenCount > 0;
@@ -1134,11 +1133,7 @@ namespace GradHelperWPF.Models
 			return r;
 		}
 
-		/// <summary>
-		///     Get the cells ...
-		/// </summary>
-		/// <param name="texts"></param>
-		/// <returns></returns>
+		// Method to query against the collection.
 		private List<TableCell> GetTargetColumnCells(List<string> texts, out string innerTextOfRow)
 		{
 			var list = new List<TableCell>();
@@ -1596,7 +1591,13 @@ namespace GradHelperWPF.Models
 		private OpenXmlElement _page1Table;
 		private IEnumerable<Run> _runs;
 		private Dictionary<string, Text> _studentNameTable;
+
+
+		// Collection of table rows on the heap.
 		private IEnumerable<TableRow> _tableRows;
+
+
+
 		private RunProperties _textRunProperty;
 		private Dictionary<string, TableCell> _writtenToCells;
 
