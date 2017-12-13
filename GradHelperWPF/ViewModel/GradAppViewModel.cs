@@ -24,9 +24,8 @@ namespace GradHelperWPF.ViewModel
 
         public void ExportToPDF(string output)
         {
-			if (_gradAppForm != null)
-				_gradAppForm.ExportToPDF(output);
-		}
+            _gradAppForm?.ExportToPdf(output);
+        }
 
 		public string ApartmentNumber
         {

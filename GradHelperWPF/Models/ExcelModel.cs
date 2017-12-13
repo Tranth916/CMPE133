@@ -13,24 +13,9 @@ namespace GradHelperWPF.Models
 {
     public class ExcelModel : BindableBase
     {
-        private const int MatrixRowCount = 50;
-
         private Dictionary<string, string> _dataTable;
 
         private readonly string _filePath;
-
-        private Dictionary<string, string> SjsuCourseTextBoxMap = new Dictionary<string, string>
-        {
-            {"Course", ""},
-            {"Description", ""},
-            {"Term", ""},
-            {"Units", ""},
-            {"Grd Points", ""},
-            {"Repeat Code", ""},
-            {"Reqmnt Desig", ""},
-            {"Status", ""},
-            {"Transcript Note", ""}
-        };
 
         public ExcelModel( string filePath )
         {
@@ -41,13 +26,7 @@ namespace GradHelperWPF.Models
         public Dictionary<string, string> DataTable
         {
             set => _dataTable = value;
-            get
-            {
-                if ( _dataTable == null )
-                    _dataTable = GetExcelData( _filePath );
-
-                return _dataTable;
-            }
+            get => _dataTable ?? (_dataTable = GetExcelData(_filePath));
         }
 
         private void Init( )
@@ -55,52 +34,10 @@ namespace GradHelperWPF.Models
             _dataTable = GetExcelData( _filePath );
         }
 
-        public List<List<string>> Get2DTable( string filePath )
-        {
-            var matrix = new List<List<string>>();
-
-            var pathOfCopy = FileUtil.MakeWorkingCopy(filePath);
-
-            if ( string.IsNullOrEmpty( pathOfCopy ) )
-                return matrix;
-
-            try
-            {
-                FileStream fs;
-                using ( fs = new FileStream( pathOfCopy, FileMode.OpenOrCreate, FileAccess.Read ) )
-                {
-                    var excel = ExcelReaderFactory.CreateReader(fs);
-
-                    var rowCount = 0;
-                    //Get the column headers:
-                    do
-                    {
-                        while ( excel.Read( ) )
-                            for ( var i = 0; i < excel.FieldCount; i++ )
-                            {
-                                if ( excel.GetValue( i ) == null )
-                                    continue;
-
-                                var val = excel.GetValue(i) as string;
-
-                                matrix.Add( new List<string> { val } );
-                            }
-                        ++rowCount;
-                    } while ( excel.NextResult( ) );
-                }
-            }
-            catch ( Exception ex )
-            {
-            }
-            return matrix;
-        }
-
         public static List<ExcelCell> GetExcelDataCells( string path )
         {
             var cells = new List<ExcelCell>();
-            List<string> header;
-            Dictionary<string, string> data;
-            var hasData = GetExcelDataWithHeaders(out header, out data, path);
+            var hasData = GetExcelDataWithHeaders(out var header, out var data, path);
             if ( !hasData )
             {
                 var w = new Window();
@@ -115,17 +52,17 @@ namespace GradHelperWPF.Models
                         continue;
 
                     var split = entry.Key.Split(',');
-                    int row = -1, col = -1;
-                    int.TryParse( split[0], out row );
-                    int.TryParse( split[1], out col );
+                    int.TryParse( split[0], out var row );
+                    int.TryParse( split[1], out var col );
 
                     if ( row < 0 || col < 0 )
                         continue;
 
                     cells.Add( new ExcelCell( row, col, entry.Value, header[col] ) );
                 }
-                catch ( Exception ex )
+                catch (Exception ex)
                 {
+                    MessageBox.Show("Exception throw while reading excel file." + ex.StackTrace);
                 }
 
             var sorted = from cell in cells
@@ -156,8 +93,6 @@ namespace GradHelperWPF.Models
             var workingCopy = FileUtil.MakeWorkingCopy(filePath);
             using ( var fs = new FileStream( workingCopy, FileMode.Open, FileAccess.Read, FileShare.Read ) )
             {
-                if ( fs == null )
-                    return false;
                 try
                 {
                     var excelReader = ExcelReaderFactory.CreateReader(fs);
@@ -168,7 +103,6 @@ namespace GradHelperWPF.Models
                             header.Add( "" );
 
                         var row = 0;
-                        string key, cellValue;
                         while ( excelReader.Read( ) )
                         {
                             for ( var col = 0; col < excelReader.FieldCount; col++ )
@@ -178,10 +112,8 @@ namespace GradHelperWPF.Models
                                     header[col] = excelReader.GetValue( col ) as string;
                                     // Check this flag only if its false.
                                     if ( !isTransferCourseFlag )
-                                        isTransferCourseFlag = header
-                                                                   .Where( c => c.ToLower( )
-                                                                        .Contains( transferCourseString ) )
-                                                                   .Count( ) > 0;
+                                        isTransferCourseFlag = header.Any(c => c.ToLower( )
+                                                                        .Contains( transferCourseString ));
                                     continue;
                                 }
 
@@ -196,12 +128,12 @@ namespace GradHelperWPF.Models
                                     continue;
                                 }
 
-                                key = $"{row},{col}";
+                                var key = $"{row},{col}";
 
                                 if ( !data.ContainsKey( key ) )
                                     data.Add( key, "" );
 
-                                cellValue = excelReader.GetValue( col ) as string;
+                                var cellValue = excelReader.GetValue( col ) as string;
 
                                 if ( cellValue == null && excelReader.GetFieldType( col ) != null )
                                 {
@@ -260,6 +192,7 @@ namespace GradHelperWPF.Models
             //Make a working copy;
             var pathOfCopy = FileUtil.MakeWorkingCopy(filePath);
 
+            var orderedData = new OrderedDictionary();
             try
             {
                 FileStream fs;
@@ -271,11 +204,7 @@ namespace GradHelperWPF.Models
                     // put the row as the key, a list<string> as the values;
                     var sb = new StringBuilder();
 
-                    var orderedData = new OrderedDictionary();
-
                     var columnHeader = new OrderedDictionary();
-
-                    string cellValue, currentColumnName;
 
                     var rowCount = 0;
                     do
@@ -311,16 +240,18 @@ namespace GradHelperWPF.Models
                                     if ( excelReader.GetValue( col ) == null )
                                         continue;
 
-                                    currentColumnName = ( columnHeader[col] as string ).ToLower( );
-                                    cellValue = excelReader.GetValue( col ) as string;
+                                    var currentColumnName = ( columnHeader[col] as string )?.ToLower( );
+                                    var cellValue = excelReader.GetValue( col ) as string;
 
-                                    if ( currentColumnName.Contains( "course" ) )
+                                    if ( currentColumnName != null && currentColumnName.Contains( "course" ) )
                                     {
                                         // values like: needs to be split "CMPE 102";
-                                        var split = cellValue.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                                        if (cellValue != null)
+                                        {
+                                            var split = cellValue.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
-                                        foreach ( var s in split )
-                                            columnData.Add( s );
+                                            columnData.AddRange(split);
+                                        }
                                     }
                                     else
                                     {

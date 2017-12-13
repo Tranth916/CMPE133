@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace GradHelperWPF.Models
 {
@@ -199,13 +200,14 @@ namespace GradHelperWPF.Models
 			}
 			catch (Exception ex)
 			{
+			    MessageBox.Show("Exception throw while closing Stamper,FStream,Reader. " + ex.StackTrace);
 			}
 
 			//if (File.Exists(OutputFilePath))
 			//	System.Diagnostics.Process.Start("explorer.exe", OutputFilePath);
 		}
 
-		public void ExportToPDF(string outputFile)
+		public void ExportToPdf(string outputFile)
 		{
 			/* The working copy is already loaded.
 			 *  1. update the field
@@ -225,8 +227,11 @@ namespace GradHelperWPF.Models
 					//failed to delete the file.
 					string fileName = Path.GetFileName(copiedDestinationPath);
 					string fileExtension = Path.GetExtension(fileName);
-					fileName = fileName.Replace(fileExtension, "");
-					copiedDestinationPath = fileName.Replace(fileName, fileName + "(2)\\" + fileExtension);
+				    if (fileExtension != null)
+				    {
+				        fileName = fileName.Replace(fileExtension, "");
+				        copiedDestinationPath = fileName.Replace(fileName, fileName + "(2)\\" + fileExtension);
+				    }
 				}
 			}
 
@@ -261,10 +266,10 @@ namespace GradHelperWPF.Models
 		{
 			var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.pdf", SearchOption.AllDirectories);
 
-			if (files == null || files.Count() == 0)
+			if (!files.Any())
 				files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.PDF", SearchOption.AllDirectories);
 
-			if (files == null || files.Count() == 0)
+			if (!files.Any())
 				return false;
 
 			var filePath = files.FirstOrDefault(f => f.ToLower().Contains("gradapp"));
@@ -299,7 +304,7 @@ namespace GradHelperWPF.Models
 			}
 		}
 
-		public void StampDataToPDF(string path, Dictionary<string, string> data)
+		public void StampDataToPdf(string path, Dictionary<string, string> data)
 		{
 			var files = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.pdf", SearchOption.AllDirectories);
 
@@ -395,7 +400,12 @@ namespace GradHelperWPF.Models
 			return true;
 		}
 
-		//dont use
+		/// <summary>
+        /// Deprecated - dont use!
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
 		public bool WriteField(string key, string val = null)
 		{
 			//this is not working correctly.
@@ -552,20 +562,7 @@ namespace GradHelperWPF.Models
 			return writtenCount > 0;
 		}
 
-		private void CloseStamperSafe()
-		{
-			try
-			{
-				if (Stamper != null)
-					Stamper.Close();
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.StackTrace);
-			}
-		}
-
-		private void Init()
+        private void Init()
 		{
             _readFromFilePath = FileUtil.MakeWorkingCopy( SourceFilePath );
             LoadReader( _readFromFilePath );
@@ -575,6 +572,7 @@ namespace GradHelperWPF.Models
 
             //	System.Diagnostics.Process.Start("explorer.exe", Directory.GetCurrentDirectory());
         }
+
         private void LoadStamper( string outputPath )
         {
             if ( string.IsNullOrEmpty( outputPath ) )

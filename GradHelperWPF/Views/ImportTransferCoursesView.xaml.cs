@@ -3,11 +3,10 @@ using GradHelperWPF.Utils;
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace GradHelperWPF.Views
 {
-    public partial class ImportTransferCoursesView : StackPanel
+    public partial class ImportTransferCoursesView
     {
         public ImportTransferCoursesView( )
         {
@@ -96,26 +95,11 @@ namespace GradHelperWPF.Views
 			{
 
 			}
-			//DragDropTransferInstructTextBox.Text = (DragDropTransferInstructTextBox.Tag as String) ?? "";
         }
 
-		private void DashedRectangle_PreviewDragEnter(object sender, DragEventArgs e)
-		{
-			//if (e != null)
-			//	e.Handled = true;
-
-			//var hasData = e?.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop);
-
-			//if (!hasData)
-			//	return;
-
-			//if (!(e.Data.GetData(DataFormats.FileDrop) is string[] files) || files.Length == 0)
-			//	return;
-
-			//var xlsFile = files.FirstOrDefault(f => f.ToLower().Contains(".xls") || f.ToLower().Contains(".xlsx"));
-
-			//DragDropTransferInstructTextBox.Tag = DragDropTransferInstructTextBox.Text;
-			//DragDropTransferInstructTextBox.Text = xlsFile;
-		}
-	}
+        private void DashedRectangle_OnPreviewDragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+    }
 }

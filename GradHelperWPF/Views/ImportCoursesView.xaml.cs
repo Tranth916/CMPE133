@@ -24,7 +24,7 @@ namespace GradHelperWPF.Views
 
         private void Init( )
         {
-            DataContext = GradApplicationView.gradAppViewModelStatic;
+            DataContext = GradApplicationView.GradAppViewModelStatic;
         }
 
         private void Grid_PreviewDragOver( object sender, DragEventArgs e )

@@ -41,7 +41,7 @@
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Load the courses that you completed at other colleges." Margin="5"/>
                 </Border>
 
-                <Border MinHeight="100" AllowDrop="True" PreviewDragEnter="DashedRectangle_PreviewDragEnter" PreviewDragOver="TransferCoursesGrid_PreviewDragOver" Drop="TransferCoursesGrid_Drop" Name="DashedRectangle" Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
+                <Border MinHeight="100" AllowDrop="True" PreviewDragEnter="DashedRectangle_OnPreviewDragEnter" PreviewDragOver="TransferCoursesGrid_PreviewDragOver" Drop="TransferCoursesGrid_Drop" Name="DashedRectangle" Grid.Column="1" Margin="2,2,18,2" BorderThickness="1,1,1,1">
 					<Border.BorderBrush>
 						<DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
 							<DrawingBrush.Drawing>

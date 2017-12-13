@@ -46,8 +46,7 @@
 
 		<Label Name="subHeadingLabel3"
 		       FontSize="20"
-               FontWeight="SemiBold"
-               Foreground="Magenta"               
+               FontWeight="SemiBold"                            
 		       HorizontalAlignment="Center"
 		       Grid.Row="4" Grid.Column="0"
 		       Content="Professor Badari (Ishie) Eswar" />

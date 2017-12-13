@@ -55,7 +55,7 @@ namespace GradHelperWPF.ViewModel
             Init( );
         }
 
-        public GradAppViewModel GradApp => GradApplicationView.gradAppViewModelStatic;
+        public GradAppViewModel GradApp => GradApplicationView.GradAppViewModelStatic;
 
         public string Row1_Col1_Dept
         {

@@ -11,20 +11,17 @@ using System.Windows.Controls;
 
 namespace GradHelperWPF.Views
 {
-    /// <summary>
-    ///     Interaction logic for MajorFormView.xaml
-    /// </summary>
-    public partial class GradApplicationView : StackPanel
+    public partial class GradApplicationView
     {
         /// <summary>
         ///     Student's data in GradApplicationView
         /// </summary>
-        public static GradAppViewModel gradAppViewModelStatic = new GradAppViewModel();
+        public static GradAppViewModel GradAppViewModelStatic = new GradAppViewModel();
 
         public GradApplicationView( )
         {
             InitializeComponent( );
-            DataContext = gradAppViewModelStatic;
+            DataContext = GradAppViewModelStatic;
         }
 
         public List<TextBox> TextBoxes
@@ -63,8 +60,8 @@ namespace GradHelperWPF.Views
                     currentEnrolled6,
                     currentEnrolled7,
                     currentEnrolled8,
-                    new TextBox {Name = "DegreeObjective", Text = gradAppViewModelStatic.DegreeObjective ?? ""},
-                    new TextBox {Name = "GradSemester", Text = gradAppViewModelStatic.GradSemester ?? ""}
+                    new TextBox {Name = "DegreeObjective", Text = GradAppViewModelStatic.DegreeObjective ?? ""},
+                    new TextBox {Name = "GradSemester", Text = GradAppViewModelStatic.GradSemester ?? ""}
                 };
                 return textboxes;
             }
@@ -81,7 +78,7 @@ namespace GradHelperWPF.Views
             var result = sfd.ShowDialog();
             if ( result != null && result.Value )
             {
-                gradAppViewModelStatic.ExportToPDF(sfd.FileName);
+                GradAppViewModelStatic.ExportToPDF(sfd.FileName);
             }
         }
 
@@ -119,11 +116,11 @@ namespace GradHelperWPF.Views
             }
             try
             {
-                if ( springCheckBox.IsChecked.Value )
+                if ( springCheckBox.IsChecked != null && springCheckBox.IsChecked.Value )
                     data.Add( springCheckBox.Name, "Checked" );
-                else if ( summerCheckBox.IsChecked.Value )
+                else if ( summerCheckBox.IsChecked != null && summerCheckBox.IsChecked.Value )
                     data.Add( summerCheckBox.Name, "Checked" );
-                else if ( fallCheckBox.IsChecked.Value )
+                else if ( fallCheckBox.IsChecked != null && fallCheckBox.IsChecked.Value )
                     data.Add( fallCheckBox.Name, "Checked" );
             }
             catch ( Exception ex )
@@ -144,19 +141,19 @@ namespace GradHelperWPF.Views
                     case "springCheckBox":
                         summerCheckBox.IsChecked = false;
                         fallCheckBox.IsChecked = false;
-                        gradAppViewModelStatic.GradSemester = "Spring";
+                        GradAppViewModelStatic.GradSemester = "Spring";
                         break;
 
                     case "summerCheckBox":
                         springCheckBox.IsChecked = false;
                         fallCheckBox.IsChecked = false;
-                        gradAppViewModelStatic.GradSemester = "Summer";
+                        GradAppViewModelStatic.GradSemester = "Summer";
                         break;
 
                     case "fallCheckBox":
                         springCheckBox.IsChecked = false;
                         summerCheckBox.IsChecked = false;
-                        gradAppViewModelStatic.GradSemester = "Fall";
+                        GradAppViewModelStatic.GradSemester = "Fall";
                         break;
                 }
 
@@ -180,98 +177,98 @@ namespace GradHelperWPF.Views
 					{
 						//gradAppViewModelStatic
 						case "firstNameTextBox":
-							gradAppViewModelStatic.FirstName = entry.Value;
+							GradAppViewModelStatic.FirstName = entry.Value;
 							break;
 						case "middleNameTextBox":
-							gradAppViewModelStatic.MiddleName = entry.Value;
+							GradAppViewModelStatic.MiddleName = entry.Value;
 							break;
 						case "lastNameTextBox":
-							gradAppViewModelStatic.LastName = entry.Value;
+							GradAppViewModelStatic.LastName = entry.Value;
 							break;
 						case "emailTextBox":
-							gradAppViewModelStatic.Email = entry.Value;
+							GradAppViewModelStatic.Email = entry.Value;
 							break;
 						case "phoneTextBox":
-							gradAppViewModelStatic.PhoneNumber = entry.Value;
+							GradAppViewModelStatic.PhoneNumber = entry.Value;
 							break;
 						case "sidNameTextBox":
-							gradAppViewModelStatic.StudentID = entry.Value;
+							GradAppViewModelStatic.StudentID = entry.Value;
 							break;
 						case "streetNumberTextBox":
-							gradAppViewModelStatic.StreetNumber = entry.Value;
+							GradAppViewModelStatic.StreetNumber = entry.Value;
 							break;
 						case "streetNameTextBox":
-							gradAppViewModelStatic.StreetName = entry.Value;
+							GradAppViewModelStatic.StreetName = entry.Value;
 							break;
 						case "apartmentTextBox":
-							gradAppViewModelStatic.ApartmentNumber = entry.Value;
+							GradAppViewModelStatic.ApartmentNumber = entry.Value;
 							break;
 						case "cityTextBox":
-							gradAppViewModelStatic.City = entry.Value;
+							GradAppViewModelStatic.City = entry.Value;
 							break;
 						case "stateTextBox":
-							gradAppViewModelStatic.State = entry.Value;
+							GradAppViewModelStatic.State = entry.Value;
 							break;
 						case "zipcodeTextBox":
-							gradAppViewModelStatic.Zipcode = entry.Value;
+							GradAppViewModelStatic.Zipcode = entry.Value;
 							break;
 						case "majorTextBox":
-							gradAppViewModelStatic.MajorName = entry.Value;
+							GradAppViewModelStatic.MajorName = entry.Value;
 							break;
 						case "yearTextBox":
-							gradAppViewModelStatic.GradYear = entry.Value;
+							GradAppViewModelStatic.GradYear = entry.Value;
 							break;
 						case "uncompletedTextBox1":
-							gradAppViewModelStatic.NonSJSUCourseCompleted1 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted1 = entry.Value;
 							break;
 						case "uncompletedTextBox2":
-							gradAppViewModelStatic.NonSJSUCourseCompleted2 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted2 = entry.Value;
 							break;
 						case "uncompletedTextBox3":
-							gradAppViewModelStatic.NonSJSUCourseCompleted3 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted3 = entry.Value;
 							break;
 						case "uncompletedTextBox4":
-							gradAppViewModelStatic.NonSJSUCourseCompleted4 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted4 = entry.Value;
 							break;
 						case "uncompletedTextBox5":
-							gradAppViewModelStatic.NonSJSUCourseCompleted5 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted5 = entry.Value;
 							break;
 						case "uncompletedTextBox6":
-							gradAppViewModelStatic.NonSJSUCourseCompleted6 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted6 = entry.Value;
 							break;
 						case "uncompletedTextBox7":
-							gradAppViewModelStatic.NonSJSUCourseCompleted7 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted7 = entry.Value;
 							break;
 						case "uncompletedTextBox8":
-							gradAppViewModelStatic.NonSJSUCourseCompleted8 = entry.Value;
+							GradAppViewModelStatic.NonSJSUCourseCompleted8 = entry.Value;
 							break;
 						case "currentEnrolled1":
-							gradAppViewModelStatic.CurrentEnrolledCourse1 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse1 = entry.Value;
 							break;
 						case "currentEnrolled2":
-							gradAppViewModelStatic.CurrentEnrolledCourse2 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse2 = entry.Value;
 							break;
 						case "currentEnrolled3":
-							gradAppViewModelStatic.CurrentEnrolledCourse3 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse3 = entry.Value;
 							break;
 						case "currentEnrolled4":
-							gradAppViewModelStatic.CurrentEnrolledCourse4 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse4 = entry.Value;
 							break;
 						case "currentEnrolled5":
-							gradAppViewModelStatic.CurrentEnrolledCourse5 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse5 = entry.Value;
 							break;
 						case "currentEnrolled6":
-							gradAppViewModelStatic.CurrentEnrolledCourse6 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse6 = entry.Value;
 							break;
 						case "currentEnrolled7":
-							gradAppViewModelStatic.CurrentEnrolledCourse7 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse7 = entry.Value;
 							break;
 						case "currentEnrolled8":
-							gradAppViewModelStatic.CurrentEnrolledCourse8 = entry.Value;
+							GradAppViewModelStatic.CurrentEnrolledCourse8 = entry.Value;
 							break;
 						case "DegreeObjective":
 							SelectDegreeObjective(entry.Value);
-							gradAppViewModelStatic.DegreeObjective = entry.Value;
+							GradAppViewModelStatic.DegreeObjective = entry.Value;
 							break;
 
 						case "GradSemester":
@@ -330,7 +327,7 @@ namespace GradHelperWPF.Views
 
                     var okayToSave = sfd.ShowDialog();
 
-                    if ( okayToSave.Value )
+                    if ( okayToSave != null && okayToSave.Value )
                     {
                         var resultFile = XmlUtil.SaveXmlConfiguration(sfd.FileName, GetAllEntries());
 
@@ -349,7 +346,7 @@ namespace GradHelperWPF.Views
 
                     var opened = ofd.ShowDialog();
 
-                    if ( opened.Value && File.Exists( ofd.FileName ) )
+                    if ( opened != null && (opened.Value && File.Exists( ofd.FileName )) )
                     {
                         var data = XmlUtil.LoadXmlConfiguration(ofd.FileName);
                         PopulateTextBoxes( data );
@@ -376,6 +373,7 @@ namespace GradHelperWPF.Views
             }
             catch ( Exception ex )
             {
+                MessageBox.Show("Exception while saving XML Config. " + ex.StackTrace);
             }
         }
 
@@ -390,7 +388,8 @@ namespace GradHelperWPF.Views
             if ( hasData )
             {
                 var files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                var xmlFile = files != null ? files.Where(f => f.ToLower().Contains(".xml")).FirstOrDefault() : null;
+
+                var xmlFile = files?.Where(f => f.ToLower().Contains(".xml")).FirstOrDefault();
                 try
                 {
                     if ( xmlFile != null )
@@ -401,7 +400,7 @@ namespace GradHelperWPF.Views
                 }
                 catch ( Exception ex )
                 {
-                    throw new Exception( ex.StackTrace );
+                    MessageBox.Show("Exception thrown while loading XML Config" + ex.StackTrace);
                 }
             }
         }

@@ -222,9 +222,6 @@
     <Compile Include="Views\MajorFormView.xaml.cs">
       <DependentUpon>MajorFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ErrorWindowView.xaml.cs">
-      <DependentUpon>ErrorWindowView.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -267,10 +264,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MajorFormView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ErrorWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,8 +8,18 @@ namespace GradHelperWPF.Models
     public class CourseModel : BindableBase
     {
         // This dictionary is going to available to all views for now...
-        private static Dictionary<string, CourseModel> _coursesDictionary;
+        public static Dictionary<string, CourseModel> CoursesDictionary
+        {
+            set => _coursesDictionary = value;
+            get
+            {
+                if ( _coursesDictionary == null )
+                    _coursesDictionary = new Dictionary<string, CourseModel>( );
+                return _coursesDictionary;
+            }
+        }
 
+        private static Dictionary<string, CourseModel> _coursesDictionary;
         private string _courseAbrreviation;
         private string _courseGrade;
         private string _courseGradePoint;
@@ -21,16 +31,6 @@ namespace GradHelperWPF.Models
         private string _courseYear;
         private string _institution;
 
-        public static Dictionary<string, CourseModel> CoursesDictionary
-        {
-            set => _coursesDictionary = value;
-            get
-            {
-                if ( _coursesDictionary == null )
-                    _coursesDictionary = new Dictionary<string, CourseModel>( );
-                return _coursesDictionary;
-            }
-        }
 
         public string CourseAbbreviation
         {
@@ -213,7 +213,7 @@ namespace GradHelperWPF.Models
         }
 
         /// <summary>
-        /// The list of ExcelCells that made up of this Course object.
+        /// The list of ExcelCells that make this Course object.
         /// </summary>
         public List<ExcelCell> ExcelCellsList { set; get; }
 
@@ -234,8 +234,6 @@ namespace GradHelperWPF.Models
             get => _institution ?? "";
         }
 
-        /// <summary> If TransferCourse is true, then have the CourseModel obj own a
-        /// SJSU<CourseModel>. </summary>
         public bool IsTransferCourse { set; get; }
 
 		public bool IsOwnedByTransferCourse { set; get; }
@@ -272,8 +270,13 @@ namespace GradHelperWPF.Models
             return courses;
         }
 
-        public static void BuildSjsuCourseRow( ref CourseModel cm, ref List<ExcelCell> cells,
-            ref Dictionary<string, CourseModel> courses )
+        /// <summary>
+        /// Builds a CourseModel object and adds it to the courses from the list of ExcelCells.
+        /// </summary>
+        /// <param name="cm">Empty CourseModel object</param>
+        /// <param name="cells">List of ExcellCell</param>
+        /// <param name="courses">Dictionary Collection of CourseModel</param>
+        public static void BuildSjsuCourseRow( ref CourseModel cm, ref List<ExcelCell> cells, ref Dictionary<string, CourseModel> courses )
         {
             //Course	Description	Term	Grade	Units	Grd Points	Repeat Code	Reqmnt Desig	Status	Transcript Note
             var courseNameNum = cells.Where(c => c.HeaderName == "Course").Select(c => c.Value).FirstOrDefault()?.Split(' ');
@@ -287,6 +290,7 @@ namespace GradHelperWPF.Models
             cm.CourseTitle = cells.Where( c => c.HeaderName == "Description" ).Select( c => c.Value ).FirstOrDefault( );
             cm.CourseGrade = cells.Where( c => c.HeaderName == "Grade" ).Select( c => c.Value ).FirstOrDefault( );
             cm.CourseUnit = cells.Where( c => c.HeaderName == "Units" ).Select( c => c.Value ).FirstOrDefault( );
+
             cm.IsTransferCourse = false;
             cm.Institution = "SJSU";
 
@@ -294,8 +298,13 @@ namespace GradHelperWPF.Models
                 courses.Add( cm.ToString( ), cm );
         }
 
-        public static void BuildTransferCourseRow( ref CourseModel cm, ref List<ExcelCell> currentRowCells,
-                            ref Dictionary<string, CourseModel> courses )
+        /// <summary>
+        /// Builds two CourseModel object; 1 for the transfer course and 1 for the SJSU course. 
+        /// </summary>
+        /// <param name="cm">Empty CourseModel object</param>
+        /// <param name="currentRowCells">List of ExcelCell of a single row</param>
+        /// <param name="courses">Dictionary collection of CourseModel objects</param>
+        public static void BuildTransferCourseRow( ref CourseModel cm, ref List<ExcelCell> currentRowCells, ref Dictionary<string, CourseModel> courses )
         {
             cm.SjsuCourse = new CourseModel( );
             var transferCourseVal = currentRowCells
@@ -324,9 +333,9 @@ namespace GradHelperWPF.Models
 
             // going to query like this because a simple for loop causes too much issues. same column names
             var unitsFromTransferCollege = currentRowCells.FirstOrDefault(c => c.HeaderName == "Units");
-            var unitsAtSJSU = currentRowCells.LastOrDefault(c => c.HeaderName == "Units");
+            var unitsAtSjsu = currentRowCells.LastOrDefault(c => c.HeaderName == "Units");
             cm.CourseUnit = unitsFromTransferCollege != null ? unitsFromTransferCollege.Value : "";
-            cm.SjsuCourse.CourseUnit = unitsAtSJSU != null ? unitsAtSJSU.Value : "";
+            cm.SjsuCourse.CourseUnit = unitsAtSjsu != null ? unitsAtSjsu.Value : "";
 
             var transferGrade = currentRowCells.FirstOrDefault(c => c.HeaderName == "Grade");
             var sjsuGrade = currentRowCells.LastOrDefault(c => c.HeaderName == "Grade");
@@ -348,15 +357,16 @@ namespace GradHelperWPF.Models
 			cm.SjsuCourse.IsOwnedByTransferCourse = true;
 
             var sjsuCourseExcelCell = currentRowCells.FirstOrDefault(c => c.HeaderName == "SJSU Course");
+
             //assign its neighbors.
             var startingIndexOfSjsuCourse = currentRowCells.IndexOf(sjsuCourseExcelCell);
             if ( startingIndexOfSjsuCourse > 0 && startingIndexOfSjsuCourse < currentRowCells.Count )
             {
-                var listForCM = currentRowCells.GetRange(0, startingIndexOfSjsuCourse - 1);
-                var listForSJSU = currentRowCells.Where(c => !listForCM.Contains(c)).ToList();
+                var listForCm = currentRowCells.GetRange(0, startingIndexOfSjsuCourse - 1);
+                var listForSjsu = currentRowCells.Where(c => !listForCm.Contains(c)).ToList();
 
-                cm.ExcelCellsList = listForCM;
-                cm.SjsuCourse.ExcelCellsList = listForSJSU;
+                cm.ExcelCellsList = listForCm;
+                cm.SjsuCourse.ExcelCellsList = listForSjsu;
             }
             if ( !courses.ContainsKey( cm.ToString( ) ) )
                 courses.Add( cm.ToString( ), cm );
@@ -365,6 +375,7 @@ namespace GradHelperWPF.Models
         }
 
         /// <summary>
+        /// Deprecated, don't use!
         /// Assign the value to the best matching string properties.
         /// </summary>
         /// <param name="data"></param>
@@ -426,10 +437,6 @@ namespace GradHelperWPF.Models
 
                 case "CourseRequirementDesignation":
                     CourseRequirementDesignation = data.Value;
-                    break;
-
-                default:
-                    //Console.WriteLine("Could not find where to assign value: " + key);
                     break;
             }
         }

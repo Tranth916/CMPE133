@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Text;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.Word.DrawingShape;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using GradHelperWPF.Google;
 using GradHelperWPF.Utils;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Path = System.IO.Path;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
@@ -25,7 +25,7 @@ using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace GradHelperWPF.Models
 {
-	[SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
 	public class WordModel
 	{
 		public static readonly List<string> CourseFullName = new List<string>
@@ -838,14 +838,121 @@ namespace GradHelperWPF.Models
 			return WriteValueToRow(key, vals[0], vals[1], vals[2], vals[3], vals[4]);
 		}
 
-		/// <summary>
-		///     This should be called for transferred courses only. Clone the RUN children of the Top row and insert them into the
-		///     bottom.
-		/// </summary>
-		/// <param name="top"></param>
-		/// <param name="bot"></param>
-		/// <returns></returns>
-		private bool CloneTopAndWriteIntoBot(TableCell top, TableCell bot, string val)
+        public void WriteTechElective( CourseModel cm, int num )
+        {
+            try
+            {
+                //Tech1Tech Elective3Tech2Tech Elective3
+                var electiveTableRow = _tableRows.Where(t => t.InnerText == "Tech1Tech Elective3Tech2Tech Elective3").FirstOrDefault();
+
+                if ( electiveTableRow == null || electiveTableRow.Count( ) == 0 )
+                {
+                    if ( num == 1 )
+                        electiveTableRow = _tableRows.Where( t => t.InnerText.Contains( "Tech1Tech Elective3" ) ).FirstOrDefault( );
+                    else if ( num == 2 )
+                        electiveTableRow = _tableRows.Where( t => t.InnerText.Contains( "Tech2Tech Elective3" ) ).FirstOrDefault( );
+                }
+
+                if ( electiveTableRow == null || electiveTableRow.Count( ) == 0 )
+                {
+                    return;
+                }
+
+
+                var tableCells = electiveTableRow.ChildElements.OfType<TableCell>().ToList();
+
+                int startingIndex = num == 1 ? 0 : tableCells.Count / 2;
+                int endingIndex = num == 1 ? (tableCells.Count / 2) - 1 : tableCells.Count - 1;
+
+                var tableCellsToWriteTo = tableCells
+                                            .Where(c => tableCells.IndexOf(c) >= startingIndex && tableCells.IndexOf(c) <= endingIndex)
+                                            .ToList();
+
+                int indexOfTc = 0, indexOfText = 0;
+                foreach ( var tc in tableCellsToWriteTo )
+                {
+                    var paragraph = tc.ChildElements.OfType<Paragraph>().FirstOrDefault();
+                    if ( paragraph == null )
+                        continue;
+
+                    var runsOfParagraph = paragraph.ChildElements.OfType<Run>();
+
+                    if ( runsOfParagraph == null || runsOfParagraph.Count( ) == 0 )
+                    {
+                        string textVal = "";
+                        switch ( indexOfTc )
+                        {
+                            case 4:
+                                textVal = cm.CourseGrade;
+                                break;
+                        }
+                        Run r = new Run(new Text() { Text = textVal })
+                        {
+                            RunProperties = new RunProperties()
+                            {
+                                FontSize = new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = this.FontSize },
+                                RunFonts = new RunFonts() { Ascii = this.FontFamily }
+                            }
+                        };
+                        paragraph.Append( r );
+                    }
+
+
+
+
+                    bool firstRun = true;
+                    foreach ( var run in runsOfParagraph )
+                    {
+                        var textOfRuns = run.ChildElements.OfType<Text>();
+                        foreach ( var text in textOfRuns )
+                        {
+                            if ( firstRun )
+                            {
+                                switch ( indexOfTc )
+                                {
+                                    case 0:
+                                        text.Text = cm.CourseAbbreviation;
+                                        break;
+
+                                    case 1:
+                                        text.Text = cm.CourseNumber;
+                                        break;
+
+                                    case 2:
+                                        text.Text = cm.CourseTitle;
+                                        break;
+
+                                    case 3:
+                                        text.Text = cm.CourseUnit;
+                                        break;
+
+                                    case 4:
+                                        text.Text = cm.CourseGrade;
+                                        break;
+                                }
+                                firstRun = false;
+                            }
+                            else
+                                text.Text = "";
+                        }
+                    }
+                    ++indexOfTc;
+                }
+            }
+            catch ( Exception ex )
+            {
+                Debug.WriteLine( ex.StackTrace );
+            }
+        }
+
+        /// <summary>
+        ///     This should be called for transferred courses only. Clone the RUN children of the Top row and insert them into the
+        ///     bottom.
+        /// </summary>
+        /// <param name="top"></param>
+        /// <param name="bot"></param>
+        /// <returns></returns>
+        private bool CloneTopAndWriteIntoBot(TableCell top, TableCell bot, string val)
 		{
 			var paragraphs = bot.ChildElements.OfType<Paragraph>();
 
@@ -1409,114 +1516,6 @@ namespace GradHelperWPF.Models
 
 			return processedText > 0;
 		}
-
-		public void WriteTechElective(CourseModel cm, int num)
-		{
-			try
-			{
-				//Tech1Tech Elective3Tech2Tech Elective3
-				var electiveTableRow = _tableRows.Where(t => t.InnerText == "Tech1Tech Elective3Tech2Tech Elective3").FirstOrDefault();
-
-				if(electiveTableRow == null || electiveTableRow.Count() == 0)
-				{
-					if (num == 1)
-						electiveTableRow = _tableRows.Where(t => t.InnerText.Contains("Tech1Tech Elective3")).FirstOrDefault();
-					else if(num == 2)
-						electiveTableRow = _tableRows.Where(t => t.InnerText.Contains("Tech2Tech Elective3")).FirstOrDefault();
-				}
-
-				if (electiveTableRow == null || electiveTableRow.Count() == 0)
-				{
-					return;
-				}
-
-
-				var tableCells = electiveTableRow.ChildElements.OfType<TableCell>().ToList();
-
-				int startingIndex = num == 1 ? 0 : tableCells.Count / 2;
-				int endingIndex = num == 1 ? (tableCells.Count / 2) - 1 : tableCells.Count - 1;
-
-				var tableCellsToWriteTo = tableCells
-											.Where(c => tableCells.IndexOf(c) >= startingIndex && tableCells.IndexOf(c) <= endingIndex)
-											.ToList();
-
-				int indexOfTc = 0, indexOfText = 0;
-				foreach (var tc in tableCellsToWriteTo)
-				{
-					var paragraph = tc.ChildElements.OfType<Paragraph>().FirstOrDefault();
-					if (paragraph == null)
-						continue;
-
-					var runsOfParagraph = paragraph.ChildElements.OfType<Run>();
-
-					if( runsOfParagraph == null || runsOfParagraph.Count() == 0 )
-					{
-						string textVal = "";
-						switch (indexOfTc)
-						{
-							case 4:
-								textVal = cm.CourseGrade;
-								break;
-						}
-						Run r = new Run(new Text() { Text = textVal })
-						{
-							RunProperties = new RunProperties()
-							{
-								FontSize = new DocumentFormat.OpenXml.Wordprocessing.FontSize() { Val = this.FontSize },
-								RunFonts = new RunFonts() { Ascii = this.FontFamily }
-							}
-						};
-						paragraph.Append(r);
-					}
-
-
-
-
-					bool firstRun = true;
-					foreach (var run in runsOfParagraph)
-					{
-						var textOfRuns = run.ChildElements.OfType<Text>();
-						foreach (var text in textOfRuns)
-						{
-							if (firstRun)
-							{
-								switch (indexOfTc)
-								{
-									case 0:
-										text.Text = cm.CourseAbbreviation;
-										break;
-
-									case 1:
-										text.Text = cm.CourseNumber;
-										break;
-
-									case 2:
-										text.Text = cm.CourseTitle;
-										break;
-
-									case 3:
-										text.Text = cm.CourseUnit;
-										break;
-
-									case 4:
-										text.Text = cm.CourseGrade;
-										break;
-								}
-								firstRun = false;
-							}
-							else
-								text.Text = "";
-						}
-					}
-					++indexOfTc;
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex.StackTrace);
-			}
-		}
-
 		/// <summary>
 		///     Strike out the SJSU course and write the value of the transfered course into the bottom row.
 		/// </summary>

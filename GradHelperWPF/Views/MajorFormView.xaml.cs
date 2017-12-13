@@ -1,5 +1,4 @@
 ﻿using GradHelperWPF.ViewModel;
-using System.Windows.Controls;
 
 namespace GradHelperWPF.Views
 {
@@ -16,7 +15,7 @@ namespace GradHelperWPF.Views
             DataContext = new
             {
                 MajorFormVM = MajorFormModelStatic,
-                GradAppVM = GradApplicationView.gradAppViewModelStatic
+                GradAppVM = GradApplicationView.GradAppViewModelStatic
             };
         }
     }

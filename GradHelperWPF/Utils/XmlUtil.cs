@@ -8,11 +8,6 @@ namespace GradHelperWPF.Utils
 {
     public class XmlUtil
     {
-        public static bool AppendToXmlFile( Stream fs, Dictionary<string, string> data )
-        {
-            return false;
-        }
-
         public static Dictionary<string, string> LoadXmlConfiguration( string path )
         {
             if ( string.IsNullOrEmpty( path ) || !File.Exists( path ) )
@@ -24,20 +19,19 @@ namespace GradHelperWPF.Utils
 
             var parent = configFile.Root;
 
-            if ( parent != null )
+            if (parent == null) return retDiction;
+
+            retDiction.Add( parent.Name.ToString( ), parent.Value ?? "" );
+
+            var childrens = parent.Elements();
+
+            foreach ( var child in childrens )
             {
-                retDiction.Add( parent.Name.ToString( ), parent.Value ?? "" );
+                var xName = child.Name.ToString();
+                var xVal = child.Value;
 
-                var childrens = parent.Elements();
-
-                foreach ( var child in childrens )
-                {
-                    var xName = child.Name.ToString();
-                    var xVal = child.Value;
-
-                    if ( !retDiction.ContainsKey( xName ) )
-                        retDiction.Add( xName, xVal );
-                }
+                if ( !retDiction.ContainsKey( xName ) )
+                    retDiction.Add( xName, xVal );
             }
 
             return retDiction;
