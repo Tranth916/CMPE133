@@ -5,6 +5,18 @@ SJSU Graduation Helper
 <br/> Professor Eswar
 <br/> 
 
+<br/> 
+Software Specification:
+<br/> 
+Operating System: Microsoft Windows 7/10
+<br/> 
+
+Application Run Time Dependencies:
+
+<br/> 
+DotNET Framework - 4.7.1
+<br/> 
+https://www.microsoft.com/net/download/dotnet-framework-runtime
 
 <br/>
 Project Dependencies:
@@ -24,7 +36,13 @@ MahApps - Used only the FlipPage UI Component.
 <br/>
 http://mahapps.com/controls/
 <br/>
+
 <br/>
+Prism - MVVM Implementation
+<br/>
+
+<br/>
+
 Other Resources Used:
 <br/>
 Google's Diff-Match-Patch matching algorithms.
