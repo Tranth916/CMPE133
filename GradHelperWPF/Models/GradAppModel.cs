@@ -202,9 +202,7 @@ namespace GradHelperWPF.Models
 			{
 			    MessageBox.Show("Exception throw while closing Stamper,FStream,Reader. " + ex.StackTrace);
 			}
-
-			//if (File.Exists(OutputFilePath))
-			//	System.Diagnostics.Process.Start("explorer.exe", OutputFilePath);
+          
 		}
 
 		public void ExportToPdf(string outputFile)
