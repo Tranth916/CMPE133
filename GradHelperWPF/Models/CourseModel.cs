@@ -11,12 +11,7 @@ namespace GradHelperWPF.Models
         public static Dictionary<string, CourseModel> CoursesDictionary
         {
             set => _coursesDictionary = value;
-            get
-            {
-                if ( _coursesDictionary == null )
-                    _coursesDictionary = new Dictionary<string, CourseModel>( );
-                return _coursesDictionary;
-            }
+            get => _coursesDictionary ?? (_coursesDictionary = new Dictionary<string, CourseModel>());
         }
 
         private static Dictionary<string, CourseModel> _coursesDictionary;

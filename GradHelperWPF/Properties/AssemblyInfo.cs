@@ -6,9 +6,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle( "GradHelperWPF" )]
-[assembly: AssemblyDescription( "" )]
+[assembly: AssemblyDescription( "Graduation Helper - by Thao Tran - CMPE 133" )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "" )]
+[assembly: AssemblyCompany( "SJSU" )]
 [assembly: AssemblyProduct( "GradHelperWPF" )]
 [assembly: AssemblyCopyright( "Copyright ©  2017" )]
 [assembly: AssemblyTrademark( "" )]

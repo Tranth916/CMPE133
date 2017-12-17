@@ -2,9 +2,11 @@
 
 namespace GradHelperWPF.Views
 {
-    /// <summary>
-    ///     Interaction logic for MajorFormView.xaml
-    /// </summary>
+    /** OUT OF COMMISSION
+     *  Do not use this view class yet.
+     *  Need to create the ViewModel for this View to be functional.
+     */
+
     public partial class MajorFormView
     {
         public static MajorFormViewModel MajorFormModelStatic = new MajorFormViewModel();

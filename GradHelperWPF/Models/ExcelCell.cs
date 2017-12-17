@@ -6,9 +6,11 @@ namespace GradHelperWPF.Models
     public class ExcelCell
     {
         /// <summary>
+        /// Constructor for ExcelCell class
         /// </summary>
-        /// <param name="rowCol"> row, col </param>
-        /// <param name="val"></param>
+        /// <param name="rowCol"> "row number, column number" </param>
+        /// <param name="val">value at [row,col]</param>
+        /// <param name="header">Name of the column header</param>
         public ExcelCell( string rowCol, string val, string header )
         {
             var arr = SplitRowCol(rowCol);

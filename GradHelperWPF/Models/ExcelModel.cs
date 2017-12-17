@@ -191,8 +191,7 @@ namespace GradHelperWPF.Models
 
             //Make a working copy;
             var pathOfCopy = FileUtil.MakeWorkingCopy(filePath);
-
-            var orderedData = new OrderedDictionary();
+         
             try
             {
                 FileStream fs;
@@ -232,7 +231,7 @@ namespace GradHelperWPF.Models
                                 // This is data across the row.
                                 var columnData = new List<string>();
 
-                                orderedData.Add( rowCount, columnData );
+                               // orderedData.Add( rowCount, columnData );
 
                                 // read across the columns.
                                 for ( var col = 0; col < excelReader.FieldCount; col++ )

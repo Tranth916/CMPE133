@@ -16,10 +16,8 @@ namespace GradHelperWPF.Views
 			WordModel wm = WordModel.GetInstance();
 			GradAppModel gm = GradAppModel.GetInstance();
 
-			string initDirectory = @"C:\Users\Thao Tran\Desktop\Live Demo Files";
-
-			if (!System.IO.Directory.Exists(initDirectory))
-				initDirectory = System.IO.Directory.GetCurrentDirectory();
+		
+			string initDirectory = System.IO.Directory.GetCurrentDirectory();
 
 			SaveFileDialog sfd = new SaveFileDialog()
 			{
@@ -48,15 +46,15 @@ namespace GradHelperWPF.Views
 				IsTransferCourse = false,
 			};
 
-			//refrence to the word model.
+			//reference to the word model.
 			var sfdResult = sfd.ShowDialog();
 			
 			string outputFileName = "";
-			if( sfdResult.Value != null && sfdResult.Value )
+			if( sfdResult != null && (sfdResult.Value) )
 			{
 				outputFileName = sfd.FileName;
 			}
-			//Begin writing name.
+
 			if (!string.IsNullOrEmpty(outputFileName))
 			{
 

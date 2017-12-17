@@ -7,7 +7,7 @@
     <ProjectGuid>{93D8D974-110C-4E32-8D7D-CD192E212C67}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GradHelperWPF</RootNamespace>
-    <AssemblyName>GradHelperWPF</AssemblyName>
+    <AssemblyName>GradHelper</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -73,6 +73,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\icon_for_myroadmap_2_color_5PH_icon.ico</ApplicationIcon>
@@ -190,6 +191,7 @@
     <Compile Include="Models\ExcelCell.cs" />
     <Compile Include="Models\ExcelModel.cs" />
     <Compile Include="Models\GradAppModel.cs" />
+    <Compile Include="Models\MyProgressModel.cs" />
     <Compile Include="Models\WordModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
