@@ -25,7 +25,6 @@ using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace GradHelperWPF.Models
 {
-    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
 	public class WordModel
 	{
 		public static readonly List<string> CourseFullName = new List<string>
@@ -89,7 +88,6 @@ namespace GradHelperWPF.Models
 		{
 			if (_cellsWithCourseName == null || !_cellsWithCourseName.Any())
 				return false;
-			var result = false;
 
 			_lookupGrids = new Dictionary<string, Tuple<TableCell, TableCell, TableCell, TableCell, TableCell>>();
 
